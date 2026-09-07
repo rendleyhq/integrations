@@ -1,0 +1,53 @@
+{
+  "actorSpecification": 1,
+  "title": "Rendley run results",
+  "description": "One item per run: the operation, its status, the Rendley job and project IDs, and the output file URLs.",
+  "fields": {
+    "type": "object",
+    "properties": {
+      "operation": { "type": "string", "description": "The operation this run performed." },
+      "status": { "type": "string", "enum": ["completed", "failed"] },
+      "error": { "type": "string", "description": "Why the run failed, when status is failed." },
+      "project_id": { "type": "string" },
+      "job_id": { "type": "string", "description": "The Rendley job that produced the result." },
+      "agent_job_id": { "type": "string" },
+      "agent_message": { "type": "string", "description": "The agent's final message for prompt_to_video." },
+      "video_url": { "type": "string", "description": "Signed download URL of the rendered or dubbed video. Expires after a few hours." },
+      "download_url": { "type": "string", "description": "Signed download URL of the generated media. Expires after a few hours." },
+      "url_expires_at": { "type": "string" },
+      "media_id": { "type": "string" },
+      "file_hash": { "type": "string" },
+      "mime_type": { "type": "string" },
+      "text": { "type": "string", "description": "Transcript text for transcribe." },
+      "language_code": { "type": "string" },
+      "credits": { "type": "number", "description": "Estimated credits for estimate_cost." },
+      "estimated_usd": { "type": "number" },
+      "kvs_key": { "type": "string", "description": "Key of the copy stored in the run's key-value store." },
+      "kvs_url": { "type": "string", "description": "Durable URL of that copy." }
+    },
+    "required": ["operation", "status"]
+  },
+  "views": {
+    "overview": {
+      "title": "Results",
+      "transformation": {
+        "fields": ["operation", "status", "project_id", "job_id", "video_url", "download_url", "kvs_url", "text", "credits", "error"]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "operation": { "label": "Operation" },
+          "status": { "label": "Status" },
+          "project_id": { "label": "Project" },
+          "job_id": { "label": "Job" },
+          "video_url": { "label": "Video URL", "format": "link" },
+          "download_url": { "label": "Download URL", "format": "link" },
+          "kvs_url": { "label": "Stored copy", "format": "link" },
+          "text": { "label": "Transcript" },
+          "credits": { "label": "Credits" },
+          "error": { "label": "Error" }
+        }
+      }
+    }
+  }
+}

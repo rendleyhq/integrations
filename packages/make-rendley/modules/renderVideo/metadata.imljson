@@ -1,0 +1,4 @@
+{
+	"label": "Start Export (Render MP4)",
+	"description": "Starts an export of a Rendley project to a downloadable video file and returns an export job_id. Poll it with 'Get Job Status' (Rendley API) until status is 'completed', then read result.storage_url. Exports require an active subscription and available credits (a 402 error is returned otherwise)."
+}

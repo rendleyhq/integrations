@@ -1,0 +1,96 @@
+[
+	{
+		"name": "action",
+		"type": "select",
+		"label": "Action",
+		"required": true,
+		"options": [
+			{
+				"label": "Transcribe",
+				"value": "transcribe"
+			},
+			{
+				"label": "Text to Speech",
+				"value": "text-to-speech"
+			},
+			{
+				"label": "Translate Video",
+				"value": "video-translate"
+			},
+			{
+				"label": "Lip Sync",
+				"value": "lipsync"
+			},
+			{
+				"label": "Voice Changer",
+				"value": "voice-changer"
+			},
+			{
+				"label": "Isolate Voice",
+				"value": "voice-isolation"
+			},
+			{
+				"label": "Remove Video Background",
+				"value": "remove-video-background"
+			},
+			{
+				"label": "Remove Image Background",
+				"value": "remove-image-background"
+			},
+			{
+				"label": "Upscale Image",
+				"value": "upscale-image"
+			},
+			{
+				"label": "Generate Image",
+				"value": "generate-image"
+			},
+			{
+				"label": "Generate Video",
+				"value": "generate-video"
+			},
+			{
+				"label": "Generate Music",
+				"value": "generate-music"
+			},
+			{
+				"label": "Generate Sound Effect",
+				"value": "generate-sound-effect"
+			},
+			{
+				"label": "Generate Motion Graphics",
+				"value": "generate-motion-graphics"
+			},
+			{
+				"label": "Export (Render Video)",
+				"value": "export"
+			}
+		],
+		"help": "The AI action (or Export) to price."
+	},
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The project the action would run in."
+	},
+	{
+		"name": "params",
+		"type": "any",
+		"label": "Parameters",
+		"required": false,
+		"help": "The same 'params' object the matching action module would send (e.g. for Text to Speech: prompt, voice_id). For Export, provide the settings object instead (codec, target_resolution, quality). Cost often depends on these values (e.g. text length, duration, resolution)."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

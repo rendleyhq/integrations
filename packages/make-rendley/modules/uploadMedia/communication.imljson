@@ -1,0 +1,19 @@
+{
+	"url": "/projects/{{parameters.projectId}}/uploads/import",
+	"method": "POST",
+	"body": {
+		"download_url": "{{parameters.fileUrl}}",
+		"file_name": "{{parameters.fileName}}",
+		"role": "pending"
+	},
+	"response": {
+		"output": {
+			"media_id": "{{body.data.media_id}}",
+			"file_hash": "{{body.data.file_hash}}",
+			"file_url": "{{body.data.storage_url}}",
+			"file_name": "{{body.data.original_file_name}}",
+			"mime_type": "{{body.data.mime_type}}",
+			"status": "{{body.data.status}}"
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"url": "/ai/voice-isolation",
+	"method": "POST",
+	"body": {
+		"project_id": "{{parameters.projectId}}",
+		"model_id": "{{parameters.modelId}}",
+		"params": {
+			"media": "{{parameters.source}}"
+		}
+	},
+	"response": {
+		"output": {
+			"job_id": "{{body.data.job_id}}"
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "rendley-ai-video-editor",
+  "title": "Rendley AI Video Editor",
+  "description": "Turn a prompt into an edited, rendered video, or run Rendley's AI actions: transcription, dubbing, text to speech, image, video and music generation, background removal and MP4 export.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "./Dockerfile",
+  "readme": "../README.md",
+  "changelog": "../CHANGELOG.md",
+  "minMemoryMbytes": 256,
+  "maxMemoryMbytes": 1024,
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}

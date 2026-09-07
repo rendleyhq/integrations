@@ -1,0 +1,4 @@
+{
+	"label": "Translate Video",
+	"description": "Translates the spoken audio of a video into another language (dubbed voice). Returns a job_id immediately. Poll 'Get Job Status' (Rendley API) until status is 'completed'. The finished job carries a fresh download_url (Get Job Status), and media_id for 'Get Media URL'."
+}

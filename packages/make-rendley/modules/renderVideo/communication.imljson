@@ -1,0 +1,21 @@
+{
+	"url": "/export",
+	"method": "POST",
+	"body": {
+		"project_id": "{{parameters.projectId}}",
+		"settings": {
+			"codec": "{{parameters.codec}}",
+			"target_resolution": "{{parameters.targetResolution}}",
+			"quality": "{{parameters.quality}}"
+		}
+	},
+	"response": {
+		"error": {
+			"type": "{{if(body.error, body.error.code, statusCode)}}",
+			"message": "{{if(body.error, body.error.message, 'Export failed. Exports require an active subscription and available credits.')}}"
+		},
+		"output": {
+			"job_id": "{{body.data.job_id}}"
+		}
+	}
+}

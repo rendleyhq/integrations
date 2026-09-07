@@ -1,0 +1,4 @@
+{
+	"label": "Create Project",
+	"description": "Creates a new, empty Rendley project and returns it. Use the returned project ID with 'Start Prompt to Video' (to have the AI agent edit it) or with 'Start Export (Render MP4)'."
+}

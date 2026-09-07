@@ -1,0 +1,157 @@
+{
+  "title": "Rendley AI Video Editor",
+  "description": "Pick an operation, paste your Rendley API key, and fill in the fields that operation needs. Each run performs one operation and pushes one result item.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "rendley_api_key": {
+      "title": "Rendley API key",
+      "type": "string",
+      "description": "Create one at https://app.rendley.com/settings. AI actions consume credits; the agent and renders need an active subscription.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "operation": {
+      "title": "Operation",
+      "type": "string",
+      "description": "What this run should do.",
+      "editor": "select",
+      "default": "prompt_to_video",
+      "enum": ["prompt_to_video", "ai_action", "transcribe", "dub_video", "export", "estimate_cost"],
+      "enumTitles": [
+        "Prompt to video (AI agent edit, then render)",
+        "AI action (any Rendley AI action with raw parameters)",
+        "Transcribe (speech to timed text)",
+        "Dub video (translate and re-voice)",
+        "Export (render an existing project to MP4)",
+        "Estimate cost (credits, without running anything)"
+      ]
+    },
+    "project_id": {
+      "title": "Project ID",
+      "type": "string",
+      "description": "The Rendley project to work in. Required for every operation except prompt_to_video, where it is optional (the agent creates a project when omitted).",
+      "editor": "textfield"
+    },
+    "prompt": {
+      "title": "Prompt",
+      "type": "string",
+      "description": "prompt_to_video: what the agent should create or change, for example \"Cut this interview down to a 30-second teaser with captions\".",
+      "editor": "textarea",
+      "prefill": "Create a 15-second product teaser from these clips with upbeat captions."
+    },
+    "file_urls": {
+      "title": "Media URLs",
+      "type": "array",
+      "description": "prompt_to_video: public URLs of clips, images or audio for the agent to work with.",
+      "editor": "stringList"
+    },
+    "thread_id": {
+      "title": "Thread ID",
+      "type": "string",
+      "description": "prompt_to_video: continue a previous agent conversation on the same project.",
+      "editor": "textfield"
+    },
+    "render": {
+      "title": "Render MP4 after the agent edit",
+      "type": "boolean",
+      "description": "prompt_to_video: export the project once the agent finishes. Turn off to keep only the edited project.",
+      "default": true
+    },
+    "action": {
+      "title": "AI action",
+      "type": "string",
+      "description": "ai_action and estimate_cost: the action name, for example text-to-speech, generate-image, generate-video, generate-music, generate-sound-effect, upscale-image, remove-image-background, remove-video-background, voice-isolation, voice-changer, lipsync, video-translate, transcribe. Use \"export\" with estimate_cost to price a render.",
+      "editor": "textfield"
+    },
+    "params": {
+      "title": "Action parameters",
+      "type": "object",
+      "description": "ai_action and estimate_cost: the model parameters as JSON. File inputs go in \"media\" (a public URL, media ID or file hash); lipsync uses \"video_media\" and \"audio_media\". Schemas are at https://api.rendley.com/v1/ai/models/{model_id}.",
+      "editor": "json",
+      "prefill": { "prompt": "a single soft rain drop", "duration_seconds": 2 }
+    },
+    "model_id": {
+      "title": "Model ID",
+      "type": "string",
+      "description": "Optional model for AI actions, for example kling-v2.6. Leave empty for Rendley's default. The catalog is at https://api.rendley.com/v1/ai/tools.",
+      "editor": "textfield"
+    },
+    "media": {
+      "title": "Source media",
+      "type": "string",
+      "description": "transcribe and dub_video: a public URL of the audio or video, or the media ID or file hash of an upload in the project.",
+      "editor": "textfield"
+    },
+    "start_time": {
+      "title": "Start time (seconds)",
+      "type": "integer",
+      "description": "transcribe: only transcribe from this point.",
+      "editor": "number",
+      "minimum": 0
+    },
+    "end_time": {
+      "title": "End time (seconds)",
+      "type": "integer",
+      "description": "transcribe: only transcribe up to this point.",
+      "editor": "number",
+      "minimum": 0
+    },
+    "output_language": {
+      "title": "Target language",
+      "type": "string",
+      "description": "dub_video: language code to dub into, for example es or de. The list is at https://api.rendley.com/v1/ai/video-translate/languages.",
+      "editor": "textfield"
+    },
+    "mode": {
+      "title": "Dubbing mode",
+      "type": "string",
+      "description": "dub_video: precision (default) or speed.",
+      "editor": "select",
+      "enum": ["precision", "speed"],
+      "enumTitles": ["Precision", "Speed"]
+    },
+    "resolution": {
+      "title": "Render resolution",
+      "type": "string",
+      "description": "prompt_to_video and export.",
+      "editor": "select",
+      "default": "1080p",
+      "enum": ["720p", "1080p", "4K"],
+      "enumTitles": ["720p", "1080p", "4K"]
+    },
+    "quality": {
+      "title": "Render quality",
+      "type": "string",
+      "description": "prompt_to_video and export.",
+      "editor": "select",
+      "default": "high",
+      "enum": ["high", "medium", "low"],
+      "enumTitles": ["High", "Medium", "Low"]
+    },
+    "codec": {
+      "title": "Render codec",
+      "type": "string",
+      "description": "prompt_to_video and export.",
+      "editor": "select",
+      "default": "h264",
+      "enum": ["h264", "vp8"],
+      "enumTitles": ["H.264 (MP4)", "VP8 (WebM)"]
+    },
+    "save_to_kvs": {
+      "title": "Copy output files to the key-value store",
+      "type": "boolean",
+      "description": "Rendley's download URLs expire after a few hours. When on, the output file is also stored in the run's key-value store as OUTPUT_VIDEO, OUTPUT_MEDIA or OUTPUT_TRANSCRIPT.",
+      "default": true
+    },
+    "api_base_url": {
+      "title": "API base URL",
+      "type": "string",
+      "description": "Advanced: leave empty unless Rendley gave you a different API host.",
+      "editor": "textfield",
+      "sectionCaption": "Advanced",
+      "sectionDescription": "Only needed for non-production Rendley hosts."
+    }
+  },
+  "required": ["rendley_api_key", "operation"]
+}

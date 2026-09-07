@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/rendley",
+  "version": "0.1.0",
+  "description": "Pipedream Rendley Components: AI video editing and generation.",
+  "main": "rendley.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rendley",
+    "ai-video",
+    "video-generation",
+    "text-to-speech"
+  ],
+  "homepage": "https://pipedream.com/apps/rendley",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

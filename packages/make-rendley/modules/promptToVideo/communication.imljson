@@ -1,0 +1,18 @@
+{
+	"url": "/agent",
+	"method": "POST",
+	"body": {
+		"prompt": "{{parameters.prompt}}",
+		"project_id": "{{parameters.projectId}}",
+		"thread_id": "{{parameters.threadId}}",
+		"files": "{{if(parameters.fileUrl, array({url: parameters.fileUrl, name: parameters.fileName}), undefined)}}"
+	},
+	"response": {
+		"output": {
+			"job_id": "{{body.data.job_id}}",
+			"project_id": "{{body.data.project_id}}",
+			"status": "{{body.data.status}}",
+			"thread_id": "{{body.data.thread_id}}"
+		}
+	}
+}

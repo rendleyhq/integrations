@@ -1,0 +1,27 @@
+[
+	{
+		"name": "host",
+		"type": "select",
+		"label": "Job Type",
+		"required": true,
+		"default": "api",
+		"help": "'Rendley API' for AI actions and renders (job_id from any AI module or 'Start Export'); 'Rendley Agent' for 'Start Prompt to Video' jobs.",
+		"options": [
+			{
+				"label": "Rendley API (AI actions, exports)",
+				"value": "api"
+			},
+			{
+				"label": "Rendley Agent (Prompt to Video)",
+				"value": "agent"
+			}
+		]
+	},
+	{
+		"name": "jobId",
+		"type": "text",
+		"label": "Job ID",
+		"required": true,
+		"help": "The job_id returned by 'Start Prompt to Video' (Agent host) or 'Start Export (Render MP4)' (API host)."
+	}
+]

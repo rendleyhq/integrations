@@ -1,0 +1,22 @@
+[
+	{
+		"name": "job_id",
+		"type": "text",
+		"label": "Job ID"
+	},
+	{
+		"name": "project_id",
+		"type": "text",
+		"label": "Project ID"
+	},
+	{
+		"name": "status",
+		"type": "text",
+		"label": "Status"
+	},
+	{
+		"name": "thread_id",
+		"type": "text",
+		"label": "Thread ID"
+	}
+]

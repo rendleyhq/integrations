@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# per-package build output and local state (see each package's own .gitignore too)
+packages/zapier-rendley/index.js
+packages/zapier-rendley/test/.rendley-client.cjs
+packages/apify-rendley/storage/
+packages/apify-rendley/apify_storage/
+packages/make-rendley/.secrets/*
+!packages/make-rendley/.secrets/.gitkeep

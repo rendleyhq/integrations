@@ -1,0 +1,9 @@
+{
+  "connectorId": "",
+  "environment": "",
+  "apiProperties": "apiProperties.json",
+  "apiDefinition": "apiDefinition.swagger.json",
+  "icon": "icon.png",
+  "powerAppsApiVersion": "2016-11-01",
+  "powerAppsUrl": "https://api.powerapps.com"
+}

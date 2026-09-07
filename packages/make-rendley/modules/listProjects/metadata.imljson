@@ -1,0 +1,4 @@
+{
+	"label": "List Projects",
+	"description": "Returns Rendley projects, optionally filtered by workspace. Use the Limit parameter to cap how many are returned. The endpoint does not support cursor pagination."
+}

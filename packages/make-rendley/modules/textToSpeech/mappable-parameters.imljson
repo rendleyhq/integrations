@@ -1,0 +1,53 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The Rendley project that will own the generated media. Pick one, or map a project ID from 'Create Project' / 'List Projects'."
+	},
+	{
+		"name": "text",
+		"type": "text",
+		"label": "Text",
+		"required": true,
+		"help": "The exact spoken words to convert to speech audio. No stage directions or annotations."
+	},
+	{
+		"name": "voiceId",
+		"type": "select",
+		"label": "Voice",
+		"required": true,
+		"options": {
+			"store": "rpc://listVoices"
+		},
+		"help": "The AI voice to speak the text. Pick one from the list, or map a voice ID."
+	},
+	{
+		"name": "speed",
+		"type": "number",
+		"label": "Speed",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. Playback speed between 0.7 and 1.2. 1.0 is natural speed."
+	},
+	{
+		"name": "stability",
+		"type": "number",
+		"label": "Stability",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. 0 to 1. Higher values sound more consistent and monotone; lower values are more expressive."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

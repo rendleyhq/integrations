@@ -1,0 +1,45 @@
+{
+  "name": "make-rendley",
+  "version": "1.0.0",
+  "description": "Rendley app for Make (make.com): AI video editing and generation modules. Prompt-to-video with the Rendley AI agent, text to speech, transcription, dubbing, lip sync, image, video and music generation, and MP4 rendering.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/make-rendley"
+  },
+  "homepage": "https://rendley.com",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/structure.test.mjs",
+    "test:live": "node test/live.mjs"
+  },
+  "keywords": [
+    "make",
+    "make-com",
+    "integromat",
+    "make-custom-app",
+    "rendley",
+    "ai-video",
+    "ai-video-editor",
+    "video-generation",
+    "text-to-video",
+    "prompt-to-video",
+    "video-editing",
+    "text-to-speech",
+    "transcription",
+    "video-dubbing",
+    "lip-sync",
+    "image-generation",
+    "mp4-export",
+    "video-automation"
+  ]
+}

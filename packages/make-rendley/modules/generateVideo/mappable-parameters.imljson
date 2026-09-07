@@ -1,0 +1,52 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The Rendley project that will own the generated media. Pick one, or map a project ID from 'Create Project' / 'List Projects'."
+	},
+	{
+		"name": "prompt",
+		"type": "text",
+		"label": "Prompt",
+		"required": true,
+		"help": "A text description of the video you want to generate."
+	},
+	{
+		"name": "startImageUrl",
+		"type": "url",
+		"label": "Start Image URL",
+		"required": false,
+		"help": "Optional. An image to use as the video's first frame (image-to-video)."
+	},
+	{
+		"name": "duration",
+		"type": "select",
+		"label": "Duration (Seconds)",
+		"required": false,
+		"default": 5,
+		"options": [
+			{
+				"label": "5 seconds",
+				"value": 5
+			},
+			{
+				"label": "10 seconds",
+				"value": 10
+			}
+		],
+		"help": "Optional. Clip length in seconds (supported by the default model)."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

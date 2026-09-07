@@ -1,0 +1,12 @@
+{
+	"baseUrl": "https://api.rendley.com/v1",
+	"headers": {
+		"Authorization": "Bearer {{connection.apiKey}}"
+	},
+	"response": {
+		"error": {
+			"type": "{{if(body.error, body.error.code, statusCode)}}",
+			"message": "{{if(body.error, body.error.message, 'Rendley request failed')}}"
+		}
+	}
+}

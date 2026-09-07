@@ -1,0 +1,4 @@
+{
+	"label": "Start Prompt to Video",
+	"description": "Starts an asynchronous Rendley AI agent job that creates or edits a video project from a natural-language prompt. Returns a job_id immediately (status 'pending'); check completion with the 'Get Job Status' module (Rendley Agent) until status is 'completed', then export the returned project_id with 'Start Export (Render MP4)'."
+}

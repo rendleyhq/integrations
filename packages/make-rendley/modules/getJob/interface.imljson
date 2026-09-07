@@ -1,0 +1,72 @@
+[
+	{
+		"name": "job_id",
+		"type": "text",
+		"label": "Job ID"
+	},
+	{
+		"name": "status",
+		"type": "text",
+		"label": "Status"
+	},
+	{
+		"name": "type",
+		"type": "text",
+		"label": "Job Type"
+	},
+	{
+		"name": "is_complete",
+		"type": "boolean",
+		"label": "Is Complete"
+	},
+	{
+		"name": "project_id",
+		"type": "text",
+		"label": "Project ID"
+	},
+	{
+		"name": "thread_id",
+		"type": "text",
+		"label": "Thread ID"
+	},
+	{
+		"name": "download_url",
+		"type": "url",
+		"label": "Download URL (signed, expires)"
+	},
+	{
+		"name": "url_expires_at",
+		"type": "text",
+		"label": "Download URL Expires At"
+	},
+	{
+		"name": "media_id",
+		"type": "text",
+		"label": "Media ID"
+	},
+	{
+		"name": "file_hash",
+		"type": "text",
+		"label": "File Hash"
+	},
+	{
+		"name": "mime_type",
+		"type": "text",
+		"label": "MIME Type"
+	},
+	{
+		"name": "result_data",
+		"type": "text",
+		"label": "Result Data (JSON)"
+	},
+	{
+		"name": "last_message",
+		"type": "text",
+		"label": "Agent Message"
+	},
+	{
+		"name": "error",
+		"type": "text",
+		"label": "Error"
+	}
+]

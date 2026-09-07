@@ -1,0 +1,17 @@
+{
+	"url": "/workspaces",
+	"method": "GET",
+	"headers": {
+		"Authorization": "Bearer {{parameters.apiKey}}"
+	},
+	"response": {
+		"error": {
+			"type": "{{if(body.error, body.error.code, statusCode)}}",
+			"message": "{{if(body.error, body.error.message, 'Invalid Rendley API key. Create one at app.rendley.com/settings.')}}"
+		},
+		"metadata": {
+			"type": "text",
+			"value": "Rendley"
+		}
+	}
+}

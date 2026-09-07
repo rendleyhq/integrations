@@ -1,0 +1,23 @@
+{
+  "name": "rendley-integrations",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Rendley integrations for no-code and automation platforms: n8n, Zapier, Make, Apify, Pipedream, Activepieces, Node-RED and Microsoft Power Platform. Each package is versioned, released and published independently.",
+  "license": "MIT",
+  "author": { "name": "Rendley", "email": "support@rendley.com" },
+  "homepage": "https://rendley.com",
+  "repository": { "type": "git", "url": "https://github.com/rendleyhq/integrations.git" },
+  "bugs": { "url": "https://github.com/rendleyhq/integrations/issues" },
+  "engines": { "node": ">=20", "npm": ">=10" },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "test:live": "npm run test:live --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "build:client": "npm run build:client --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  }
+}

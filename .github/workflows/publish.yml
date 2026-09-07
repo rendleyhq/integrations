@@ -1,0 +1,133 @@
+# Releases and npm publishing for every package in this monorepo.
+#
+# release-please reads conventional commits on main and keeps one release PR
+# open per package (scoped by the paths in release-please-config.json).
+# Merging a release PR bumps that package's version and CHANGELOG, tags the
+# commit as `<component>-v<version>` (for example n8n-nodes-rendley-v0.2.0)
+# and creates a GitHub release. The npm packages are then published from this
+# workflow with a provenance attestation, which n8n requires for verified
+# community nodes.
+#
+# One-time setup:
+#   1. Repository settings -> Actions -> General -> "Allow GitHub Actions to
+#      create and approve pull requests" must be on, or release-please cannot
+#      open its PRs.
+#   2. The very first version of each npm package has to be published by hand
+#      (`npm publish --access public` from the package folder) because npm
+#      Trusted Publishing can only be configured on a package that exists.
+#   3. On npmjs.com, per package: Settings -> Publish access -> Trusted
+#      Publishers -> GitHub Actions, owner `rendleyhq`, repository
+#      `integrations`, workflow `publish.yml`, environment `npm`.
+#
+# Platforms without an npm registry (Zapier, Make, Apify, Pipedream,
+# Activepieces, Power Platform) still get a version bump, changelog and GitHub
+# release here; pushing to the platform stays a manual step described in
+# PUBLISHING-PLAYBOOK.md.
+
+name: Publish
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      n8n_released: ${{ steps.release.outputs['packages/n8n-nodes-rendley--release_created'] }}
+      n8n_tag: ${{ steps.release.outputs['packages/n8n-nodes-rendley--tag_name'] }}
+      node_red_released: ${{ steps.release.outputs['packages/node-red-rendley--release_created'] }}
+      node_red_tag: ${{ steps.release.outputs['packages/node-red-rendley--tag_name'] }}
+      zapier_released: ${{ steps.release.outputs['packages/zapier-rendley--release_created'] }}
+      zapier_tag: ${{ steps.release.outputs['packages/zapier-rendley--tag_name'] }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish-n8n:
+    name: Publish n8n-nodes-rendley to npm
+    needs: release-please
+    if: needs.release-please.outputs.n8n_released == 'true'
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write   # OIDC for npm Trusted Publishing + provenance
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - name: Upgrade npm (trusted publishing needs npm >= 11.5)
+        run: npm install -g npm@latest
+      - run: npm ci
+      - name: Lint, build, scan
+        working-directory: packages/n8n-nodes-rendley
+        run: |
+          npm run lint
+          npm run build
+          npm run scan
+      - name: Publish with provenance
+        working-directory: packages/n8n-nodes-rendley
+        env:
+          RELEASE_MODE: 'true'   # lets `n8n-node prerelease` allow npm publish
+        run: npm publish --provenance --access public
+
+  publish-node-red:
+    name: Publish @rendley/node-red-rendley to npm
+    needs: release-please
+    if: needs.release-please.outputs.node_red_released == 'true'
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm install -g npm@latest
+      - run: npm ci
+      - name: Test
+        working-directory: packages/node-red-rendley
+        run: npm test
+      - name: Publish with provenance
+        working-directory: packages/node-red-rendley
+        run: npm publish --provenance --access public
+
+  build-zapier:
+    name: Attach Zapier build to the release
+    needs: release-please
+    if: needs.release-please.outputs.zapier_released == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: npm
+      - run: npm ci
+      - name: Validate and build
+        working-directory: packages/zapier-rendley
+        run: |
+          npm run validate
+          npx zapier-platform build
+      - name: Upload build.zip to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ needs.release-please.outputs.zapier_tag }}" packages/zapier-rendley/build/build.zip --clobber

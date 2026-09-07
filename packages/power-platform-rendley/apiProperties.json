@@ -1,0 +1,35 @@
+{
+  "properties": {
+    "connectionParameters": {
+      "api_key": {
+        "type": "securestring",
+        "uiDefinition": {
+          "displayName": "API Key",
+          "description": "Your Rendley API key, created at app.rendley.com/settings.",
+          "tooltip": "Paste the API key only; the Bearer prefix is added for you.",
+          "constraints": {
+            "tabIndex": 2,
+            "clearText": false,
+            "required": "true"
+          }
+        }
+      }
+    },
+    "iconBrandColor": "#0C0C0C",
+    "capabilities": [],
+    "policyTemplateInstances": [
+      {
+        "templateId": "setheader",
+        "title": "Add the Bearer prefix to the Authorization header",
+        "parameters": {
+          "x-ms-apimTemplateParameter.name": "Authorization",
+          "x-ms-apimTemplateParameter.value": "Bearer @connectionParameters('api_key')",
+          "x-ms-apimTemplateParameter.existsAction": "override",
+          "x-ms-apimTemplate-policySection": "Request"
+        }
+      }
+    ],
+    "publisher": "Rendley",
+    "stackOwner": "Rendley"
+  }
+}

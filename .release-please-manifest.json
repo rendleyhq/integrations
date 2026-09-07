@@ -1,0 +1,10 @@
+{
+  "packages/n8n-nodes-rendley": "0.1.0",
+  "packages/node-red-rendley": "1.0.0",
+  "packages/zapier-rendley": "1.0.0",
+  "packages/make-rendley": "1.0.0",
+  "packages/apify-rendley": "1.0.0",
+  "packages/pipedream-rendley": "0.1.0",
+  "packages/activepieces-rendley": "0.1.0",
+  "packages/power-platform-rendley": "1.0.0"
+}

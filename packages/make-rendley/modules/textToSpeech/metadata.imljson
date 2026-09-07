@@ -1,0 +1,4 @@
+{
+	"label": "Generate Speech (Text to Speech)",
+	"description": "Converts text into spoken audio using an AI voice. Returns a job_id immediately. Poll 'Get Job Status' (Rendley API) until status is 'completed'. The finished job carries a fresh download_url (Get Job Status), and media_id for 'Get Media URL'."
+}

@@ -1,0 +1,4 @@
+{
+	"label": "Get Job Status",
+	"description": "Retrieves the status and result of a Rendley job. Select the host that started the job: 'Rendley Agent' for Prompt to Video jobs (returns project_url), or 'Rendley API' for export jobs (result_data is parsed into 'result', exposing storage_url of the rendered MP4). Poll this module with a Sleep/Repeater until status is 'completed' or 'failed'."
+}

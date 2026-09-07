@@ -1,0 +1,51 @@
+{
+  "name": "@activepieces/piece-rendley",
+  "version": "0.1.0",
+  "description": "Rendley piece for Activepieces: AI video editing and generation. Prompt-to-video with the Rendley AI agent, text to speech, transcription, dubbing, lip sync, image, video and music generation, and MP4 rendering.",
+  "license": "MIT",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/activepieces-rendley"
+  },
+  "homepage": "https://rendley.com",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json && cp package.json dist/",
+    "typecheck": "tsc -p tsconfig.lib.json --noEmit",
+    "test": "npm run build && node --test test/structure.test.cjs",
+    "test:live": "npm run build && node test/live.cjs"
+  },
+  "dependencies": {
+    "@activepieces/pieces-common": "^0.12.5",
+    "@activepieces/pieces-framework": "^0.32.0",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  },
+  "keywords": [
+    "activepieces",
+    "activepieces-piece",
+    "rendley",
+    "ai-video",
+    "ai-video-editor",
+    "video-generation",
+    "text-to-video",
+    "prompt-to-video",
+    "video-editing",
+    "text-to-speech",
+    "transcription",
+    "video-dubbing",
+    "lip-sync",
+    "image-generation",
+    "mp4-export",
+    "video-automation"
+  ]
+}

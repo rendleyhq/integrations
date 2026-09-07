@@ -1,0 +1,18 @@
+{
+	"url": "/ai/transcribe",
+	"method": "POST",
+	"body": {
+		"project_id": "{{parameters.projectId}}",
+		"model_id": "{{parameters.modelId}}",
+		"params": {
+			"media": "{{parameters.source}}",
+			"start_time": "{{parameters.startTime}}",
+			"end_time": "{{parameters.endTime}}"
+		}
+	},
+	"response": {
+		"output": {
+			"job_id": "{{body.data.job_id}}"
+		}
+	}
+}

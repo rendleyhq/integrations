@@ -1,0 +1,44 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The Rendley project that will own the generated media. Pick one, or map a project ID from 'Create Project' / 'List Projects'."
+	},
+	{
+		"name": "source",
+		"type": "text",
+		"label": "Source Image (URL, Media ID or File Hash)",
+		"required": true,
+		"help": "Public URL of the image to upscale, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+	},
+	{
+		"name": "scale",
+		"type": "select",
+		"label": "Scale Factor",
+		"required": false,
+		"default": 4,
+		"options": [
+			{
+				"label": "2x",
+				"value": 2
+			},
+			{
+				"label": "4x",
+				"value": 4
+			}
+		]
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

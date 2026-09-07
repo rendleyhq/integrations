@@ -1,0 +1,4 @@
+{
+	"label": "Make an API Call",
+	"description": "Performs an authenticated raw call to any Rendley REST endpoint. Set the method, a relative URL (appended to https://api.rendley.com/v1), optional query parameters, headers and body. Returns the raw status code, headers and body. Use this for endpoints not covered by the dedicated modules."
+}

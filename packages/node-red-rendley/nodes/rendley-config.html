@@ -1,0 +1,35 @@
+<script type="text/javascript">
+  RED.nodes.registerType("rendley-config", {
+    category: "config",
+    defaults: {
+      name: { value: "" },
+      baseUrl: { value: "https://api.rendley.com/v1" },
+    },
+    credentials: {
+      apiKey: { type: "password" },
+    },
+    label: function () {
+      return this.name || "Rendley";
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="rendley-config">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" placeholder="Rendley" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-apiKey"><i class="fa fa-key"></i> API key</label>
+    <input type="password" id="node-config-input-apiKey" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-baseUrl"><i class="fa fa-globe"></i> Base URL</label>
+    <input type="text" id="node-config-input-baseUrl" placeholder="https://api.rendley.com/v1" />
+  </div>
+  <div class="form-tips">Create an API key at app.rendley.com/settings. Leave the base URL unless Rendley gave you a different host.</div>
+</script>
+
+<script type="text/html" data-help-name="rendley-config">
+  <p>Stores a Rendley API key. Create one at <a href="https://app.rendley.com/settings" target="_blank">app.rendley.com/settings</a>.</p>
+</script>

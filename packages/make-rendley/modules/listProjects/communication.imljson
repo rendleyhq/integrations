@@ -1,0 +1,29 @@
+[
+	{
+		"condition": "{{!parameters.workspaceId}}",
+		"url": "/workspaces",
+		"method": "GET",
+		"response": {
+			"temp": {
+				"workspaceId": "{{body.data[1].id}}"
+			}
+		}
+	},
+	{
+		"url": "/projects",
+		"method": "GET",
+		"qs": {
+			"workspace_id": "{{ifempty(parameters.workspaceId, temp.workspaceId)}}"
+		},
+		"response": {
+			"limit": "{{parameters.limit}}",
+			"iterate": "{{body.data}}",
+			"output": {
+				"id": "{{item.id}}",
+				"name": "{{item.name}}",
+				"workspace_id": "{{item.workspace_id}}",
+				"created_at": "{{item.created_at}}"
+			}
+		}
+	}
+]

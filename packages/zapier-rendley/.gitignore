@@ -1,0 +1,8 @@
+node_modules
+index.js
+build
+test/.rendley-client.cjs
+.zapierapprc
+.env
+.DS_Store
+*.log

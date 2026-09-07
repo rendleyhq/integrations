@@ -1,0 +1,439 @@
+{
+	"fileVersion": 1,
+	"generalCodeFiles": {
+		"base": "base.imljson",
+		"common": null,
+		"readme": "README.md",
+		"groups": null
+	},
+	"components": {
+		"connection": {
+			"rendley": {
+				"label": "Rendley",
+				"connectionType": "basic",
+				"codeFiles": {
+					"communication": "connections/rendley/connection.imljson",
+					"params": "connections/rendley/parameters.imljson",
+					"common": null
+				}
+			}
+		},
+		"module": {
+			"promptToVideo": {
+				"label": "Start Prompt to Video",
+				"description": "Starts an AI agent job that creates or edits a video project from a prompt. Poll Get Job Status (Rendley Agent) until it completes.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/promptToVideo/communication.imljson",
+					"mappableParams": "modules/promptToVideo/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/promptToVideo/interface.imljson",
+					"samples": "modules/promptToVideo/samples.imljson",
+					"scope": null
+				}
+			},
+			"getJob": {
+				"label": "Get Job Status",
+				"description": "Retrieves the status and result of a Rendley job (AI action, render, or agent edit), including a fresh download URL.",
+				"moduleType": "action",
+				"actionCrud": "read",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/getJob/communication.imljson",
+					"mappableParams": "modules/getJob/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/getJob/interface.imljson",
+					"samples": "modules/getJob/samples.imljson",
+					"scope": null
+				}
+			},
+			"renderVideo": {
+				"label": "Start Export (Render MP4)",
+				"description": "Exports a project to a video file and returns an export job id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/renderVideo/communication.imljson",
+					"mappableParams": "modules/renderVideo/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/renderVideo/interface.imljson",
+					"samples": "modules/renderVideo/samples.imljson",
+					"scope": null
+				}
+			},
+			"createProject": {
+				"label": "Create Project",
+				"description": "Creates a new Rendley project.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/createProject/communication.imljson",
+					"mappableParams": "modules/createProject/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/createProject/interface.imljson",
+					"samples": "modules/createProject/samples.imljson",
+					"scope": null
+				}
+			},
+			"listProjects": {
+				"label": "List Projects",
+				"description": "Returns Rendley projects, optionally filtered by workspace.",
+				"moduleType": "search",
+				"actionCrud": "read",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/listProjects/communication.imljson",
+					"mappableParams": "modules/listProjects/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/listProjects/interface.imljson",
+					"samples": "modules/listProjects/samples.imljson",
+					"scope": null
+				}
+			},
+			"getWorkspaces": {
+				"label": "List Workspaces",
+				"description": "Returns the workspaces available to the connected account.",
+				"moduleType": "search",
+				"actionCrud": "read",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/getWorkspaces/communication.imljson",
+					"mappableParams": "modules/getWorkspaces/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/getWorkspaces/interface.imljson",
+					"samples": "modules/getWorkspaces/samples.imljson",
+					"scope": null
+				}
+			},
+			"makeApiCall": {
+				"label": "Make an API Call",
+				"description": "Performs an authenticated raw call to any Rendley REST endpoint.",
+				"moduleType": "universal",
+				"actionCrud": null,
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/makeApiCall/communication.imljson",
+					"mappableParams": "modules/makeApiCall/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/makeApiCall/interface.imljson",
+					"samples": "modules/makeApiCall/samples.imljson",
+					"scope": null
+				}
+			},
+			"transcribe": {
+				"label": "Transcribe Audio/Video",
+				"description": "Starts an AI transcription job for an audio or video file and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/transcribe/communication.imljson",
+					"mappableParams": "modules/transcribe/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/transcribe/interface.imljson",
+					"samples": "modules/transcribe/samples.imljson",
+					"scope": null
+				}
+			},
+			"textToSpeech": {
+				"label": "Generate Speech (Text to Speech)",
+				"description": "Converts text into spoken audio with an AI voice and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/textToSpeech/communication.imljson",
+					"mappableParams": "modules/textToSpeech/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/textToSpeech/interface.imljson",
+					"samples": "modules/textToSpeech/samples.imljson",
+					"scope": null
+				}
+			},
+			"translateVideo": {
+				"label": "Translate Video",
+				"description": "Translates the spoken audio of a video into another language and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/translateVideo/communication.imljson",
+					"mappableParams": "modules/translateVideo/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/translateVideo/interface.imljson",
+					"samples": "modules/translateVideo/samples.imljson",
+					"scope": null
+				}
+			},
+			"lipSync": {
+				"label": "Lip Sync Video to Audio",
+				"description": "Re-animates a speaker's lips to match a new audio track and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/lipSync/communication.imljson",
+					"mappableParams": "modules/lipSync/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/lipSync/interface.imljson",
+					"samples": "modules/lipSync/samples.imljson",
+					"scope": null
+				}
+			},
+			"isolateVoice": {
+				"label": "Isolate Voice",
+				"description": "Removes background noise and music from a recording and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/isolateVoice/communication.imljson",
+					"mappableParams": "modules/isolateVoice/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/isolateVoice/interface.imljson",
+					"samples": "modules/isolateVoice/samples.imljson",
+					"scope": null
+				}
+			},
+			"removeVideoBackground": {
+				"label": "Remove Video Background",
+				"description": "Removes the background from a video and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/removeVideoBackground/communication.imljson",
+					"mappableParams": "modules/removeVideoBackground/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/removeVideoBackground/interface.imljson",
+					"samples": "modules/removeVideoBackground/samples.imljson",
+					"scope": null
+				}
+			},
+			"removeImageBackground": {
+				"label": "Remove Image Background",
+				"description": "Removes the background from an image and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/removeImageBackground/communication.imljson",
+					"mappableParams": "modules/removeImageBackground/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/removeImageBackground/interface.imljson",
+					"samples": "modules/removeImageBackground/samples.imljson",
+					"scope": null
+				}
+			},
+			"upscaleImage": {
+				"label": "Upscale Image",
+				"description": "Increases the resolution of an image by 2x or 4x and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/upscaleImage/communication.imljson",
+					"mappableParams": "modules/upscaleImage/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/upscaleImage/interface.imljson",
+					"samples": "modules/upscaleImage/samples.imljson",
+					"scope": null
+				}
+			},
+			"generateImage": {
+				"label": "Generate Image",
+				"description": "Generates an image from a text prompt and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/generateImage/communication.imljson",
+					"mappableParams": "modules/generateImage/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/generateImage/interface.imljson",
+					"samples": "modules/generateImage/samples.imljson",
+					"scope": null
+				}
+			},
+			"generateVideo": {
+				"label": "Generate Video",
+				"description": "Generates a short video clip from a text prompt and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/generateVideo/communication.imljson",
+					"mappableParams": "modules/generateVideo/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/generateVideo/interface.imljson",
+					"samples": "modules/generateVideo/samples.imljson",
+					"scope": null
+				}
+			},
+			"generateMusic": {
+				"label": "Generate Music",
+				"description": "Generates a music clip from a text prompt and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/generateMusic/communication.imljson",
+					"mappableParams": "modules/generateMusic/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/generateMusic/interface.imljson",
+					"samples": "modules/generateMusic/samples.imljson",
+					"scope": null
+				}
+			},
+			"generateSoundEffect": {
+				"label": "Generate Sound Effect",
+				"description": "Generates a short sound effect from a text prompt and returns a job_id.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/generateSoundEffect/communication.imljson",
+					"mappableParams": "modules/generateSoundEffect/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/generateSoundEffect/interface.imljson",
+					"samples": "modules/generateSoundEffect/samples.imljson",
+					"scope": null
+				}
+			},
+			"getMediaUrl": {
+				"label": "Get Media URL",
+				"description": "Resolves a media ID or file hash to a fresh signed download URL.",
+				"moduleType": "action",
+				"actionCrud": "read",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/getMediaUrl/communication.imljson",
+					"mappableParams": "modules/getMediaUrl/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/getMediaUrl/interface.imljson",
+					"samples": "modules/getMediaUrl/samples.imljson",
+					"scope": null
+				}
+			},
+			"estimateCost": {
+				"label": "Estimate Cost",
+				"description": "Calculates how many credits an AI action or an export would consume (100 credits = 1 USD).",
+				"moduleType": "action",
+				"actionCrud": "read",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/estimateCost/communication.imljson",
+					"mappableParams": "modules/estimateCost/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/estimateCost/interface.imljson",
+					"samples": "modules/estimateCost/samples.imljson",
+					"scope": null
+				}
+			},
+			"uploadMedia": {
+				"label": "Upload Media from URL",
+				"description": "Adds a file from a public URL to a project's media library.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/uploadMedia/communication.imljson",
+					"mappableParams": "modules/uploadMedia/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/uploadMedia/interface.imljson",
+					"samples": "modules/uploadMedia/samples.imljson",
+					"scope": null
+				}
+			}
+		},
+		"rpc": {
+			"listVoices": {
+				"label": "List Voices",
+				"connection": "rendley",
+				"altConnection": null,
+				"codeFiles": {
+					"communication": "rpcs/listVoices/communication.imljson",
+					"params": "rpcs/listVoices/parameters.imljson"
+				}
+			},
+			"listLanguages": {
+				"label": "List Languages",
+				"connection": "rendley",
+				"altConnection": null,
+				"codeFiles": {
+					"communication": "rpcs/listLanguages/communication.imljson",
+					"params": "rpcs/listLanguages/parameters.imljson"
+				}
+			},
+			"listProjects": {
+				"label": "List Projects",
+				"connection": "rendley",
+				"altConnection": null,
+				"codeFiles": {
+					"communication": "rpcs/listProjects/communication.imljson",
+					"params": "rpcs/listProjects/parameters.imljson"
+				}
+			}
+		},
+		"webhook": {},
+		"function": {}
+	},
+	"origins": [
+		{
+			"label": "Rendley (production)",
+			"baseUrl": "https://eu1.make.com/api",
+			"appId": "REPLACE_WITH_APP_ID",
+			"appVersion": 1,
+			"apikeyFile": ".secrets/make-apikey",
+			"idMapping": {}
+		}
+	]
+}

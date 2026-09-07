@@ -1,0 +1,43 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The Rendley project that will own the generated media. Pick one, or map a project ID from 'Create Project' / 'List Projects'."
+	},
+	{
+		"name": "source",
+		"type": "text",
+		"label": "Source File (URL, Media ID or File Hash)",
+		"required": true,
+		"help": "Public URL of the audio/video file to transcribe, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+	},
+	{
+		"name": "startTime",
+		"type": "number",
+		"label": "Start Time (Seconds)",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. Transcribe from this time in seconds. Defaults to the beginning of the file."
+	},
+	{
+		"name": "endTime",
+		"type": "number",
+		"label": "End Time (Seconds)",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. Transcribe up to this time in seconds. Defaults to the full file duration."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

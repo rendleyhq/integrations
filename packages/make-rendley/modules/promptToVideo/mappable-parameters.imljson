@@ -1,0 +1,38 @@
+[
+	{
+		"name": "prompt",
+		"type": "text",
+		"label": "Prompt",
+		"required": true,
+		"help": "Describe the video you want the Rendley AI agent to create or the edit to apply, e.g. 'Create a 15s promo from these clips with upbeat captions'."
+	},
+	{
+		"name": "projectId",
+		"type": "text",
+		"label": "Project ID",
+		"required": false,
+		"help": "Optional. Provide an existing Rendley project ID to edit it. Leave empty to let the agent create a new project."
+	},
+	{
+		"name": "fileUrl",
+		"type": "url",
+		"label": "File URL",
+		"required": false,
+		"help": "Optional. Public URL of a source media file (video, image or audio) to include in the edit."
+	},
+	{
+		"name": "fileName",
+		"type": "text",
+		"label": "File Name",
+		"required": false,
+		"help": "Optional. A display name for the file provided in File URL."
+	},
+	{
+		"name": "threadId",
+		"type": "text",
+		"label": "Thread ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. Continue a previous agent conversation on the same project. Requires Project ID."
+	}
+]

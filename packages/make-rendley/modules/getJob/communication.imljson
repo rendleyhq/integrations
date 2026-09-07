@@ -1,0 +1,22 @@
+{
+	"url": "{{if(parameters.host = 'agent', '/agent/jobs/' + parameters.jobId, '/jobs/' + parameters.jobId)}}",
+	"method": "GET",
+	"response": {
+		"output": {
+			"job_id": "{{ifempty(body.data.job_id, body.data.id)}}",
+			"status": "{{body.data.status}}",
+			"type": "{{body.data.type}}",
+			"is_complete": "{{if(body.data.status = 'completed' OR body.data.status = 'failed' OR body.data.status = 'canceled' OR body.data.status = 'cancelled', true, false)}}",
+			"project_id": "{{ifempty(body.data.project_id, get(body.data, 'output.project_id'))}}",
+			"thread_id": "{{body.data.thread_id}}",
+			"download_url": "{{get(body.data, 'output.url')}}",
+			"url_expires_at": "{{get(body.data, 'output.url_expires_at')}}",
+			"media_id": "{{get(body.data, 'output.media_id')}}",
+			"file_hash": "{{get(body.data, 'output.file_hash')}}",
+			"mime_type": "{{get(body.data, 'output.mime_type')}}",
+			"result_data": "{{body.data.result_data}}",
+			"last_message": "{{body.data.last_message}}",
+			"error": "{{body.data.error}}"
+		}
+	}
+}

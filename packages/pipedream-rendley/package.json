@@ -1,0 +1,50 @@
+{
+  "name": "pipedream-rendley",
+  "version": "0.1.0",
+  "description": "Rendley components for Pipedream: AI video editing and generation actions and sources. Prompt-to-video with the Rendley AI agent, text to speech, transcription, dubbing, lip sync, image, video and music generation, and MP4 rendering.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/pipedream-rendley"
+  },
+  "homepage": "https://rendley.com",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "echo \"lint runs in the PipedreamHQ/pipedream monorepo: npx eslint components/rendley\"",
+    "test": "node --test test/structure.test.mjs",
+    "test:live": "node test/live.mjs"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  },
+  "keywords": [
+    "pipedream",
+    "pipedream-components",
+    "rendley",
+    "ai-video",
+    "ai-video-editor",
+    "video-generation",
+    "text-to-video",
+    "prompt-to-video",
+    "video-editing",
+    "text-to-speech",
+    "transcription",
+    "video-dubbing",
+    "lip-sync",
+    "image-generation",
+    "mp4-export",
+    "video-automation"
+  ]
+}

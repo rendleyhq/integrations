@@ -1,0 +1,55 @@
+{
+  "name": "apify-rendley",
+  "version": "1.0.0",
+  "description": "Rendley AI Video Editor Actor for Apify: prompt-to-video, AI video, image and music generation, text to speech, transcription, dubbing and MP4 rendering.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "main": "src/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/apify-rendley"
+  },
+  "homepage": "https://rendley.com",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node --test test/schema.test.cjs",
+    "test:live": "node test/live.mjs",
+    "validate": "apify validate-schema .actor/input_schema.json",
+    "push": "apify push",
+    "build:client": "esbuild ../rendley-client/src/rendley.ts --bundle --platform=node --target=node20 --format=esm --outfile=src/rendley.js --log-level=warning"
+  },
+  "dependencies": {
+    "apify": "^3.7.2"
+  },
+  "devDependencies": {
+    "apify-cli": "^1.10.0",
+    "esbuild": "^0.24.2"
+  },
+  "keywords": [
+    "apify",
+    "apify-actor",
+    "rendley",
+    "ai-video",
+    "ai-video-editor",
+    "video-generation",
+    "text-to-video",
+    "prompt-to-video",
+    "video-editing",
+    "text-to-speech",
+    "transcription",
+    "video-dubbing",
+    "lip-sync",
+    "image-generation",
+    "mp4-export",
+    "video-automation"
+  ]
+}

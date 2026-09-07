@@ -1,0 +1,4 @@
+{
+	"label": "Estimate Cost",
+	"description": "Calculates how many credits an AI action or an export would consume, without running it. 100 credits = 1 USD. Use it to guard scenarios against unexpectedly expensive jobs (e.g. with a Filter on the returned credits)."
+}

@@ -1,0 +1,4 @@
+{
+	"label": "List Workspaces",
+	"description": "Returns the workspaces available to the connected Rendley account. Useful to look up a workspace ID for 'Create Project' or 'List Projects'."
+}

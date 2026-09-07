@@ -1,0 +1,4 @@
+{
+	"label": "Upload Media from URL",
+	"description": "Adds a file from a public URL to a project's media library. Rendley fetches the file itself. Returns media_id and file_hash, both usable as the source of any AI module."
+}

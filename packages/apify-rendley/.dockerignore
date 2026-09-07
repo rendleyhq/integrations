@@ -1,0 +1,7 @@
+node_modules
+storage
+apify_storage
+test
+.github
+.git
+*.log

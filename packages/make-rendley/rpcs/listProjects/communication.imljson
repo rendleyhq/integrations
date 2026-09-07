@@ -1,0 +1,25 @@
+[
+	{
+		"url": "/workspaces",
+		"method": "GET",
+		"response": {
+			"temp": {
+				"workspaceId": "{{body.data[1].id}}"
+			}
+		}
+	},
+	{
+		"url": "/projects",
+		"method": "GET",
+		"qs": {
+			"workspace_id": "{{temp.workspaceId}}"
+		},
+		"response": {
+			"iterate": "{{body.data}}",
+			"output": {
+				"label": "{{item.name}}",
+				"value": "{{item.id}}"
+			}
+		}
+	}
+]

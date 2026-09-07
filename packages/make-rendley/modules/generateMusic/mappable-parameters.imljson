@@ -1,0 +1,57 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The Rendley project that will own the generated media. Pick one, or map a project ID from 'Create Project' / 'List Projects'."
+	},
+	{
+		"name": "prompt",
+		"type": "text",
+		"label": "Prompt",
+		"required": true,
+		"help": "A description of the music to generate — genre, instruments, mood, tempo (e.g. 'upbeat corporate background track with light percussion')."
+	},
+	{
+		"name": "duration",
+		"type": "select",
+		"label": "Duration (Seconds)",
+		"required": false,
+		"default": 15,
+		"options": [
+			{
+				"label": "5 seconds",
+				"value": 5
+			},
+			{
+				"label": "10 seconds",
+				"value": 10
+			},
+			{
+				"label": "15 seconds",
+				"value": 15
+			},
+			{
+				"label": "20 seconds",
+				"value": 20
+			},
+			{
+				"label": "30 seconds",
+				"value": 30
+			}
+		],
+		"help": "Optional. Clip length in seconds (supported by the default model)."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

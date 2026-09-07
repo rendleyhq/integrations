@@ -1,0 +1,18 @@
+{
+	"url": "/ai/generate-image",
+	"method": "POST",
+	"body": {
+		"project_id": "{{parameters.projectId}}",
+		"model_id": "{{parameters.modelId}}",
+		"params": {
+			"prompt": "{{parameters.prompt}}",
+			"aspect_ratio": "{{parameters.aspectRatio}}",
+			"image_inputs": "{{if(parameters.imageUrl, array(parameters.imageUrl), undefined)}}"
+		}
+	},
+	"response": {
+		"output": {
+			"job_id": "{{body.data.job_id}}"
+		}
+	}
+}

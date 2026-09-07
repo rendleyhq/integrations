@@ -1,0 +1,32 @@
+[
+	{
+		"name": "media_id",
+		"type": "text",
+		"label": "Media ID"
+	},
+	{
+		"name": "file_hash",
+		"type": "text",
+		"label": "File Hash"
+	},
+	{
+		"name": "file_url",
+		"type": "url",
+		"label": "File URL (signed, expires)"
+	},
+	{
+		"name": "file_name",
+		"type": "text",
+		"label": "File Name"
+	},
+	{
+		"name": "mime_type",
+		"type": "text",
+		"label": "MIME Type"
+	},
+	{
+		"name": "status",
+		"type": "text",
+		"label": "Status"
+	}
+]

@@ -1,0 +1,4 @@
+{
+	"label": "Get Media URL",
+	"description": "Resolves a media_id (from a finished AI job) to a temporary download URL plus file name and MIME type. IMPORTANT: the URL is presigned and expires after about 3 hours — download the file or copy it to permanent storage (e.g. Google Drive, S3) in the same scenario."
+}
