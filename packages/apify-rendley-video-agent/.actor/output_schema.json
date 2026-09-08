@@ -1,0 +1,19 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Rendley AI Video Agent output",
+  "description": "Every run writes one dataset item. A run that starts the agent reports the job IDs to pick up later; a run that waits, or that picks a finished job up, adds the agent's message and the exported video's download URL. The video is also streamed into the run's key-value store as a durable file, because Rendley download URLs expire after a few hours.",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Run results",
+      "description": "One dataset item per run with the status, project, thread and job IDs, the agent's message, the exported video's signed URL and the key-value store copy URL.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "video": {
+      "type": "string",
+      "title": "Rendered video",
+      "description": "Durable copy of the exported video (MP4, or WebM when the VP8 format is chosen), present once a run has picked up a finished export.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT_VIDEO"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": false,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "Optional. Leave empty to save the result to the workspace library. Pick a project to save into it instead."
+	},
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": false,
+		"options": {
+			"store": "rpc://listWorkspaces"
+		},
+		"help": "Only used when Project ID is empty. Leave empty for your first workspace."
+	},
+	{
+		"name": "prompt",
+		"type": "text",
+		"label": "Prompt",
+		"required": true,
+		"help": "A description of the sound effect (e.g. 'whoosh transition', 'dramatic impact hit', 'gentle rain ambience')."
+	},
+	{
+		"name": "duration",
+		"type": "number",
+		"label": "Duration (Seconds)",
+		"required": false,
+		"help": "Optional. Length in seconds, from 0.5 to 22. Defaults to 5."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

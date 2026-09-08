@@ -1,0 +1,73 @@
+name: CI
+
+# Pull requests only. Pushes to main are not checked; the Publish workflow
+# runs each package's tests and validation again before it deploys.
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package: rendley-client
+            run: npm run typecheck
+          - package: n8n-nodes-rendley
+            run: |
+              npm run typecheck
+              npm run lint
+              npm run build
+              npm test
+              npm run scan
+              for f in templates/*.json; do node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))"; done
+          - package: zapier-rendley
+            run: |
+              npm run typecheck
+              npm run validate
+              npm test
+          - package: make-rendley
+            run: npm test
+          - package: apify-common
+            run: npm test
+          - package: apify-rendley-video-agent
+            run: |
+              npm test
+              npm run validate
+              node --check src/main.js
+          - package: apify-rendley-media-tools
+            run: |
+              npm test
+              npm run validate
+              node --check src/main.js
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: npm
+      - name: Install workspace
+        run: npm ci
+      - name: Check ${{ matrix.package }}
+        working-directory: packages/${{ matrix.package }}
+        run: ${{ matrix.run }}
+
+  bundles-up-to-date:
+    name: shared client bundle committed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: npm
+      - run: npm ci
+      - run: npm run build:client
+      - run: git diff --exit-code packages/apify-rendley-video-agent/src packages/apify-rendley-media-tools/src

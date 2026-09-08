@@ -1,0 +1,9 @@
+[
+	{
+		"name": "projectId",
+		"type": "text",
+		"label": "Project ID",
+		"required": true,
+		"help": "The Rendley project to read. Typically the project_id returned by 'AI Video Agent', 'Get Job Status' or 'Create Project'."
+	}
+]

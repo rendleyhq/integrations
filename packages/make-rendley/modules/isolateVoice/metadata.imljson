@@ -1,0 +1,4 @@
+{
+	"label": "Isolate Voice",
+	"description": "Removes background noise and music from a recording and keeps only the voice. Returns a job_id right away. Poll 'Get Job Status' (Rendley API) until Is Complete is true. The finished job has a signed download link in url and a media_id for 'Get Media Download URL'."
+}

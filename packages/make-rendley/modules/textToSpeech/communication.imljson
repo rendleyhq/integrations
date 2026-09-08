@@ -1,0 +1,20 @@
+{
+	"url": "/ai/text-to-speech",
+	"method": "POST",
+	"body": {
+		"project_id": "{{parameters.projectId}}",
+		"workspace_id": "{{if(parameters.projectId, undefined, parameters.workspaceId)}}",
+		"model_id": "{{parameters.modelId}}",
+		"params": {
+			"prompt": "{{parameters.text}}",
+			"voice_id": "{{parameters.voiceId}}",
+			"speed": "{{parameters.speed}}",
+			"stability": "{{parameters.stability}}"
+		}
+	},
+	"response": {
+		"output": {
+			"job_id": "{{body.data.job_id}}"
+		}
+	}
+}

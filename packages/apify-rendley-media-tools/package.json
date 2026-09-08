@@ -1,0 +1,54 @@
+{
+  "name": "apify-rendley-media-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rendley AI Media Tools Actor for Apify. Create, edit, and automate video: generate AI video, images, music, sound effects and speech, or upscale, dub, lip sync, transcribe and clean up media with Rendley.",
+  "keywords": [
+    "apify",
+    "apify-actor",
+    "rendley",
+    "ai-video",
+    "ai-video-generator",
+    "image-generation",
+    "music-generation",
+    "text-to-speech",
+    "transcription",
+    "video-dubbing",
+    "lip-sync",
+    "video-automation"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "homepage": "https://rendley.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/apify-rendley-media-tools"
+  },
+  "bugs": {
+    "url": "https://github.com/rendleyhq/integrations/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node --test test/schema.test.cjs",
+    "test:live": "node test/live.mjs",
+    "validate": "apify validate-schema",
+    "push": "apify push",
+    "build:client": "esbuild ../rendley-client/src/rendley.ts --bundle --platform=node --target=node20 --format=esm --outfile=src/rendley.js --log-level=warning && cp ../apify-common/lib.js src/lib.js",
+    "sync:catalog": "node scripts/sync-catalog.mjs"
+  },
+  "dependencies": {
+    "apify": "^3.7.2"
+  },
+  "devDependencies": {
+    "apify-cli": "^1.10.0",
+    "esbuild": "^0.28.2"
+  }
+}

@@ -1,0 +1,29 @@
+{
+	"baseUrl": "https://api.rendley.com/v1",
+	"headers": {
+		"Authorization": "Bearer {{connection.apiKey}}"
+	},
+	"response": {
+		"error": {
+			"401": {
+				"type": "InvalidAccessTokenError",
+				"message": "Invalid or expired Rendley API key. Check it at app.rendley.com/settings."
+			},
+			"402": {
+				"type": "RuntimeError",
+				"message": "{{if(body.error, body.error.message, 'This operation needs Rendley credits. Add credits at app.rendley.com and try again.')}}"
+			},
+			"429": {
+				"type": "RateLimitError",
+				"message": "{{if(body.error, body.error.message, 'Rendley rate limit reached. Try again shortly.')}}"
+			},
+			"type": "RuntimeError",
+			"message": "{{if(body.error, body.error.message, 'Rendley request failed')}}"
+		}
+	},
+	"log": {
+		"sanitize": [
+			"request.headers.authorization"
+		]
+	}
+}

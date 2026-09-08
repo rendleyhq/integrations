@@ -1,0 +1,128 @@
+{
+  "title": "Rendley AI Video Agent",
+  "description": "Describe the video or the edit, add your files, and the Rendley AI agent does the work on a real editing timeline. The run waits for the agent and returns the video.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "rendley_api_key": {
+      "title": "Rendley API key",
+      "type": "string",
+      "description": "Create one at https://app.rendley.com/settings. The agent and renders need an active Rendley subscription with credits.",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "prompt": {
+      "title": "Prompt",
+      "type": "string",
+      "description": "What the agent should create or change, for example \"Cut this interview down to a 30-second teaser with captions\" or \"Make a 15-second product teaser from these clips\". Leave it empty only when Job ID is set.",
+      "editor": "textarea",
+      "prefill": "Create a short, engaging social-media video using high-quality stock footage. Use an interesting, modern layout with dynamic cuts, varied framing, and smooth transitions. Add bold, clean text overlays on top of the footage, with the text appearing at key moments and remaining easy to read. Keep the overall style polished, energetic, visually appealing, and concise."
+    },
+    "files": {
+      "title": "Files",
+      "type": "array",
+      "description": "Public URLs of clips, images or audio for the agent to work with. Leave empty when the prompt only uses generated media or the project's existing files.",
+      "editor": "stringList"
+    },
+    "project_id": {
+      "title": "Project ID",
+      "type": "string",
+      "description": "Leave empty to create a new project for this run. Set it to edit an existing Rendley project instead.",
+      "editor": "textfield",
+      "sectionCaption": "Project and workspace",
+      "sectionDescription": "By default each run creates a new project in your first workspace. The run log lists your workspaces with their IDs."
+    },
+    "workspace_id": {
+      "title": "Workspace",
+      "type": "string",
+      "description": "Only used when a project is created. Leave empty for your first workspace, or give another workspace's name or ID.",
+      "editor": "textfield"
+    },
+    "thread_id": {
+      "title": "Thread ID",
+      "type": "string",
+      "description": "Continue a previous agent conversation by passing the thread_id from an earlier run together with its project_id.",
+      "editor": "textfield"
+    },
+    "render": {
+      "title": "Export a video file",
+      "type": "boolean",
+      "description": "Export the finished project to a video file once the agent is done. Turn off to keep the edited project in Rendley Studio and continue editing it there.",
+      "default": true,
+      "sectionCaption": "Export"
+    },
+    "resolution": {
+      "title": "Resolution",
+      "type": "string",
+      "description": "Output resolution of the rendered video.",
+      "editor": "select",
+      "default": "1080p",
+      "enum": [
+        "720p",
+        "1080p",
+        "4K"
+      ],
+      "enumTitles": [
+        "720p",
+        "1080p",
+        "4K"
+      ]
+    },
+    "quality": {
+      "title": "Quality",
+      "type": "string",
+      "description": "Encoding quality of the rendered video.",
+      "editor": "select",
+      "default": "high",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "enumTitles": [
+        "High",
+        "Medium",
+        "Low"
+      ]
+    },
+    "codec": {
+      "title": "Format",
+      "type": "string",
+      "description": "H.264 produces an MP4; VP8 produces a WebM.",
+      "editor": "select",
+      "default": "h264",
+      "enum": [
+        "h264",
+        "vp8"
+      ],
+      "enumTitles": [
+        "H.264 (MP4)",
+        "VP8 (WebM)"
+      ]
+    },
+    "job_id": {
+      "title": "Job ID",
+      "type": "string",
+      "description": "The ID of a job from an earlier run, from the dataset item of a run that reached its timeout before the job finished (the agent_job_id or the export job_id). The run fetches that job instead of starting a new one, waits for it if needed and returns the result. The other inputs are ignored.",
+      "editor": "textfield",
+      "sectionCaption": "Pick up an earlier run",
+      "sectionDescription": "A run that reached its Apify timeout while the job was still going reports the job ID in its dataset item. Put it here to fetch the result."
+    },
+    "save_to_kvs": {
+      "title": "Copy the video to the key-value store",
+      "type": "boolean",
+      "description": "Stream the exported video into this run's key-value store as OUTPUT_VIDEO, so there is a link that does not expire. Rendley's own download URLs expire after a few hours. The file is streamed, so the smallest memory setting is enough.",
+      "default": true,
+      "sectionCaption": "Advanced"
+    },
+    "api_base_url": {
+      "title": "API base URL",
+      "type": "string",
+      "description": "Leave empty unless Rendley gave you a different API host.",
+      "editor": "textfield"
+    }
+  },
+  "required": [
+    "rendley_api_key"
+  ]
+}

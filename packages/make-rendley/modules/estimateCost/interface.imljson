@@ -1,0 +1,12 @@
+[
+	{
+		"name": "credits",
+		"type": "number",
+		"label": "Credits"
+	},
+	{
+		"name": "usd",
+		"type": "number",
+		"label": "Approx. USD"
+	}
+]

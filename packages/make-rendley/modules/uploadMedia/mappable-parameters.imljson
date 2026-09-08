@@ -1,0 +1,26 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The project whose media library the file is added to. Pick one, or map a project ID from 'Create Project' / 'List Projects'."
+	},
+	{
+		"name": "fileUrl",
+		"type": "url",
+		"label": "File URL",
+		"required": true,
+		"help": "Publicly reachable URL of the video, audio or image. Rendley fetches the file itself, so there is no size limit through Make."
+	},
+	{
+		"name": "fileName",
+		"type": "text",
+		"label": "File Name",
+		"required": false,
+		"help": "Optional name shown in the project library. Defaults to the name in the URL."
+	}
+]

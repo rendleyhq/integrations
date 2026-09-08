@@ -1,0 +1,25 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Rendley AI Media Tools output",
+  "description": "Every run writes one dataset item. A run that starts a job reports its job ID to pick up later; a run that waits, or that picks a finished job up, adds the result's IDs and download URL. The file is also streamed into the run's key-value store as a durable copy, because Rendley download URLs expire after a few hours.",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Run results",
+      "description": "One dataset item per run with the action, where it was saved, the media ID, the signed download URL, transcript text or credit estimate, and the key-value store copy URL.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "media": {
+      "type": "string",
+      "title": "Generated media",
+      "description": "Durable copy of the generated or transformed file, whether image, video, audio or music.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT_MEDIA"
+    },
+    "transcript": {
+      "type": "string",
+      "title": "Transcript (JSON)",
+      "description": "Transcript with word-level timestamps and language, written by the transcribe action.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT_TRANSCRIPT"
+    }
+  }
+}

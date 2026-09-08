@@ -1,0 +1,4 @@
+{
+	"label": "Create Project",
+	"description": "Creates a new, empty Rendley project and returns its ID. Pass the ID to 'AI Video Agent' to have the agent edit it, to 'Upload Media from URL' to add files, or to 'Export Video' to render it."
+}

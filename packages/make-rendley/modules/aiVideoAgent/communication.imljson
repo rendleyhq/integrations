@@ -1,0 +1,64 @@
+[
+	{
+		"condition": "{{if(parameters.fileUrl, if(parameters.projectId, false, if(parameters.workspaceId, false, true)), false)}}",
+		"url": "/workspaces",
+		"method": "GET",
+		"response": {
+			"temp": {
+				"workspaceId": "{{body.data[1].id}}"
+			}
+		}
+	},
+	{
+		"condition": "{{if(parameters.fileUrl, if(parameters.projectId, false, true), false)}}",
+		"url": "/projects",
+		"method": "POST",
+		"body": {
+			"name": "{{substring(parameters.prompt, 0, 60)}}",
+			"workspace_id": "{{ifempty(parameters.workspaceId, temp.workspaceId)}}"
+		},
+		"response": {
+			"temp": {
+				"projectId": "{{body.data.id}}"
+			}
+		}
+	},
+	{
+		"condition": "{{parameters.fileUrl}}",
+		"url": "/projects/{{ifempty(parameters.projectId, temp.projectId)}}/uploads/import",
+		"method": "POST",
+		"body": {
+			"download_url": "{{parameters.fileUrl}}",
+			"file_name": "{{ifempty(parameters.fileName, 'file')}}",
+			"role": "pending"
+		},
+		"response": {
+			"temp": {
+				"attachment": {
+					"media_id": "{{body.data.media_id}}",
+					"storage_url": "{{body.data.storage_url}}",
+					"name": "{{body.data.original_file_name}}",
+					"file_hash": "{{body.data.file_hash}}"
+				}
+			}
+		}
+	},
+	{
+		"url": "/agent",
+		"method": "POST",
+		"body": {
+			"prompt": "{{parameters.prompt}}",
+			"project_id": "{{ifempty(parameters.projectId, temp.projectId)}}",
+			"thread_id": "{{parameters.threadId}}",
+			"files": "{{if(parameters.fileUrl, array(temp.attachment), undefined)}}"
+		},
+		"response": {
+			"output": {
+				"job_id": "{{body.data.job_id}}",
+				"project_id": "{{body.data.project_id}}",
+				"status": "{{body.data.status}}",
+				"thread_id": "{{body.data.thread_id}}"
+			}
+		}
+	}
+]

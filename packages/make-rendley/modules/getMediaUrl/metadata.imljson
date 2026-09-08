@@ -1,0 +1,4 @@
+{
+	"label": "Get Media Download URL",
+	"description": "Turns a media_id or file hash into a fresh download URL with the file name and MIME type. The URL is signed and expires after about 3 hours, so download the file or copy it to your own storage in the same scenario."
+}

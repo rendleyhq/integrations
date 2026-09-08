@@ -1,0 +1,157 @@
+{
+  "actorSpecification": 1,
+  "title": "Rendley media results",
+  "description": "One item per run. The fields of the Rendley job's output appear under their own names, result_data is parsed, and the raw job is included as job.",
+  "fields": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "running",
+          "completed",
+          "failed"
+        ],
+        "description": "running when the run reached its Apify timeout while the job was still going (pick it up with job_id), completed or failed once it ended."
+      },
+      "error": {
+        "type": "string",
+        "description": "Why the run failed, when status is failed."
+      },
+      "action": {
+        "type": "string",
+        "description": "The action this run performed."
+      },
+      "model_id": {
+        "type": "string",
+        "description": "The model that was requested, when one was set."
+      },
+      "project_id": {
+        "type": "string",
+        "description": "The project the result was saved to, when one was set."
+      },
+      "workspace_id": {
+        "type": "string",
+        "description": "The workspace whose library holds the result, when no project was set."
+      },
+      "job_id": {
+        "type": "string",
+        "description": "The Rendley job that produced the result."
+      },
+      "media_id": {
+        "type": "string",
+        "description": "ID of the resulting file in Rendley; reuse it as source media or in the agent."
+      },
+      "file_hash": {
+        "type": "string"
+      },
+      "url": {
+        "type": "string",
+        "description": "Signed download URL of the result, the same as the job's output.url in the Rendley API. Expires after a few hours."
+      },
+      "url_expires_at": {
+        "type": "string"
+      },
+      "mime_type": {
+        "type": "string"
+      },
+      "text": {
+        "type": "string",
+        "description": "Transcript text, for transcribe."
+      },
+      "language_code": {
+        "type": "string"
+      },
+      "estimate_only": {
+        "type": "boolean"
+      },
+      "credits": {
+        "type": "number",
+        "description": "Estimated credits, when only the cost was requested."
+      },
+      "kvs_key": {
+        "type": "string",
+        "description": "Key of the copy stored in the run's key-value store."
+      },
+      "kvs_url": {
+        "type": "string",
+        "description": "Durable URL of that copy."
+      },
+      "url_expiry": {
+        "type": "string",
+        "description": "Reminder that signed URLs expire."
+      },
+      "size": {
+        "type": "number",
+        "description": "Size of the result file in bytes."
+      },
+      "duration": {
+        "type": "number",
+        "description": "Duration of the result in seconds, for audio and video."
+      },
+      "result_data": {
+        "type": "object",
+        "description": "The job's result_data from the Rendley API, parsed. For transcribe it is the transcript with word timings."
+      },
+      "job": {
+        "type": "object",
+        "description": "The job exactly as the Rendley API returns it from GET /jobs/{id}."
+      },
+      "note": {
+        "type": "string",
+        "description": "Set when the run reached its timeout while the job was still going. Pick it up with job_id."
+      }
+    },
+    "required": [
+      "status"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Results",
+      "transformation": {
+        "fields": [
+          "status",
+          "action",
+          "media_id",
+          "url",
+          "kvs_url",
+          "text",
+          "credits",
+          "error"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "status": {
+            "label": "Status"
+          },
+          "action": {
+            "label": "Action"
+          },
+          "media_id": {
+            "label": "Media ID"
+          },
+          "url": {
+            "label": "Download URL",
+            "format": "link"
+          },
+          "kvs_url": {
+            "label": "Stored copy",
+            "format": "link"
+          },
+          "text": {
+            "label": "Transcript"
+          },
+          "credits": {
+            "label": "Credits"
+          },
+          "error": {
+            "label": "Error"
+          }
+        }
+      }
+    }
+  }
+}

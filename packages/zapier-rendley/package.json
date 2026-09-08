@@ -1,0 +1,59 @@
+{
+  "name": "zapier-rendley",
+  "version": "1.1.0",
+  "description": "Rendley integration for Zapier. Create, edit, and automate video with the Rendley AI agent, AI video, image, music and speech generation, transcription, dubbing, lip sync, media uploads and MP4 rendering.",
+  "private": true,
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/zapier-rendley"
+  },
+  "homepage": "https://rendley.com",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "engines": {
+    "node": ">=20",
+    "npm": ">=9"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --format=cjs --outfile=index.js --external:zapier-platform-core --log-level=warning",
+    "_zapier-build": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run build && zapier-platform validate --without-style",
+    "test": "npm run build && node --test test/app.test.js",
+    "test:live": "npm run build && RENDLEY_LIVE=1 node --test test/app.test.js",
+    "push": "zapier-platform push"
+  },
+  "dependencies": {
+    "zapier-platform-core": "19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.7.2",
+    "zapier-platform-cli": "19.1.0"
+  },
+  "keywords": [
+    "zapier",
+    "zapier-platform",
+    "zapier-integration",
+    "rendley",
+    "ai-video",
+    "ai-video-editor",
+    "video-generation",
+    "text-to-video",
+    "prompt-to-video",
+    "video-editing",
+    "text-to-speech",
+    "transcription",
+    "video-dubbing",
+    "lip-sync",
+    "image-generation",
+    "mp4-export",
+    "video-automation"
+  ]
+}

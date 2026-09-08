@@ -1,0 +1,40 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": false,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "Optional. Leave empty to save the result to the workspace library. Pick a project to save into it instead."
+	},
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": false,
+		"options": {
+			"store": "rpc://listWorkspaces"
+		},
+		"help": "Only used when Project ID is empty. Leave empty for your first workspace."
+	},
+	{
+		"name": "source",
+		"type": "text",
+		"label": "Source Video (File Hash)",
+		"required": true,
+		"validate": {
+			"pattern": "^(?!https?://)"
+		},
+		"help": "The file_hash of a video already in the project's library. Public URLs are not supported for this action, because Rendley prices it from the video's duration and that is only known for library media. Upload the video to the project first, then map its file_hash here."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

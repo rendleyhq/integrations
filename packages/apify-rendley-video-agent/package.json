@@ -1,0 +1,51 @@
+{
+  "name": "apify-rendley-video-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rendley AI Video Agent Actor for Apify. Create, edit, and automate video: the Rendley AI agent turns a prompt and your media into an edited project and the Actor renders it to MP4.",
+  "keywords": [
+    "apify",
+    "apify-actor",
+    "rendley",
+    "ai-video",
+    "ai-video-agent",
+    "video-automation",
+    "prompt-to-video",
+    "text-to-video",
+    "video-editing",
+    "mp4-export"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "homepage": "https://rendley.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/apify-rendley-video-agent"
+  },
+  "bugs": {
+    "url": "https://github.com/rendleyhq/integrations/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node --test test/schema.test.cjs",
+    "test:live": "node test/live.mjs",
+    "validate": "apify validate-schema",
+    "push": "apify push",
+    "build:client": "esbuild ../rendley-client/src/rendley.ts --bundle --platform=node --target=node20 --format=esm --outfile=src/rendley.js --log-level=warning && cp ../apify-common/lib.js src/lib.js"
+  },
+  "dependencies": {
+    "apify": "^3.7.2"
+  },
+  "devDependencies": {
+    "apify-cli": "^1.10.0",
+    "esbuild": "^0.28.2"
+  }
+}

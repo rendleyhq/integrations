@@ -1,0 +1,17 @@
+{
+	"url": "{{if(parameters.action = 'export', '/export/cost', '/ai/' + parameters.action + '/cost')}}",
+	"method": "POST",
+	"body": {
+		"project_id": "{{parameters.projectId}}",
+		"workspace_id": "{{if(parameters.projectId, undefined, parameters.workspaceId)}}",
+		"model_id": "{{if(parameters.action = 'export', undefined, parameters.modelId)}}",
+		"params": "{{if(parameters.action = 'export', undefined, parameters.params)}}",
+		"settings": "{{if(parameters.action = 'export', parameters.params, undefined)}}"
+	},
+	"response": {
+		"output": {
+			"credits": "{{if(parameters.action = 'export', body.data.credits, body.data)}}",
+			"usd": "{{if(parameters.action = 'export', body.data.credits, body.data) / 100}}"
+		}
+	}
+}

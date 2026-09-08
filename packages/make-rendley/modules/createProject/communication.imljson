@@ -1,0 +1,23 @@
+[
+	{
+		"condition": "{{!parameters.workspaceId}}",
+		"url": "/workspaces",
+		"method": "GET",
+		"response": {
+			"temp": {
+				"workspaceId": "{{body.data[1].id}}"
+			}
+		}
+	},
+	{
+		"url": "/projects",
+		"method": "POST",
+		"body": {
+			"name": "{{parameters.name}}",
+			"workspace_id": "{{ifempty(parameters.workspaceId, temp.workspaceId)}}"
+		},
+		"response": {
+			"output": "{{body.data}}"
+		}
+	}
+]

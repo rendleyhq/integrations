@@ -1,0 +1,4 @@
+{
+	"label": "Make an API Call",
+	"description": "Sends an authenticated request to any Rendley REST endpoint. Set the method, a relative URL such as /projects, and optional query parameters, headers and body. Returns the status code, headers and body. Use it for endpoints without a dedicated module."
+}

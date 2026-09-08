@@ -1,0 +1,28 @@
+{
+	"url": "/projects/{{parameters.projectId}}",
+	"method": "GET",
+	"response": {
+		"error": {
+			"401": {
+				"type": "DataError",
+				"message": "Project not found, or this API key has no access to it. Check the Project ID or pick one with 'List Projects'."
+			},
+			"404": {
+				"type": "DataError",
+				"message": "Project not found. Check the Project ID or pick one with 'List Projects'."
+			},
+			"type": "RuntimeError",
+			"message": "{{if(body.error, body.error.message, 'Rendley request failed')}}"
+		},
+		"output": {
+			"id": "{{body.data.id}}",
+			"name": "{{body.data.name}}",
+			"workspace_id": "{{body.data.workspace_id}}",
+			"thumbnail_url": "{{body.data.thumbnail_url}}",
+			"fit_duration": "{{body.data.fit_duration}}",
+			"version": "{{body.data.version}}",
+			"created_at": "{{body.data.created_at}}",
+			"updated_at": "{{body.data.updated_at}}"
+		}
+	}
+}
