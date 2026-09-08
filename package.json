@@ -30,14 +30,5 @@
     "build:client": "npm run build:client --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present"
-  },
-  "n8n": {
-    "n8nNodesApiVersion": 1,
-    "credentials": [
-      "packages/n8n-nodes-rendley/dist/credentials/RendleyApi.credentials.js"
-    ],
-    "nodes": [
-      "packages/n8n-nodes-rendley/dist/nodes/Rendley/Rendley.node.js"
-    ]
   }
 }

@@ -27,7 +27,6 @@ jobs:
               npm test
               npm run scan
               for f in templates/*.json; do node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))"; done
-              git add -N dist && git diff --exit-code -- dist || { echo "dist is stale: run npm run build and commit dist"; exit 1; }
           - package: zapier-rendley
             run: |
               npm run typecheck

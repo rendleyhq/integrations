@@ -44,8 +44,6 @@ npm test -w packages/zapier-rendley
 
 The Rendley API client lives once in `packages/rendley-client` and is bundled into the packages that need it at build time. After editing it, run `npm run build:client` at the root and commit the regenerated `packages/apify-rendley/src/rendley.js`; CI fails if it is stale.
 
-The n8n package's `dist/` is committed as well, and the root `package.json` lists its built node and credential files under `n8n`, because n8n's verification looks for those files in the repository. After changing the n8n package, run `npm run build` in it and commit `dist/`; CI fails if it is stale.
-
 ## Releasing
 
 Deploys happen only from the `production` branch, so merging to `main` never publishes anything. To release a package:
