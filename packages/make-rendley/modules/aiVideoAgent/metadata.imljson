@@ -1,0 +1,4 @@
+{
+	"label": "AI Video Agent",
+	"description": "Describe a video or an edit and the Rendley AI agent does it on a real editing timeline. It adds captions, cuts bad takes and filler words, reframes, builds videos from generated media, and applies any edit you describe. Leave Project ID empty to create a new project, or set it to edit an existing one. Returns a job_id right away. Poll 'Get Job Status' (Rendley Agent) until Is Complete is true, then use 'Export Video' to get a video file."
+}

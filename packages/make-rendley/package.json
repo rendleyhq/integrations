@@ -1,0 +1,50 @@
+{
+  "name": "make-rendley",
+  "version": "1.2.0",
+  "description": "Rendley app for Make. Create, edit, and automate video with the Rendley AI agent, AI video, image, music and speech generation, transcription, dubbing, lip sync, media uploads and MP4 rendering.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/make-rendley"
+  },
+  "homepage": "https://rendley.com",
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/structure.test.mjs",
+    "test:live": "node test/live.mjs",
+    "push": "node scripts/push.mjs",
+    "push:sync": "node scripts/push.mjs --prune --publish-modules",
+    "push:dry": "node scripts/push.mjs --dry-run --prune --publish-modules",
+    "push:verify": "node scripts/push.mjs --verify",
+    "push:status": "node scripts/push.mjs --status"
+  },
+  "keywords": [
+    "make",
+    "make-com",
+    "integromat",
+    "make-custom-app",
+    "rendley",
+    "ai-video",
+    "ai-video-editor",
+    "video-generation",
+    "text-to-video",
+    "prompt-to-video",
+    "video-editing",
+    "text-to-speech",
+    "transcription",
+    "video-dubbing",
+    "lip-sync",
+    "image-generation",
+    "mp4-export",
+    "video-automation"
+  ]
+}

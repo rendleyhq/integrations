@@ -1,0 +1,4 @@
+{
+	"label": "List Projects",
+	"description": "Returns the projects in a workspace, or in your first workspace when none is given. Use Limit to cap how many are returned."
+}

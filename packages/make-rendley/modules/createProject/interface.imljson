@@ -1,0 +1,22 @@
+[
+	{
+		"name": "id",
+		"type": "text",
+		"label": "Project ID"
+	},
+	{
+		"name": "name",
+		"type": "text",
+		"label": "Name"
+	},
+	{
+		"name": "workspace_id",
+		"type": "text",
+		"label": "Workspace ID"
+	},
+	{
+		"name": "created_at",
+		"type": "text",
+		"label": "Created At"
+	}
+]

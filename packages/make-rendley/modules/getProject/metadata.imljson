@@ -1,0 +1,4 @@
+{
+	"label": "Get Project",
+	"description": "Returns a Rendley project by ID, with its name, workspace, thumbnail, timeline duration, version and timestamps. The version goes up on every save, so compare it between runs to detect edits made in the studio."
+}

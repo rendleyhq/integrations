@@ -1,0 +1,67 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": false,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "Optional. Leave empty to save the result to the workspace library. Pick a project to save into it instead."
+	},
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": false,
+		"options": {
+			"store": "rpc://listWorkspaces"
+		},
+		"help": "Only used when Project ID is empty. Leave empty for your first workspace."
+	},
+	{
+		"name": "prompt",
+		"type": "text",
+		"label": "Prompt",
+		"required": true,
+		"help": "A description of the music to generate, such as genre, instruments, mood and tempo. For example 'upbeat corporate background track with light percussion'."
+	},
+	{
+		"name": "duration",
+		"type": "select",
+		"label": "Duration (Seconds)",
+		"required": false,
+		"default": 15,
+		"options": [
+			{
+				"label": "5 seconds",
+				"value": 5
+			},
+			{
+				"label": "10 seconds",
+				"value": 10
+			},
+			{
+				"label": "15 seconds",
+				"value": 15
+			},
+			{
+				"label": "20 seconds",
+				"value": 20
+			},
+			{
+				"label": "30 seconds",
+				"value": 30
+			}
+		],
+		"help": "Optional. Clip length in seconds (supported by the default model)."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

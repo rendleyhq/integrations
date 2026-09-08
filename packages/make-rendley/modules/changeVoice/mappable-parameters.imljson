@@ -1,0 +1,47 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": false,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "Optional. Leave empty to save the result to the workspace library. Pick a project to save into it instead."
+	},
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": false,
+		"options": {
+			"store": "rpc://listWorkspaces"
+		},
+		"help": "Only used when Project ID is empty. Leave empty for your first workspace."
+	},
+	{
+		"name": "source",
+		"type": "text",
+		"label": "Source File (URL, Media ID or File Hash)",
+		"required": true,
+		"help": "Public URL of the recording whose voice to replace, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+	},
+	{
+		"name": "voiceId",
+		"type": "select",
+		"label": "Voice",
+		"required": true,
+		"options": {
+			"store": "rpc://listVoices"
+		},
+		"help": "The voice to convert the speech into. Pick one from the list, or map a voice ID."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

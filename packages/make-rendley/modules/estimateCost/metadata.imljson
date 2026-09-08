@@ -1,0 +1,4 @@
+{
+	"label": "Estimate Cost",
+	"description": "Calculates how many credits an AI action or an export would use, without running it. Add a Filter on the returned credits to keep a scenario within budget."
+}

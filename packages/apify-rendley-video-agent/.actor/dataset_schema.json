@@ -1,0 +1,163 @@
+{
+  "actorSpecification": 1,
+  "title": "Rendley agent run results",
+  "description": "One item per run. The agent job's fields appear under their own names with the raw job as agent_job, and the render job's output is flattened with the raw job as export_job.",
+  "fields": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "started",
+          "running",
+          "completed",
+          "failed"
+        ],
+        "description": "started when the run started the job and exited, running when the job was still going (a job_id run found it running, or a waiting run reached its timeout), completed or failed once it ended."
+      },
+      "error": {
+        "type": "string",
+        "description": "Why the run failed, when status is failed."
+      },
+      "project_id": {
+        "type": "string",
+        "description": "The Rendley project the agent edited."
+      },
+      "workspace_id": {
+        "type": "string"
+      },
+      "created_project": {
+        "type": "boolean",
+        "description": "Whether this run created the project."
+      },
+      "thread_id": {
+        "type": "string",
+        "description": "Agent conversation thread; pass it back with project_id to continue."
+      },
+      "agent_job_id": {
+        "type": "string"
+      },
+      "last_message": {
+        "type": "string",
+        "description": "The agent's final message, as last_message on the agent job."
+      },
+      "commands_applied": {
+        "type": "number",
+        "description": "Editing commands the agent applied."
+      },
+      "commands_failed": {
+        "type": "number",
+        "description": "Editing commands the agent could not apply."
+      },
+      "agent_job": {
+        "type": "object",
+        "description": "The agent job exactly as the Rendley API returns it from GET /agent/jobs/{id}."
+      },
+      "note": {
+        "type": "string",
+        "description": "What happened when the run did not finish with a video: the job was started or is still running (pick it up with job_id), exporting was off, or the agent made no changes."
+      },
+      "job_id": {
+        "type": "string",
+        "description": "The render job."
+      },
+      "url": {
+        "type": "string",
+        "description": "Signed download URL of the rendered video, the same as the job's output.url in the Rendley API. Expires after a few hours."
+      },
+      "url_expires_at": {
+        "type": "string"
+      },
+      "media_id": {
+        "type": "string"
+      },
+      "file_hash": {
+        "type": "string"
+      },
+      "mime_type": {
+        "type": "string"
+      },
+      "size": {
+        "type": "number",
+        "description": "Size of the rendered file in bytes."
+      },
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      },
+      "duration": {
+        "type": "number",
+        "description": "Duration of the rendered video in seconds."
+      },
+      "kvs_key": {
+        "type": "string",
+        "description": "Key of the copy stored in the run's key-value store."
+      },
+      "kvs_url": {
+        "type": "string",
+        "description": "Durable URL of that copy."
+      },
+      "url_expiry": {
+        "type": "string",
+        "description": "Reminder that signed URLs expire."
+      },
+      "result_data": {
+        "type": "object",
+        "description": "The render job's result_data from the Rendley API, parsed."
+      },
+      "export_job": {
+        "type": "object",
+        "description": "The render job exactly as the Rendley API returns it from GET /jobs/{id}."
+      }
+    },
+    "required": [
+      "status"
+    ]
+  },
+  "views": {
+    "overview": {
+      "title": "Results",
+      "transformation": {
+        "fields": [
+          "status",
+          "project_id",
+          "last_message",
+          "url",
+          "kvs_url",
+          "duration",
+          "error"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "status": {
+            "label": "Status"
+          },
+          "project_id": {
+            "label": "Project"
+          },
+          "last_message": {
+            "label": "Agent"
+          },
+          "url": {
+            "label": "Video URL",
+            "format": "link"
+          },
+          "kvs_url": {
+            "label": "Stored copy",
+            "format": "link"
+          },
+          "duration": {
+            "label": "Seconds"
+          },
+          "error": {
+            "label": "Error"
+          }
+        }
+      }
+    }
+  }
+}

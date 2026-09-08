@@ -1,0 +1,19 @@
+{
+  "actorSpecification": 1,
+  "name": "rendley-ai-media-tools",
+  "title": "Rendley AI Media Tools",
+  "description": "Create, edit, and automate video. Generate AI video clips, images, music, sound effects and speech, or upscale, dub, lip sync, transcribe and clean up existing media. Results land in your Rendley library, ready for the AI agent.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "dockerfile": "./Dockerfile",
+  "readme": "../README.md",
+  "changelog": "../CHANGELOG.md",
+  "defaultMemoryMbytes": 128,
+  "minMemoryMbytes": 128,
+  "maxMemoryMbytes": 1024,
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}

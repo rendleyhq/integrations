@@ -1,0 +1,26 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": true,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "The project that owns the media item. Pick one, or map the project_id from a job result or 'Watch Job Completed'."
+	},
+	{
+		"name": "mediaId",
+		"type": "text",
+		"label": "Media ID",
+		"required": false,
+		"help": "The media_id from an AI job, an upload or Get Job Status. Leave empty to look up by File Hash instead."
+	},
+	{
+		"name": "fileHash",
+		"type": "text",
+		"label": "File Hash",
+		"required": false,
+		"help": "The file_hash returned alongside the media ID. Used when Media ID is empty."
+	}
+]

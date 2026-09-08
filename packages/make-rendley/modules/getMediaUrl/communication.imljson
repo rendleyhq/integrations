@@ -1,0 +1,18 @@
+{
+	"url": "/projects/{{parameters.projectId}}/uploads",
+	"method": "GET",
+	"qs": {
+		"media_id": "{{if(parameters.mediaId, parameters.mediaId, undefined)}}",
+		"hash": "{{if(parameters.mediaId, undefined, parameters.fileHash)}}"
+	},
+	"response": {
+		"output": {
+			"media_id": "{{ifempty(body.data.media_id, parameters.mediaId)}}",
+			"file_hash": "{{body.data.file_hash}}",
+			"file_url": "{{body.data.storage_url}}",
+			"file_name": "{{body.data.original_file_name}}",
+			"mime_type": "{{body.data.mime_type}}",
+			"status": "{{body.data.status}}"
+		}
+	}
+}

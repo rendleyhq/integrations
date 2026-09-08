@@ -1,0 +1,48 @@
+[
+	{
+		"name": "prompt",
+		"type": "text",
+		"label": "Prompt",
+		"required": true,
+		"help": "What the AI agent should create or change, e.g. 'Add captions styled for TikTok' or 'Cut the bad takes and filler words out of this recording'."
+	},
+	{
+		"name": "projectId",
+		"type": "text",
+		"label": "Project ID",
+		"required": false,
+		"help": "Leave empty to create a new project. Set it to edit an existing Rendley project."
+	},
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": false,
+		"options": {
+			"store": "rpc://listWorkspaces"
+		},
+		"help": "Only used when Project ID is empty and a file is given, to create the project. Leave empty for your first workspace."
+	},
+	{
+		"name": "fileUrl",
+		"type": "url",
+		"label": "File URL",
+		"required": false,
+		"help": "Public URL of a source media file (video, image or audio) for the agent to work with. It is imported into the project before the agent starts."
+	},
+	{
+		"name": "fileName",
+		"type": "text",
+		"label": "File Name",
+		"required": false,
+		"help": "Optional. A display name for the file provided in File URL."
+	},
+	{
+		"name": "threadId",
+		"type": "text",
+		"label": "Thread ID",
+		"required": false,
+		"advanced": true,
+		"help": "Continue a previous agent conversation on the same project. Needs Project ID too."
+	}
+]

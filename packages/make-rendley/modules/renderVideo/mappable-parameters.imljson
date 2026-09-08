@@ -1,0 +1,68 @@
+[
+	{
+		"name": "projectId",
+		"type": "text",
+		"label": "Project ID",
+		"required": true,
+		"help": "The Rendley project ID to render. Typically the project_id returned by 'AI Video Agent' / 'Get Job Status' or 'Create Project'."
+	},
+	{
+		"name": "codec",
+		"type": "select",
+		"label": "Codec",
+		"required": false,
+		"default": "h264",
+		"options": [
+			{
+				"label": "H.264 (MP4)",
+				"value": "h264"
+			},
+			{
+				"label": "VP8 (WebM)",
+				"value": "vp8"
+			}
+		]
+	},
+	{
+		"name": "targetResolution",
+		"type": "select",
+		"label": "Target Resolution",
+		"required": false,
+		"default": "1080p",
+		"options": [
+			{
+				"label": "720p",
+				"value": "720p"
+			},
+			{
+				"label": "1080p",
+				"value": "1080p"
+			},
+			{
+				"label": "4K",
+				"value": "4K"
+			}
+		]
+	},
+	{
+		"name": "quality",
+		"type": "select",
+		"label": "Quality",
+		"required": false,
+		"default": "high",
+		"options": [
+			{
+				"label": "High",
+				"value": "high"
+			},
+			{
+				"label": "Medium",
+				"value": "medium"
+			},
+			{
+				"label": "Low",
+				"value": "low"
+			}
+		]
+	}
+]

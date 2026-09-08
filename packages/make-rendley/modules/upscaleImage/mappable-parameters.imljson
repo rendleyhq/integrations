@@ -1,0 +1,54 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": false,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "Optional. Leave empty to save the result to the workspace library. Pick a project to save into it instead."
+	},
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": false,
+		"options": {
+			"store": "rpc://listWorkspaces"
+		},
+		"help": "Only used when Project ID is empty. Leave empty for your first workspace."
+	},
+	{
+		"name": "source",
+		"type": "text",
+		"label": "Source Image (URL, Media ID or File Hash)",
+		"required": true,
+		"help": "Public URL of the image to upscale, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+	},
+	{
+		"name": "scale",
+		"type": "select",
+		"label": "Scale Factor",
+		"required": false,
+		"default": 4,
+		"options": [
+			{
+				"label": "2x",
+				"value": 2
+			},
+			{
+				"label": "4x",
+				"value": 4
+			}
+		]
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

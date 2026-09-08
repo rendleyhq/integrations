@@ -1,0 +1,42 @@
+[
+	{
+		"name": "id",
+		"type": "text",
+		"label": "Project ID"
+	},
+	{
+		"name": "name",
+		"type": "text",
+		"label": "Name"
+	},
+	{
+		"name": "workspace_id",
+		"type": "text",
+		"label": "Workspace ID"
+	},
+	{
+		"name": "thumbnail_url",
+		"type": "url",
+		"label": "Thumbnail URL"
+	},
+	{
+		"name": "fit_duration",
+		"type": "number",
+		"label": "Duration (seconds)"
+	},
+	{
+		"name": "version",
+		"type": "number",
+		"label": "Version"
+	},
+	{
+		"name": "created_at",
+		"type": "text",
+		"label": "Created At"
+	},
+	{
+		"name": "updated_at",
+		"type": "text",
+		"label": "Updated At"
+	}
+]

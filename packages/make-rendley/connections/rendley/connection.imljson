@@ -1,0 +1,26 @@
+{
+    "url": "https://api.rendley.com/v1/workspaces",
+    "method": "GET",
+    "headers": {
+        "Authorization": "Bearer {{parameters.apiKey}}"
+    },
+    "response": {
+        "metadata": {
+            "type": "text",
+            "value": "Rendley"
+        },
+        "error": {
+            "401": {
+                "type": "InvalidAccessTokenError",
+                "message": "Invalid Rendley API key. Create one at app.rendley.com/settings."
+            },
+            "type": "RuntimeError",
+            "message": "{{if(body.error, body.error.message, 'Rendley request failed')}}"
+        }
+    },
+    "log": {
+        "sanitize": [
+            "request.headers.authorization"
+        ]
+    }
+}

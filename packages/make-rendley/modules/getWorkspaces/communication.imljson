@@ -1,0 +1,12 @@
+{
+	"url": "/workspaces",
+	"method": "GET",
+	"response": {
+		"limit": "{{parameters.limit}}",
+		"iterate": "{{body.data}}",
+		"output": {
+			"id": "{{item.id}}",
+			"name": "{{item.name}}"
+		}
+	}
+}

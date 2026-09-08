@@ -1,0 +1,79 @@
+[
+	{
+		"name": "url",
+		"type": "text",
+		"label": "URL",
+		"required": true,
+		"help": "Relative path appended to the base URL https://api.rendley.com/v1, e.g. '/projects' or '/export'. You can also pass an absolute URL to another Rendley host."
+	},
+	{
+		"name": "method",
+		"type": "select",
+		"label": "Method",
+		"required": true,
+		"default": "GET",
+		"options": [
+			{
+				"label": "GET",
+				"value": "GET"
+			},
+			{
+				"label": "POST",
+				"value": "POST"
+			},
+			{
+				"label": "PATCH",
+				"value": "PATCH"
+			},
+			{
+				"label": "DELETE",
+				"value": "DELETE"
+			}
+		]
+	},
+	{
+		"name": "query",
+		"type": "array",
+		"label": "Query String",
+		"required": false,
+		"help": "Optional query string parameters.",
+		"spec": [
+			{
+				"name": "key",
+				"type": "text",
+				"label": "Key"
+			},
+			{
+				"name": "value",
+				"type": "text",
+				"label": "Value"
+			}
+		]
+	},
+	{
+		"name": "headers",
+		"type": "array",
+		"label": "Headers",
+		"required": false,
+		"help": "Optional extra headers. The Authorization header is already added from your connection.",
+		"spec": [
+			{
+				"name": "key",
+				"type": "text",
+				"label": "Key"
+			},
+			{
+				"name": "value",
+				"type": "text",
+				"label": "Value"
+			}
+		]
+	},
+	{
+		"name": "body",
+		"type": "any",
+		"label": "Body",
+		"required": false,
+		"help": "Optional request body (used for POST/PATCH). Provide a JSON object/collection."
+	}
+]

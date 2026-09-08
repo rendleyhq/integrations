@@ -1,0 +1,86 @@
+[
+	{
+		"name": "projectId",
+		"type": "select",
+		"label": "Project ID",
+		"required": false,
+		"options": {
+			"store": "rpc://listProjects"
+		},
+		"help": "Optional. Leave empty to save the result to the workspace library. Pick a project to save into it instead."
+	},
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": false,
+		"options": {
+			"store": "rpc://listWorkspaces"
+		},
+		"help": "Only used when Project ID is empty. Leave empty for your first workspace."
+	},
+	{
+		"name": "prompt",
+		"type": "text",
+		"label": "Prompt",
+		"required": true,
+		"help": "A text description of the image you want to generate."
+	},
+	{
+		"name": "aspectRatio",
+		"type": "select",
+		"label": "Aspect Ratio",
+		"required": false,
+		"options": [
+			{
+				"label": "Square (1:1)",
+				"value": "1:1"
+			},
+			{
+				"label": "Landscape (16:9)",
+				"value": "16:9"
+			},
+			{
+				"label": "Portrait (9:16)",
+				"value": "9:16"
+			},
+			{
+				"label": "Landscape (4:3)",
+				"value": "4:3"
+			},
+			{
+				"label": "Portrait (3:4)",
+				"value": "3:4"
+			},
+			{
+				"label": "Landscape (3:2)",
+				"value": "3:2"
+			},
+			{
+				"label": "Portrait (2:3)",
+				"value": "2:3"
+			},
+			{
+				"label": "Ultra-wide (21:9)",
+				"value": "21:9"
+			}
+		],
+		"help": "Optional. Aspect ratio of the generated image. Defaults to the model default (square, or matching the input image)."
+	},
+	{
+		"name": "imageUrl",
+		"type": "url",
+		"label": "Input Image URL",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A source image to transform or use as reference (image-to-image)."
+	},
+	{
+		"name": "modelId",
+		"type": "text",
+		"label": "Model ID",
+		"required": false,
+		"advanced": true,
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+	}
+]

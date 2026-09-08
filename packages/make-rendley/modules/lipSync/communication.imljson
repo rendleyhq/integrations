@@ -1,0 +1,18 @@
+{
+	"url": "/ai/lipsync",
+	"method": "POST",
+	"body": {
+		"project_id": "{{parameters.projectId}}",
+		"workspace_id": "{{if(parameters.projectId, undefined, parameters.workspaceId)}}",
+		"model_id": "{{parameters.modelId}}",
+		"params": {
+			"video_media": "{{parameters.videoSource}}",
+			"audio_media": "{{parameters.audioSource}}"
+		}
+	},
+	"response": {
+		"output": {
+			"job_id": "{{body.data.job_id}}"
+		}
+	}
+}

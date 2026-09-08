@@ -1,0 +1,19 @@
+{
+  "actorSpecification": 1,
+  "name": "rendley-ai-video-agent",
+  "title": "Rendley AI Video Agent",
+  "description": "Create, edit, and automate video. Describe an edit or a video, add your media, and the Rendley AI agent does it on a real timeline. Captions, cutting bad takes and filler words, reframing, full videos from a prompt. Render an MP4 or keep editing in Rendley Studio.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "dockerfile": "./Dockerfile",
+  "readme": "../README.md",
+  "changelog": "../CHANGELOG.md",
+  "defaultMemoryMbytes": 128,
+  "minMemoryMbytes": 128,
+  "maxMemoryMbytes": 1024,
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}

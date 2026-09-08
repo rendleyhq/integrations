@@ -1,0 +1,19 @@
+{
+	"job_id": "f0e1d2c3-b4a5-4678-9012-3456789abcde",
+	"status": "completed",
+	"type": "generate_sound_effect",
+	"is_complete": true,
+	"project_id": "1fdfc335-a483-4f8d-8466-8dae94175cc6",
+	"thread_id": "",
+	"url": "https://storage.rendley.com/user_uploads/1fdfc335/c6c8ec4f9a6fdd9d?signature=abc",
+	"url_expires_at": "2026-09-05T15:00:00Z",
+	"media_id": "c448b6e3-2b78-4bda-b369-d1afc6aec07f",
+	"file_hash": "c6c8ec4f9a6fdd9d",
+	"mime_type": "audio/mpeg",
+	"size": 39750,
+	"duration": 2.4,
+	"result_data": "{\"media_id\":\"c448b6e3-2b78-4bda-b369-d1afc6aec07f\",\"file_hash\":\"c6c8ec4f9a6fdd9d\"}",
+	"last_message": "",
+	"question": "",
+	"error": ""
+}
