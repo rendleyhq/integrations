@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Brand assets moved out of the package; the npm tarball now contains only the node, credential and icons.
+
 ## 0.1.2
 
 - Built with @n8n/node-cli 0.47 against n8n-workflow 2.x. No functional changes.
