@@ -5,7 +5,9 @@
 # the others. To release: bump the version in the package's package.json, add
 # a CHANGELOG.md entry, merge to main, then fast-forward `production` to main.
 #
-#   n8n-nodes-rendley  npm publish with provenance (NPM_TOKEN, environment `npm`)
+#   n8n-nodes-rendley  npm publish with provenance through npm Trusted Publishing
+#                      (no token; the package's trusted publisher on npmjs.com is
+#                      this repo, workflow publish.yml, environment `npm`)
 #                      + GitHub release n8n-nodes-rendley-v<version>
 #   zapier-rendley     GitHub release with build.zip attached; also pushed to
 #                      Zapier when the ZAPIER_DEPLOY_KEY secret is set
@@ -14,8 +16,8 @@
 #   make-rendley       no CLI deploy exists; import the folder with the Make
 #                      VS Code extension
 #
-# Secrets: NPM_TOKEN (required, in the `npm` environment), ZAPIER_DEPLOY_KEY
-# and APIFY_TOKEN (optional, repository secrets).
+# Secrets: none required for npm. ZAPIER_DEPLOY_KEY and APIFY_TOKEN are
+# optional repository secrets.
 
 name: Publish
 
@@ -92,6 +94,8 @@ jobs:
           node-version: 'lts/*'
           registry-url: https://registry.npmjs.org
           cache: npm
+      - name: Upgrade npm (Trusted Publishing needs npm 11.5.1 or newer)
+        run: npm install -g npm@latest
       - run: npm ci
       - name: Lint, build, test, scan
         working-directory: packages/n8n-nodes-rendley
@@ -103,7 +107,6 @@ jobs:
       - name: Publish with provenance
         working-directory: packages/n8n-nodes-rendley
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_MODE: 'true'   # lets `n8n-node prerelease` allow npm publish
         run: npm publish --provenance --access public
       - name: GitHub release

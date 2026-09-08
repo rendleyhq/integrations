@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rendleyhq/integrations.git",
+    "url": "git+https://github.com/rendleyhq/integrations.git",
     "directory": "packages/n8n-nodes-rendley"
   },
   "bugs": {
