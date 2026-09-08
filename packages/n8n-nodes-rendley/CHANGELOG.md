@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Built with @n8n/node-cli 0.47 against n8n-workflow 2.x. No functional changes.
+
 ## 0.1.1
 
 - Published from GitHub Actions with npm provenance. No functional changes.
