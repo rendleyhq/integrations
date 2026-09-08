@@ -2,14 +2,23 @@
   "name": "@rendley/integrations-client",
   "version": "0.1.0",
   "private": true,
-  "description": "Shared TypeScript client for the Rendley API, bundled into the Zapier, Apify and Node-RED integrations at build time.",
+  "description": "Shared TypeScript client for the Rendley API, bundled into the Zapier and Apify integrations at build time.",
   "license": "MIT",
   "type": "module",
   "main": "src/rendley.ts",
   "types": "src/rendley.ts",
-  "author": { "name": "Rendley", "email": "support@rendley.com" },
-  "repository": { "type": "git", "url": "https://github.com/rendleyhq/integrations.git", "directory": "packages/rendley-client" },
-  "engines": { "node": ">=20" },
+  "author": {
+    "name": "Rendley",
+    "email": "support@rendley.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rendleyhq/integrations.git",
+    "directory": "packages/rendley-client"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "npm run typecheck"

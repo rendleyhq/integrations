@@ -49,11 +49,7 @@ npm test                                 # build + structural tests
 RENDLEY_API_KEY=... npm run test:live    # runs every operation against a real account
 ```
 
-`npm run build` bundles `src/` into `index.js`, which is what Zapier loads. `zapier-platform-core` stays external and is provided by the Zapier runtime. See [docs/TESTING.md](docs/TESTING.md).
-
-## Publishing
-
-See [docs/PUBLISHING.md](docs/PUBLISHING.md) for the Zapier register, push, private beta and public-review steps.
+`npm run build` bundles `src/` into `index.js`, which is what Zapier loads. `zapier-platform-core` stays external and is provided by the Zapier runtime.
 
 ## License
 

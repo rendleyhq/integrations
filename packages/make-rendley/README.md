@@ -62,11 +62,7 @@ npm test                                   # every file parses, manifest is cons
 RENDLEY_API_KEY=... npm run test:live      # runs every module and RPC against a real account
 ```
 
-The live harness (see [docs/TESTING.md](docs/TESTING.md)) evaluates the IML templates of each communication file, sends the requests, and checks the mapped outputs against the module interfaces. It covers the connection, all RPCs, every action and search, the error mapping, and the universal module.
-
-## Publishing
-
-See [docs/PUBLISHING.md](docs/PUBLISHING.md) for importing the app into Make, the review prerequisites, and the test scenarios Make asks for.
+The live harness evaluates the IML templates of each communication file, sends the requests, and checks the mapped outputs against the module interfaces. It covers the connection, all RPCs, every action and search, the error mapping, and the universal module.
 
 ## License
 

@@ -1,66 +1,90 @@
-# Releases and npm publishing for every package in this monorepo.
+# Deploys on every push to the `production` branch.
 #
-# release-please reads conventional commits on main and keeps one release PR
-# open per package (scoped by the paths in release-please-config.json).
-# Merging a release PR bumps that package's version and CHANGELOG, tags the
-# commit as `<component>-v<version>` (for example n8n-nodes-rendley-v0.2.0)
-# and creates a GitHub release. The npm packages are then published from this
-# workflow with a provenance attestation, which n8n requires for verified
-# community nodes.
+# Only packages whose package.json version has not been released yet are
+# deployed; everything else is skipped, so bumping one package never touches
+# the others. To release: bump the version in the package's package.json, add
+# a CHANGELOG.md entry, merge to main, then fast-forward `production` to main.
 #
-# One-time setup:
-#   1. Repository settings -> Actions -> General -> "Allow GitHub Actions to
-#      create and approve pull requests" must be on, or release-please cannot
-#      open its PRs.
-#   2. The very first version of each npm package has to be published by hand
-#      (`npm publish --access public` from the package folder) because npm
-#      Trusted Publishing can only be configured on a package that exists.
-#   3. On npmjs.com, per package: Settings -> Publish access -> Trusted
-#      Publishers -> GitHub Actions, owner `rendleyhq`, repository
-#      `integrations`, workflow `publish.yml`, environment `npm`.
+#   n8n-nodes-rendley  npm publish with provenance (NPM_TOKEN, environment `npm`)
+#                      + GitHub release n8n-nodes-rendley-v<version>
+#   zapier-rendley     GitHub release with build.zip attached; also pushed to
+#                      Zapier when the ZAPIER_DEPLOY_KEY secret is set
+#   apify-rendley      GitHub release; also pushed to Apify when the APIFY_TOKEN
+#                      secret is set
+#   make-rendley       no CLI deploy exists; import the folder with the Make
+#                      VS Code extension
 #
-# Platforms without an npm registry (Zapier, Make, Apify, Pipedream,
-# Activepieces, Power Platform) still get a version bump, changelog and GitHub
-# release here; pushing to the platform stays a manual step described in
-# PUBLISHING-PLAYBOOK.md.
+# Secrets: NPM_TOKEN (required, in the `npm` environment), ZAPIER_DEPLOY_KEY
+# and APIFY_TOKEN (optional, repository secrets).
 
 name: Publish
 
 on:
   push:
-    branches: [main]
+    branches: [production]
+  workflow_dispatch:
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 permissions:
   contents: write
-  pull-requests: write
-  issues: write
 
 jobs:
-  release-please:
+  detect:
+    name: Find packages with an unreleased version
     runs-on: ubuntu-latest
     outputs:
-      n8n_released: ${{ steps.release.outputs['packages/n8n-nodes-rendley--release_created'] }}
-      n8n_tag: ${{ steps.release.outputs['packages/n8n-nodes-rendley--tag_name'] }}
-      node_red_released: ${{ steps.release.outputs['packages/node-red-rendley--release_created'] }}
-      node_red_tag: ${{ steps.release.outputs['packages/node-red-rendley--tag_name'] }}
-      zapier_released: ${{ steps.release.outputs['packages/zapier-rendley--release_created'] }}
-      zapier_tag: ${{ steps.release.outputs['packages/zapier-rendley--tag_name'] }}
+      n8n: ${{ steps.check.outputs.n8n }}
+      n8n_version: ${{ steps.check.outputs.n8n_version }}
+      zapier: ${{ steps.check.outputs.zapier }}
+      zapier_version: ${{ steps.check.outputs.zapier_version }}
+      zapier_push: ${{ steps.check.outputs.zapier_push }}
+      apify: ${{ steps.check.outputs.apify }}
+      apify_version: ${{ steps.check.outputs.apify_version }}
+      apify_push: ${{ steps.check.outputs.apify_push }}
     steps:
-      - uses: googleapis/release-please-action@v4
-        id: release
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          config-file: release-please-config.json
-          manifest-file: .release-please-manifest.json
+          node-version: 'lts/*'
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HAS_ZAPIER_KEY: ${{ secrets.ZAPIER_DEPLOY_KEY != '' }}
+          HAS_APIFY_TOKEN: ${{ secrets.APIFY_TOKEN != '' }}
+        run: |
+          set -eu
+          version() { node -p "require('./packages/$1/package.json').version"; }
+          released() { gh release view "$1" >/dev/null 2>&1; }
 
-  publish-n8n:
-    name: Publish n8n-nodes-rendley to npm
-    needs: release-please
-    if: needs.release-please.outputs.n8n_released == 'true'
+          v=$(version n8n-nodes-rendley)
+          if [ -n "$(npm view "n8n-nodes-rendley@$v" version 2>/dev/null)" ]; then n8n=false; else n8n=true; fi
+          echo "n8n=$n8n" >> "$GITHUB_OUTPUT"; echo "n8n_version=$v" >> "$GITHUB_OUTPUT"
+          echo "n8n-nodes-rendley $v: publish=$n8n"
+
+          v=$(version zapier-rendley)
+          if released "zapier-rendley-v$v"; then zapier=false; else zapier=true; fi
+          echo "zapier=$zapier" >> "$GITHUB_OUTPUT"; echo "zapier_version=$v" >> "$GITHUB_OUTPUT"
+          echo "zapier_push=$HAS_ZAPIER_KEY" >> "$GITHUB_OUTPUT"
+          echo "zapier-rendley $v: release=$zapier push=$HAS_ZAPIER_KEY"
+
+          v=$(version apify-rendley)
+          if released "apify-rendley-v$v"; then apify=false; else apify=true; fi
+          echo "apify=$apify" >> "$GITHUB_OUTPUT"; echo "apify_version=$v" >> "$GITHUB_OUTPUT"
+          echo "apify_push=$HAS_APIFY_TOKEN" >> "$GITHUB_OUTPUT"
+          echo "apify-rendley $v: release=$apify push=$HAS_APIFY_TOKEN"
+
+  n8n:
+    name: n8n-nodes-rendley ${{ needs.detect.outputs.n8n_version }} to npm
+    needs: detect
+    if: needs.detect.outputs.n8n == 'true'
     runs-on: ubuntu-latest
     environment: npm
     permissions:
-      id-token: write   # OIDC for npm Trusted Publishing + provenance
-      contents: read
+      id-token: write   # provenance attestation
+      contents: write   # GitHub release
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -68,53 +92,32 @@ jobs:
           node-version: 'lts/*'
           registry-url: https://registry.npmjs.org
           cache: npm
-      - name: Upgrade npm (trusted publishing needs npm >= 11.5)
-        run: npm install -g npm@latest
       - run: npm ci
-      - name: Lint, build, scan
+      - name: Lint, build, test, scan
         working-directory: packages/n8n-nodes-rendley
         run: |
           npm run lint
           npm run build
+          npm test
           npm run scan
       - name: Publish with provenance
         working-directory: packages/n8n-nodes-rendley
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_MODE: 'true'   # lets `n8n-node prerelease` allow npm publish
         run: npm publish --provenance --access public
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="n8n-nodes-rendley-v${{ needs.detect.outputs.n8n_version }}"
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes
 
-  publish-node-red:
-    name: Publish @rendley/node-red-rendley to npm
-    needs: release-please
-    if: needs.release-please.outputs.node_red_released == 'true'
+  zapier:
+    name: zapier-rendley ${{ needs.detect.outputs.zapier_version }}
+    needs: detect
+    if: needs.detect.outputs.zapier == 'true'
     runs-on: ubuntu-latest
-    environment: npm
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          registry-url: https://registry.npmjs.org
-          cache: npm
-      - run: npm install -g npm@latest
-      - run: npm ci
-      - name: Test
-        working-directory: packages/node-red-rendley
-        run: npm test
-      - name: Publish with provenance
-        working-directory: packages/node-red-rendley
-        run: npm publish --provenance --access public
-
-  build-zapier:
-    name: Attach Zapier build to the release
-    needs: release-please
-    if: needs.release-please.outputs.zapier_released == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -122,12 +125,52 @@ jobs:
           node-version: 'lts/*'
           cache: npm
       - run: npm ci
-      - name: Validate and build
+      - name: Validate, test, build
         working-directory: packages/zapier-rendley
         run: |
           npm run validate
+          npm test
           npx zapier-platform build
-      - name: Upload build.zip to the GitHub release
+      - name: Push to Zapier
+        if: needs.detect.outputs.zapier_push == 'true'
+        working-directory: packages/zapier-rendley
+        env:
+          ZAPIER_DEPLOY_KEY: ${{ secrets.ZAPIER_DEPLOY_KEY }}
+        run: npx zapier-platform push
+      - name: GitHub release with build.zip
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ needs.release-please.outputs.zapier_tag }}" packages/zapier-rendley/build/build.zip --clobber
+        run: |
+          tag="zapier-rendley-v${{ needs.detect.outputs.zapier_version }}"
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes packages/zapier-rendley/build/build.zip
+
+  apify:
+    name: apify-rendley ${{ needs.detect.outputs.apify_version }}
+    needs: detect
+    if: needs.detect.outputs.apify == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: npm
+      - run: npm ci
+      - name: Test and validate
+        working-directory: packages/apify-rendley
+        run: |
+          npm test
+          npm run validate
+          node --check src/main.js
+      - name: Push to Apify
+        if: needs.detect.outputs.apify_push == 'true'
+        working-directory: packages/apify-rendley
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: npx apify push
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="apify-rendley-v${{ needs.detect.outputs.apify_version }}"
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes

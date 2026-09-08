@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, production]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -39,18 +39,6 @@ jobs:
               npm test
               npm run validate
               node --check src/main.js
-          - package: pipedream-rendley
-            run: npm test
-          - package: activepieces-rendley
-            run: |
-              npm run typecheck
-              npm test
-          - package: node-red-rendley
-            run: npm test
-          - package: power-platform-rendley
-            run: |
-              npm test
-              git diff --exit-code apiDefinition.swagger.json
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -64,7 +52,7 @@ jobs:
         run: ${{ matrix.run }}
 
   bundles-up-to-date:
-    name: shared client bundles committed
+    name: shared client bundle committed
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -74,4 +62,4 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:client
-      - run: git diff --exit-code packages/node-red-rendley/nodes/lib/rendley.js packages/apify-rendley/src/rendley.js
+      - run: git diff --exit-code packages/apify-rendley/src/rendley.js

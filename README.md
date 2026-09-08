@@ -2,33 +2,27 @@
 
 [![CI](https://github.com/rendleyhq/integrations/actions/workflows/ci.yml/badge.svg)](https://github.com/rendleyhq/integrations/actions/workflows/ci.yml)
 
-Official Rendley integrations for no-code and automation platforms. AI video editing and generation from your workflows: prompt-to-video with the Rendley AI agent, text to speech, transcription, AI dubbing, lip sync, image, video and music generation, and MP4 rendering.
-
-This is a monorepo. Each package under `packages/` is versioned, released and published independently, the same way [Daytona](https://github.com/daytona/integrations) and [Cognee](https://github.com/topoteretes/cognee-integrations) ship their integrations. Start with [PUBLISHING-PLAYBOOK.md](PUBLISHING-PLAYBOOK.md) for each platform's rules, steps and links.
+Official [Rendley](https://rendley.com) integrations for automation platforms. Bring AI video editing and generation into your workflows: prompt-to-video with the Rendley AI agent, text to speech, transcription, AI dubbing, lip sync, image, video and music generation, media uploads and MP4 rendering.
 
 | Package | Platform | Published as |
 | --- | --- | --- |
-| [n8n-nodes-rendley](packages/n8n-nodes-rendley/) | n8n | npm [`n8n-nodes-rendley`](https://www.npmjs.com/package/n8n-nodes-rendley) (verified community node) |
-| [zapier-rendley](packages/zapier-rendley/) | Zapier | Zapier developer platform app `Rendley` |
-| [make-rendley](packages/make-rendley/) | Make | Make custom app `Rendley` |
+| [n8n-nodes-rendley](packages/n8n-nodes-rendley/) | n8n | npm [`n8n-nodes-rendley`](https://www.npmjs.com/package/n8n-nodes-rendley) (community node) |
+| [zapier-rendley](packages/zapier-rendley/) | Zapier | Zapier app `Rendley` |
+| [make-rendley](packages/make-rendley/) | Make | Make app `Rendley` |
 | [apify-rendley](packages/apify-rendley/) | Apify | Actor `rendley/rendley-ai-video-editor` |
-| [pipedream-rendley](packages/pipedream-rendley/) | Pipedream | PR to `PipedreamHQ/pipedream` (`components/rendley`) |
-| [activepieces-rendley](packages/activepieces-rendley/) | Activepieces | PR to `activepieces/activepieces` (`packages/pieces/community/rendley`) |
-| [node-red-rendley](packages/node-red-rendley/) | Node-RED | npm [`@rendley/node-red-rendley`](https://www.npmjs.com/package/@rendley/node-red-rendley) + flow library |
-| [power-platform-rendley](packages/power-platform-rendley/) | Power Automate / Power Apps / Logic Apps | Custom connector, certification through Partner Center |
-| [rendley-client](packages/rendley-client/) | (internal) | Not published. The shared API client bundled into the Zapier, Apify and Node-RED packages |
+| [rendley-client](packages/rendley-client/) | Internal | Not published. The shared Rendley API client bundled into the Zapier and Apify packages |
+
+Every integration authenticates with a Rendley API key from [app.rendley.com/settings](https://app.rendley.com/settings) and talks only to the Rendley API. See each package's README for installation, operations and examples.
 
 ## Layout
 
 ```
 .
 ├── packages/               one folder per platform, plus the shared client
-├── assets/                 generated icon variants (official brand files live in each package's assets/)
-├── .github/workflows/
-│   ├── ci.yml              runs every package's checks on each PR and push
-│   └── publish.yml         release-please + npm publishing with provenance
-├── release-please-config.json
-└── .release-please-manifest.json
+├── assets/                 Rendley icon and logo variants used by the platform listings
+└── .github/workflows/
+    ├── ci.yml              checks every package on each PR and push
+    └── publish.yml         deploys from the production branch
 ```
 
 ## Development
@@ -48,18 +42,22 @@ cd packages/n8n-nodes-rendley && npm run lint && npm run build
 npm test -w packages/zapier-rendley
 ```
 
-The Rendley API client lives once in `packages/rendley-client` and is bundled into the packages that need it at build time. After editing it, run `npm run build:client` at the root and commit the regenerated `packages/node-red-rendley/nodes/lib/rendley.js` and `packages/apify-rendley/src/rendley.js`; CI fails if they are stale.
+The Rendley API client lives once in `packages/rendley-client` and is bundled into the packages that need it at build time. After editing it, run `npm run build:client` at the root and commit the regenerated `packages/apify-rendley/src/rendley.js`; CI fails if it is stale.
 
 ## Releasing
 
-Commits on `main` follow [Conventional Commits](https://www.conventionalcommits.org) with the package as scope, for example `feat(n8n): add Get Brand Kit operation` or `fix(zapier): handle 429 on job polling`. [release-please](https://github.com/googleapis/release-please) keeps one release pull request open per package that has unreleased changes. Merging it:
+Deploys happen only from the `production` branch, so merging to `main` never publishes anything. To release a package:
 
-1. bumps that package's `package.json` version and `CHANGELOG.md`,
-2. tags the commit `<package>-v<version>` (for example `n8n-nodes-rendley-v0.2.0`) and creates a GitHub release,
-3. publishes the npm packages (n8n, Node-RED) from GitHub Actions with a provenance attestation, and attaches the Zapier `build.zip` to the release.
+1. Bump the version in its `package.json` and add an entry to its `CHANGELOG.md`.
+2. Merge to `main`.
+3. Fast-forward `production` to `main`:
 
-Platforms without a registry (Zapier push, Make, Apify, Pipedream, Activepieces, Power Platform) are pushed by hand after the release, as described in the playbook.
+```bash
+git push origin main:production
+```
+
+The Publish workflow compares each package's version with what is already released and deploys only the packages with a new version. The others are skipped, not failed. The n8n package is published to npm with a provenance attestation, the Zapier package is built and attached to a GitHub release (and pushed to Zapier when a `ZAPIER_DEPLOY_KEY` secret is set), and the Apify Actor is pushed when an `APIFY_TOKEN` secret is set. Each deploy is tagged `<package>-v<version>`. The Make app has no CLI deploy; import the folder with the Make VS Code extension.
 
 ## License
 
-MIT, Rendley. Support: support@rendley.com.
+[MIT](LICENSE). Support: support@rendley.com.

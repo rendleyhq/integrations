@@ -143,12 +143,12 @@ npm run dev         # runs n8n locally with this node linked
 
 `npm run test:live` runs the compiled node against a real Rendley API. It needs
 `RENDLEY_API_KEY` (a paid-plan key; it spends a few credits) and optionally
-`RENDLEY_API_BASE_URL`. See [`docs/TESTING.md`](docs/TESTING.md).
+`RENDLEY_API_BASE_URL`.
 
 ## Release
 
 Publishing goes through GitHub Actions with npm provenance, as n8n requires for
-verified community nodes. See [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
+verified community nodes.
 
 ## License
 

@@ -1,7 +1,8 @@
 # Changelog
 
-Generated from commit history by `npm run release` (`n8n-node release`, which runs
-auto-changelog). Write clear commit subjects; they become the entries below.
+## 0.1.1
+
+- Published from GitHub Actions with npm provenance. No functional changes.
 
 ## 0.1.0
 
