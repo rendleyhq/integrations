@@ -1,5 +1,7 @@
 node_modules/
 dist/
+# n8n's verification checks the built node files in the repository, so this dist is committed
+!packages/n8n-nodes-rendley/dist/
 build/
 .DS_Store
 *.log

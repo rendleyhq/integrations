@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "apify-cli": "^1.10.0",
-    "esbuild": "^0.24.2"
+    "esbuild": "^0.28.2"
   },
   "keywords": [
     "apify",

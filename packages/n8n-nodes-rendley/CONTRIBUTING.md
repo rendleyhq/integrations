@@ -36,4 +36,6 @@ These are n8n's verification requirements; CI enforces the automated ones.
 
 1. `npm run typecheck && npm run lint && npm run build && npm test && npm run scan` pass.
 2. If you changed a request or response shape, run the live harness against a real key.
-3. Update `README.md` and add a `CHANGELOG.md` entry if the change is user-visible.
+3. Run `npm run build` and commit `dist/`. It is tracked because n8n's verification
+   reads the built files from the repository; CI fails when it is stale.
+4. Update `README.md` and add a `CHANGELOG.md` entry if the change is user-visible.

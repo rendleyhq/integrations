@@ -64,11 +64,11 @@
     ]
   },
   "devDependencies": {
-    "@n8n/node-cli": "^0.46.4",
-    "@n8n/scan-community-package": "^0.34.0",
+    "@n8n/node-cli": "^0.47.0",
+    "@n8n/scan-community-package": "^0.35.0",
     "@types/node": "^22.10.2",
     "eslint": "^9.32.0",
-    "n8n-workflow": "^1.120.0",
+    "n8n-workflow": "^2.16.0",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2"
   },
