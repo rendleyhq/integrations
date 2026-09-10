@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- The export download link is read from `output.url`, which `GET /jobs/{id}` presigns fresh on every read, rather than the copy stored in `result_data`. A stored link is presigned once when the render finishes and expires on its own schedule, so it could hand back a dead URL for a job polled later.
+
 ## 0.2.0
 
 - Render Video is now Export Video and Render MP4 After Edit is now Export Video After Edit, matching the other integrations. Parameter values are unchanged.
