@@ -1,0 +1,67 @@
+[
+	{
+		"label": "Projects",
+		"modules": [
+			"listProjects",
+			"getProject",
+			"createProject",
+			"getWorkspaces"
+		]
+	},
+	{
+		"label": "Media",
+		"modules": [
+			"uploadMedia",
+			"getMediaUrl"
+		]
+	},
+	{
+		"label": "AI audio & voice",
+		"modules": [
+			"textToSpeech",
+			"transcribe",
+			"changeVoice",
+			"isolateVoice",
+			"generateMusic",
+			"generateSoundEffect"
+		]
+	},
+	{
+		"label": "AI image & video",
+		"modules": [
+			"generateImage",
+			"generateVideo",
+			"upscaleImage",
+			"upscaleVideo",
+			"removeImageBackground",
+			"removeVideoBackground",
+			"lipSync",
+			"translateVideo"
+		]
+	},
+	{
+		"label": "Agent",
+		"modules": [
+			"aiVideoAgent"
+		]
+	},
+	{
+		"label": "Export",
+		"modules": [
+			"renderVideo"
+		]
+	},
+	{
+		"label": "Jobs & cost",
+		"modules": [
+			"getJob",
+			"estimateCost"
+		]
+	},
+	{
+		"label": "Other",
+		"modules": [
+			"makeApiCall"
+		]
+	}
+]

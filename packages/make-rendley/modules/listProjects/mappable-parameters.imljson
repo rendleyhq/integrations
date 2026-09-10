@@ -4,7 +4,7 @@
 		"type": "text",
 		"label": "Workspace ID",
 		"required": false,
-		"help": "Optional. Filter projects by workspace. Use 'List Workspaces' to look up available IDs."
+		"help": "Optional. Filter projects by workspace. Use 'List workspaces' to look up available IDs."
 	},
 	{
 		"name": "limit",

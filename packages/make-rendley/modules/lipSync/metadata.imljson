@@ -1,4 +1,4 @@
 {
-	"label": "Lip Sync",
-	"description": "Re-animates the speaker's lips in a video to match a new audio track. Returns a job_id right away. Poll 'Get Job Status' (Rendley API) until Is Complete is true. The finished job has a signed download link in url and a media_id for 'Get Media Download URL'."
+	"label": "Lip sync",
+	"description": "Re-animates a speaker's lips to match a new audio track. Returns a job_id."
 }

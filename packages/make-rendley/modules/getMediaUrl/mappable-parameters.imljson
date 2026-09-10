@@ -7,7 +7,7 @@
 		"options": {
 			"store": "rpc://listProjects"
 		},
-		"help": "The project that owns the media item. Pick one, or map the project_id from a job result or 'Watch Job Completed'."
+		"help": "The project that owns the media item. Pick one, or map the project_id from a job result."
 	},
 	{
 		"name": "mediaId",
@@ -19,7 +19,7 @@
 	{
 		"name": "fileHash",
 		"type": "text",
-		"label": "File Hash",
+		"label": "File hash",
 		"required": false,
 		"help": "The file_hash returned alongside the media ID. Used when Media ID is empty."
 	}

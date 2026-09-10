@@ -367,9 +367,7 @@ function parseResultData(job) {
   return parsed && typeof parsed === "object" ? parsed : void 0;
 }
 function jobDownloadUrl(job) {
-  if (job.output?.url) return job.output.url;
-  const result = parseResultData(job);
-  return typeof result?.storage_url === "string" ? result.storage_url : void 0;
+  return job.output?.url || void 0;
 }
 function summarizeJob(job) {
   const result = parseResultData(job) ?? {};

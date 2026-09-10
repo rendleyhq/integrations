@@ -1,4 +1,4 @@
 {
-	"label": "Generate Image",
-	"description": "Generates an image from a text prompt, optionally guided by an input image. Returns a job_id right away. Poll 'Get Job Status' (Rendley API) until Is Complete is true. The finished job has a signed download link in url and a media_id for 'Get Media Download URL'."
+	"label": "Generate image",
+	"description": "Generates an image from a text prompt. Returns a job_id."
 }

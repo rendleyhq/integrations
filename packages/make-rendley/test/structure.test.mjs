@@ -54,8 +54,41 @@ test("no component references removed features", () => {
   const files = execSync("find modules rpcs connections base.imljson -name '*.imljson'", { cwd: root }).toString().trim().split("\n");
   for (const f of files) {
     const text = readFileSync(join(root, f), "utf8");
-    assert.ok(!/webhook_url|end_user_id|mcp\.rendley\.com|video-avatars|parseJSON|file_hash": "\{\{if|video_file_url/.test(text), `${f} clean`);
+    assert.ok(!/webhook_url|end_user_id|video-avatars|video_file_url/.test(text), `${f} clean`);
   }
+});
+
+test("no component uses non-IML syntax", () => {
+  const files = execSync("find modules rpcs connections base.imljson -name '*.imljson'", { cwd: root }).toString().trim().split("\n");
+  for (const f of files) {
+    const text = readFileSync(join(root, f), "utf8");
+    // array() is not an IML function (use add([], x)); AND/OR are not IML
+    // operators (use & && | ||). Both fail silently in Make.
+    assert.ok(!/\barray\s*\(/.test(text), `${f} uses array()`);
+    assert.ok(!/\s(AND|OR)\s/.test(text), `${f} uses word-form AND/OR`);
+  }
+});
+
+test("every module label is sentence case", () => {
+  const m = read("makecomapp.json");
+  const ABBR = /^(ID|IDs|URL|URLs|AI|API|TTS|USD|MP3|WAV|JSON|SRT|VTT|2K|4K|HD|VP8|WebM|H264|Rendley)$/;
+  for (const [key, mod] of Object.entries(m.components.module)) {
+    const words = mod.label.split(" ").slice(1);
+    for (const w of words) {
+      const core = w.replace(/[(),]/g, "");
+      if (!core || ABBR.test(core)) continue;
+      assert.ok(core[0] !== core[0].toUpperCase() || /^[0-9]/.test(core), `${key}: "${mod.label}" not sentence case ("${core}")`);
+    }
+  }
+});
+
+test("every module belongs to exactly one group", () => {
+  const m = read("makecomapp.json");
+  const groups = read(m.generalCodeFiles.groups);
+  const assigned = groups.flatMap((g) => g.modules);
+  assert.equal(assigned.length, new Set(assigned).size, "no module in two groups");
+  assert.deepEqual(new Set(assigned), new Set(Object.keys(m.components.module)), "every module grouped");
+  assert.ok(groups.length > 1, "more than one group");
 });
 
 test("IML runtime evaluates the expressions the app uses", () => {
@@ -64,7 +97,13 @@ test("IML runtime evaluates the expressions the app uses", () => {
   assert.equal(rt.eval("if(parameters.host = 'agent', '/agent/jobs/' + parameters.jobId, '/jobs/' + parameters.jobId)", ctx), "/agent/jobs/j1");
   assert.equal(rt.eval("body.data[1].id", ctx), "w1");
   assert.equal(rt.eval("if(parameters.action = 'export', '/export/cost', '/ai/' + parameters.action + '/cost')", ctx), "/export/cost");
-  assert.deepEqual(rt.eval("if(parameters.fileUrl, array({url: parameters.fileUrl, name: parameters.fileName}), undefined)", ctx), [{ url: "https://x/a.mp4", name: "A" }]);
+  assert.deepEqual(rt.eval("if(parameters.fileUrl, add([], {url: parameters.fileUrl, name: parameters.fileName}), undefined)", ctx), [{ url: "https://x/a.mp4", name: "A" }]);
+  // IML has no array() function and no word-form OR: both must fail here.
+  assert.throws(() => rt.eval("array('a')", ctx), /not supported/);
+  assert.equal(rt.eval("if(s = 'completed' | s = 'failed', true, false)", { s: "running" }), false);
+  assert.equal(rt.eval("if(s = 'completed' | s = 'failed', true, false)", { s: "failed" }), true);
+  assert.equal(rt.eval("contains(add([], 'completed', 'failed'), s)", { s: "running" }), false);
+  assert.deepEqual(rt.eval("parseJSON(r)", { r: '{"storage_url":"https://s/f.mp4"}' }), { storage_url: "https://s/f.mp4" });
   assert.equal(rt.eval("substring(parameters.fileName, 0, 1)", ctx), "A");
   assert.equal(rt.eval("if(parameters.fileUrl, if(parameters.missing, false, true), false)", ctx), true);
   assert.equal(rt.eval("ifempty(parameters.missing, 'fallback')", ctx), "fallback");

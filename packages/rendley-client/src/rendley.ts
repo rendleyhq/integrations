@@ -632,11 +632,9 @@ export function parseResultData(job: Pick<Job, "result_data"> | undefined): Reco
   return parsed && typeof parsed === "object" ? (parsed as Record<string, unknown>) : undefined;
 }
 
-/** The freshest download URL a completed job carries. */
+/** The download URL of a completed job: `output.url`, presigned fresh by the API on every read. */
 export function jobDownloadUrl(job: Job): string | undefined {
-  if (job.output?.url) return job.output.url;
-  const result = parseResultData(job);
-  return typeof result?.storage_url === "string" ? result.storage_url : undefined;
+  return job.output?.url || undefined;
 }
 
 /** Flat summary of a job for automation outputs. Field names follow the API: the job's `output` fields under their own names, `result_data` parsed. */

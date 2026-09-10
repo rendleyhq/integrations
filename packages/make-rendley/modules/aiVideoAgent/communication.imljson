@@ -50,7 +50,7 @@
 			"prompt": "{{parameters.prompt}}",
 			"project_id": "{{ifempty(parameters.projectId, temp.projectId)}}",
 			"thread_id": "{{parameters.threadId}}",
-			"files": "{{if(parameters.fileUrl, array(temp.attachment), undefined)}}"
+			"files": "{{if(parameters.fileUrl, add([], temp.attachment), undefined)}}"
 		},
 		"response": {
 			"output": {

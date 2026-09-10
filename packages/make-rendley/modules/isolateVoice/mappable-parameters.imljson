@@ -22,7 +22,7 @@
 	{
 		"name": "source",
 		"type": "text",
-		"label": "Source File (File Hash)",
+		"label": "Source file (file hash)",
 		"required": true,
 		"validate": {
 			"pattern": "^(?!https?://)"
@@ -35,6 +35,6 @@
 		"label": "Model ID",
 		"required": false,
 		"advanced": true,
-		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/models). Leave empty for the recommended default."
 	}
 ]

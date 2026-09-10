@@ -29,7 +29,7 @@
 	{
 		"name": "aspectRatio",
 		"type": "select",
-		"label": "Aspect Ratio",
+		"label": "Aspect ratio",
 		"required": false,
 		"options": [
 			{
@@ -70,7 +70,7 @@
 	{
 		"name": "imageUrl",
 		"type": "url",
-		"label": "Input Image URL",
+		"label": "Input image URL",
 		"required": false,
 		"advanced": true,
 		"help": "Optional. A source image to transform or use as reference (image-to-image)."
@@ -81,6 +81,6 @@
 		"label": "Model ID",
 		"required": false,
 		"advanced": true,
-		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/models). Leave empty for the recommended default."
 	}
 ]

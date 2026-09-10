@@ -5,11 +5,11 @@
 		"error": {
 			"401": {
 				"type": "DataError",
-				"message": "Project not found, or this API key has no access to it. Check the Project ID or pick one with 'List Projects'."
+				"message": "Project not found, or this API key has no access to it. Check the Project ID or pick one with 'List projects'."
 			},
 			"404": {
 				"type": "DataError",
-				"message": "Project not found. Check the Project ID or pick one with 'List Projects'."
+				"message": "Project not found. Check the Project ID or pick one with 'List projects'."
 			},
 			"type": "RuntimeError",
 			"message": "{{if(body.error, body.error.message, 'Rendley request failed')}}"

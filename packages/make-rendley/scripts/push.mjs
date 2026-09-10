@@ -121,6 +121,21 @@ async function pushBase() {
   if (!ok) failures.push('base');
 }
 
+/**
+ * Module groups (the sidebar sections in the scenario editor). Optional: only
+ * pushed when makecomapp.json registers a groups file. Make rejects a groups
+ * document that names a module it does not have, so this runs after modules.
+ */
+async function pushGroups() {
+  const rel = manifest.generalCodeFiles?.groups;
+  if (!rel) return;
+  console.log('groups');
+  if (DRY) { console.log(`      would put ${rel}`); return; }
+  const { status, ok, body } = await call('PUT', `/${APP}/${VERSION}/groups`, file(rel), 'application/jsonc');
+  console.log(`      ${ok ? 'ok  ' : 'FAIL'} groups      [${status}]${ok ? '' : ` ${JSON.stringify(body)}`}`);
+  if (!ok) failures.push('groups');
+}
+
 async function pushConnections() {
   const map = {};
   for (const [key, c] of Object.entries(manifest.components.connection ?? {})) {
@@ -343,6 +358,8 @@ if (has('--status')) {
   if (wants('modules')) await pushModules(connMap);
   if (wants('rpcs')) await pushRpcs(connMap);
   if (has('--readme')) await pushReadme();
+  // After modules: Make rejects a group naming a module that does not exist yet.
+  if (wants('groups')) await pushGroups();
   // Renames land here too: the new name was just created above, the old one is an orphan.
   if (!ONLY && !PICK.length) await publishModules();
   if (!ONLY && !PICK.length) await prune(connMap);

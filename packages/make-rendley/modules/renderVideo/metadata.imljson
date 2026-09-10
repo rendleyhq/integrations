@@ -1,4 +1,4 @@
 {
-	"label": "Export Video",
-	"description": "Exports a Rendley project to a video file. Returns a job_id right away. Poll 'Get Job Status' (Rendley API) until Is Complete is true, then download the file from url. Exports need an active subscription and available credits."
+	"label": "Export video",
+	"description": "Exports a project to a video file. Returns a job_id to poll with Get Job Status."
 }

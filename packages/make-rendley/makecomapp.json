@@ -4,7 +4,7 @@
 		"base": "base.imljson",
 		"common": null,
 		"readme": "README.md",
-		"groups": null
+		"groups": "groups.imljson"
 	},
 	"components": {
 		"connection": {
@@ -20,7 +20,7 @@
 		},
 		"module": {
 			"aiVideoAgent": {
-				"label": "AI Video Agent",
+				"label": "AI video agent",
 				"description": "Creates or edits a video project from a prompt with the Rendley AI agent. Returns a job_id to poll with Get Job Status.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -37,7 +37,7 @@
 				}
 			},
 			"getJob": {
-				"label": "Get Job Status",
+				"label": "Get job status",
 				"description": "Returns the status and result of a Rendley job, including a fresh download URL.",
 				"moduleType": "action",
 				"actionCrud": "read",
@@ -54,7 +54,7 @@
 				}
 			},
 			"renderVideo": {
-				"label": "Export Video",
+				"label": "Export video",
 				"description": "Exports a project to a video file. Returns a job_id to poll with Get Job Status.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -71,7 +71,7 @@
 				}
 			},
 			"createProject": {
-				"label": "Create Project",
+				"label": "Create a project",
 				"description": "Creates a new, empty Rendley project.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -88,7 +88,7 @@
 				}
 			},
 			"getProject": {
-				"label": "Get Project",
+				"label": "Get a project",
 				"description": "Returns a Rendley project by ID.",
 				"moduleType": "action",
 				"actionCrud": "read",
@@ -105,7 +105,7 @@
 				}
 			},
 			"listProjects": {
-				"label": "List Projects",
+				"label": "List projects",
 				"description": "Returns the projects in a workspace.",
 				"moduleType": "search",
 				"actionCrud": "read",
@@ -122,7 +122,7 @@
 				}
 			},
 			"getWorkspaces": {
-				"label": "List Workspaces",
+				"label": "List workspaces",
 				"description": "Returns the workspaces of the connected Rendley account.",
 				"moduleType": "search",
 				"actionCrud": "read",
@@ -139,7 +139,7 @@
 				}
 			},
 			"makeApiCall": {
-				"label": "Make an API Call",
+				"label": "Make an API call",
 				"description": "Sends an authenticated request to any Rendley REST endpoint.",
 				"moduleType": "universal",
 				"actionCrud": null,
@@ -156,7 +156,7 @@
 				}
 			},
 			"transcribe": {
-				"label": "Transcribe Audio or Video",
+				"label": "Transcribe audio or video",
 				"description": "Transcribes the speech in an audio or video file. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -173,7 +173,7 @@
 				}
 			},
 			"textToSpeech": {
-				"label": "Text to Speech",
+				"label": "Text to speech",
 				"description": "Turns text into spoken audio with an AI voice. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -190,7 +190,7 @@
 				}
 			},
 			"translateVideo": {
-				"label": "Dub Video",
+				"label": "Dub video",
 				"description": "Dubs the spoken audio of a video into another language. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -207,7 +207,7 @@
 				}
 			},
 			"lipSync": {
-				"label": "Lip Sync",
+				"label": "Lip sync",
 				"description": "Re-animates a speaker's lips to match a new audio track. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -224,7 +224,7 @@
 				}
 			},
 			"isolateVoice": {
-				"label": "Isolate Voice",
+				"label": "Isolate voice",
 				"description": "Removes background noise and music from a recording. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -241,7 +241,7 @@
 				}
 			},
 			"changeVoice": {
-				"label": "Change Voice",
+				"label": "Change voice",
 				"description": "Replaces the speaker's voice in a recording with another AI voice. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -258,7 +258,7 @@
 				}
 			},
 			"removeVideoBackground": {
-				"label": "Remove Video Background",
+				"label": "Remove video background",
 				"description": "Removes the background from a video. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -275,7 +275,7 @@
 				}
 			},
 			"removeImageBackground": {
-				"label": "Remove Image Background",
+				"label": "Remove image background",
 				"description": "Removes the background from an image. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -292,7 +292,7 @@
 				}
 			},
 			"upscaleImage": {
-				"label": "Upscale Image",
+				"label": "Upscale image",
 				"description": "Increases the resolution of an image by 2x or 4x. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -309,7 +309,7 @@
 				}
 			},
 			"upscaleVideo": {
-				"label": "Upscale Video",
+				"label": "Upscale video",
 				"description": "Increases the resolution of a video with AI upscaling, up to 4K. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -326,7 +326,7 @@
 				}
 			},
 			"generateImage": {
-				"label": "Generate Image",
+				"label": "Generate image",
 				"description": "Generates an image from a text prompt. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -343,7 +343,7 @@
 				}
 			},
 			"generateVideo": {
-				"label": "Generate Video",
+				"label": "Generate video",
 				"description": "Generates a short video clip from a text prompt. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -360,7 +360,7 @@
 				}
 			},
 			"generateMusic": {
-				"label": "Generate Music",
+				"label": "Generate music",
 				"description": "Generates a music clip from a text prompt. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -377,7 +377,7 @@
 				}
 			},
 			"generateSoundEffect": {
-				"label": "Generate Sound Effect",
+				"label": "Generate sound effect",
 				"description": "Generates a short sound effect from a text prompt. Returns a job_id.",
 				"moduleType": "action",
 				"actionCrud": "create",
@@ -394,7 +394,7 @@
 				}
 			},
 			"getMediaUrl": {
-				"label": "Get Media Download URL",
+				"label": "Get media download URL",
 				"description": "Turns a media ID or file hash into a fresh signed download URL.",
 				"moduleType": "action",
 				"actionCrud": "read",
@@ -411,7 +411,7 @@
 				}
 			},
 			"estimateCost": {
-				"label": "Estimate Cost",
+				"label": "Estimate cost",
 				"description": "Calculates how many credits an AI action or an export would use, without running it.",
 				"moduleType": "action",
 				"actionCrud": "read",
@@ -428,7 +428,7 @@
 				}
 			},
 			"uploadMedia": {
-				"label": "Upload Media from URL",
+				"label": "Upload media from URL",
 				"description": "Adds a file from a public URL to a project's media library.",
 				"moduleType": "action",
 				"actionCrud": "create",

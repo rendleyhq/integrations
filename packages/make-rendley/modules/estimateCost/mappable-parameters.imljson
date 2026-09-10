@@ -6,67 +6,67 @@
 		"required": true,
 		"options": [
 			{
-				"label": "Transcribe Audio or Video",
+				"label": "Transcribe audio or video",
 				"value": "transcribe"
 			},
 			{
-				"label": "Text to Speech",
+				"label": "Text to speech",
 				"value": "text-to-speech"
 			},
 			{
-				"label": "Dub Video",
+				"label": "Dub video",
 				"value": "video-translate"
 			},
 			{
-				"label": "Lip Sync",
+				"label": "Lip sync",
 				"value": "lipsync"
 			},
 			{
-				"label": "Change Voice",
+				"label": "Change voice",
 				"value": "voice-changer"
 			},
 			{
-				"label": "Isolate Voice",
+				"label": "Isolate voice",
 				"value": "voice-isolation"
 			},
 			{
-				"label": "Remove Video Background",
+				"label": "Remove video background",
 				"value": "remove-video-background"
 			},
 			{
-				"label": "Remove Image Background",
+				"label": "Remove image background",
 				"value": "remove-image-background"
 			},
 			{
-				"label": "Upscale Image",
+				"label": "Upscale image",
 				"value": "upscale-image"
 			},
 			{
-				"label": "Upscale Video",
+				"label": "Upscale video",
 				"value": "upscale-video"
 			},
 			{
-				"label": "Generate Image",
+				"label": "Generate image",
 				"value": "generate-image"
 			},
 			{
-				"label": "Generate Video",
+				"label": "Generate video",
 				"value": "generate-video"
 			},
 			{
-				"label": "Generate Music",
+				"label": "Generate music",
 				"value": "generate-music"
 			},
 			{
-				"label": "Generate Sound Effect",
+				"label": "Generate sound effect",
 				"value": "generate-sound-effect"
 			},
 			{
-				"label": "Generate Motion Graphics",
+				"label": "Generate motion graphics",
 				"value": "generate-motion-graphics"
 			},
 			{
-				"label": "Export Video",
+				"label": "Export video",
 				"value": "export"
 			}
 		],
@@ -105,6 +105,6 @@
 		"label": "Model ID",
 		"required": false,
 		"advanced": true,
-		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/models). Leave empty for the recommended default."
 	}
 ]

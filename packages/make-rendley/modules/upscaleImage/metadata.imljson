@@ -1,4 +1,4 @@
 {
-	"label": "Upscale Image",
-	"description": "Increases the resolution of an image by 2x or 4x with AI upscaling. Returns a job_id right away. Poll 'Get Job Status' (Rendley API) until Is Complete is true. The finished job has a signed download link in url and a media_id for 'Get Media Download URL'."
+	"label": "Upscale image",
+	"description": "Increases the resolution of an image by 2x or 4x. Returns a job_id."
 }

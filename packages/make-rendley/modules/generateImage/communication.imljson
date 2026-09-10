@@ -8,7 +8,7 @@
 		"params": {
 			"prompt": "{{parameters.prompt}}",
 			"aspect_ratio": "{{parameters.aspectRatio}}",
-			"image_inputs": "{{if(parameters.imageUrl, array(parameters.imageUrl), undefined)}}"
+			"image_inputs": "{{if(parameters.imageUrl, add([], parameters.imageUrl), undefined)}}"
 		}
 	},
 	"response": {

@@ -1,5 +1,5 @@
 {
-	"url": "{{parameters.url}}",
+	"url": "https://api.rendley.com/v1{{parameters.url}}",
 	"method": "{{parameters.method}}",
 	"qs": "{{toCollection(parameters.query, 'key', 'value')}}",
 	"headers": "{{toCollection(parameters.headers, 'key', 'value')}}",

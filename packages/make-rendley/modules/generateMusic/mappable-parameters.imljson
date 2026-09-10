@@ -29,7 +29,7 @@
 	{
 		"name": "duration",
 		"type": "select",
-		"label": "Duration (Seconds)",
+		"label": "Duration (seconds)",
 		"required": false,
 		"default": 15,
 		"options": [
@@ -62,6 +62,6 @@
 		"label": "Model ID",
 		"required": false,
 		"advanced": true,
-		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/models). Leave empty for the recommended default."
 	}
 ]

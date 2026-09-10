@@ -33,7 +33,7 @@
 	{
 		"name": "fileName",
 		"type": "text",
-		"label": "File Name",
+		"label": "File name",
 		"required": false,
 		"help": "Optional. A display name for the file provided in File URL."
 	},

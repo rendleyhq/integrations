@@ -7,7 +7,7 @@
 		"options": {
 			"store": "rpc://listProjects"
 		},
-		"help": "The project whose media library the file is added to. Pick one, or map a project ID from 'Create Project' / 'List Projects'."
+		"help": "The project whose media library the file is added to. Pick one, or map a project ID from 'Create a project' / 'List projects'."
 	},
 	{
 		"name": "fileUrl",
@@ -19,7 +19,7 @@
 	{
 		"name": "fileName",
 		"type": "text",
-		"label": "File Name",
+		"label": "File name",
 		"required": false,
 		"help": "Optional name shown in the project library. Defaults to the name in the URL."
 	}

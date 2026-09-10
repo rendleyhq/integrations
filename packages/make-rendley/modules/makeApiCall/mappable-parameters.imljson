@@ -4,7 +4,7 @@
 		"type": "text",
 		"label": "URL",
 		"required": true,
-		"help": "Relative path appended to the base URL https://api.rendley.com/v1, e.g. '/projects' or '/export'. You can also pass an absolute URL to another Rendley host."
+		"help": "Enter a path relative to https://api.rendley.com/v1. For example: /projects"
 	},
 	{
 		"name": "method",
@@ -34,7 +34,7 @@
 	{
 		"name": "query",
 		"type": "array",
-		"label": "Query String",
+		"label": "Query string",
 		"required": false,
 		"help": "Optional query string parameters.",
 		"spec": [

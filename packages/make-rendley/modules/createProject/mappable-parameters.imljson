@@ -2,7 +2,7 @@
 	{
 		"name": "name",
 		"type": "text",
-		"label": "Project Name",
+		"label": "Project name",
 		"required": true,
 		"help": "A name for the new Rendley project."
 	},
@@ -11,6 +11,6 @@
 		"type": "text",
 		"label": "Workspace ID",
 		"required": false,
-		"help": "Optional. The workspace to create the project in. Use 'List Workspaces' to look up available IDs. Leave empty to use the default workspace."
+		"help": "Optional. The workspace to create the project in. Use 'List workspaces' to look up available IDs. Leave empty to use the default workspace."
 	}
 ]

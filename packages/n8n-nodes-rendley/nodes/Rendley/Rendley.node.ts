@@ -264,13 +264,10 @@ function agentProjectName(prompt: string): string {
 	return oneLine.length > 60 ? `${oneLine.slice(0, 59).trimEnd()}…` : oneLine || 'AI Video Agent';
 }
 
-/** The signed MP4 URL of a completed export: the fresh `output.url`, else the stored `storage_url`. */
+/** The signed MP4 URL of a completed export: `output.url`, presigned fresh by the API on every read. */
 function exportVideoUrl(job: IDataObject): string | undefined {
 	const output = job.output as IDataObject | undefined;
-	if (output?.url) {
-		return output.url as string;
-	}
-	return parseResultData(job.result_data)?.storage_url as string | undefined;
+	return (output?.url as string | undefined) || undefined;
 }
 
 /** `error` arrives as a plain string on some responses and wrapped in `{ message }` on others. */

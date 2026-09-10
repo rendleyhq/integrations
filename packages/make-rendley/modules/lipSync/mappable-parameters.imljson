@@ -22,16 +22,16 @@
 	{
 		"name": "videoSource",
 		"type": "text",
-		"label": "Video with Speaker (URL, Media ID or File Hash)",
+		"label": "Video with speaker (URL, media ID or file hash)",
 		"required": true,
-		"help": "Public URL of the video showing the speaker, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+		"help": "Public URL of the video showing the speaker, or the media_id or file_hash of a file already in the project's library (see 'Upload media from URL')."
 	},
 	{
 		"name": "audioSource",
 		"type": "text",
-		"label": "New Audio Track (URL, Media ID or File Hash)",
+		"label": "New audio track (URL, media ID or file hash)",
 		"required": true,
-		"help": "Public URL of the audio the lips should match (e, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+		"help": "Public URL of the audio the lips should match (e.g. an MP3 or WAV file), or the media_id or file_hash of a file already in the project's library (see 'Upload media from URL')."
 	},
 	{
 		"name": "modelId",
@@ -39,6 +39,6 @@
 		"label": "Model ID",
 		"required": false,
 		"advanced": true,
-		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/models). Leave empty for the recommended default."
 	}
 ]

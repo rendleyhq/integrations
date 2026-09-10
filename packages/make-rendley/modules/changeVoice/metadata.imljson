@@ -1,4 +1,4 @@
 {
-	"label": "Change Voice",
-	"description": "Replaces the speaker's voice in a recording with another AI voice while keeping the timing and delivery. Returns a job_id right away. Poll 'Get Job Status' (Rendley API) until Is Complete is true. The finished job has a signed download link in url and a media_id for 'Get Media Download URL'."
+	"label": "Change voice",
+	"description": "Replaces the speaker's voice in a recording with another AI voice. Returns a job_id."
 }

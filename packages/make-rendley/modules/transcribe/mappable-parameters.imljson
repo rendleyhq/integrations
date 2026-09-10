@@ -22,14 +22,14 @@
 	{
 		"name": "source",
 		"type": "text",
-		"label": "Source File (URL, Media ID or File Hash)",
+		"label": "Source file (URL, media ID or file hash)",
 		"required": true,
-		"help": "Public URL of the audio/video file to transcribe, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+		"help": "Public URL of the audio/video file to transcribe, or the media_id or file_hash of a file already in the project's library (see 'Upload media from URL')."
 	},
 	{
 		"name": "startTime",
 		"type": "number",
-		"label": "Start Time (Seconds)",
+		"label": "Start time (seconds)",
 		"required": false,
 		"advanced": true,
 		"help": "Optional. Transcribe from this time in seconds. Defaults to the beginning of the file."
@@ -37,7 +37,7 @@
 	{
 		"name": "endTime",
 		"type": "number",
-		"label": "End Time (Seconds)",
+		"label": "End time (seconds)",
 		"required": false,
 		"advanced": true,
 		"help": "Optional. Transcribe up to this time in seconds. Defaults to the full file duration."
@@ -48,6 +48,6 @@
 		"label": "Model ID",
 		"required": false,
 		"advanced": true,
-		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/models). Leave empty for the recommended default."
 	}
 ]

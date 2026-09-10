@@ -10,8 +10,7 @@
 	},
 	"response": {
 		"output": {
-			"credits": "{{if(parameters.action = 'export', body.data.credits, body.data)}}",
-			"usd": "{{if(parameters.action = 'export', body.data.credits, body.data) / 100}}"
+			"credits": "{{if(parameters.action = 'export', body.data.credits, body.data)}}"
 		}
 	}
 }

@@ -22,14 +22,14 @@
 	{
 		"name": "source",
 		"type": "text",
-		"label": "Source Image (URL, Media ID or File Hash)",
+		"label": "Source image (URL, media ID or file hash)",
 		"required": true,
-		"help": "Public URL of the image to upscale, or the media_id or file_hash of a file already in the project's library (see 'Upload Media from URL')."
+		"help": "Public URL of the image to upscale, or the media_id or file_hash of a file already in the project's library (see 'Upload media from URL')."
 	},
 	{
 		"name": "scale",
 		"type": "select",
-		"label": "Scale Factor",
+		"label": "Scale factor",
 		"required": false,
 		"default": 4,
 		"options": [
@@ -49,6 +49,6 @@
 		"label": "Model ID",
 		"required": false,
 		"advanced": true,
-		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/tools). Leave empty for the recommended default."
+		"help": "Optional. A specific model ID for this action (catalog at GET /v1/ai/models). Leave empty for the recommended default."
 	}
 ]

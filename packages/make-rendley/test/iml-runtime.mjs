@@ -7,8 +7,12 @@
  * and response mappings match the API.
  *
  * Supported expressions: `a.b.c`, `a[1]` (1-based, as in Make), string
- * literals, numbers, true/false/undefined, `+`, `/`, `=`, `OR`, `!x`, and the
- * functions if(), ifempty(), contains(), get(), array(), substring(), toCollection().
+ * literals, numbers, true/false/undefined, `+`, `/`, `=`, `|`/`||`, `&`/`&&`, `!x`,
+ * and the functions if(), ifempty(), contains(), get(), add(), toArray(), merge(),
+ * length(), parseJSON(), substring(), toCollection().
+ *
+ * Only functions and operators that real Make IML provides are implemented: an
+ * expression using anything else must fail here the way it would fail in Make.
  */
 
 export class ImlRuntime {
@@ -97,8 +101,21 @@ class Parser {
   ws() { while (/\s/.test(this.s[this.i] || "")) this.i++; }
   parseExpression() { return this.parseOr(); }
   parseOr() {
+    let left = this.parseAnd();
+    for (;;) {
+      this.ws();
+      // IML has no word-form AND/OR: only the symbolic | || & && operators.
+      if (this.peek() === "|") { this.i += this.peek(1) === "|" ? 2 : 1; const right = this.parseAnd(); left = truthy(left) || truthy(right); }
+      else return left;
+    }
+  }
+  parseAnd() {
     let left = this.parseEquality();
-    for (;;) { this.ws(); if (this.s.slice(this.i, this.i + 2).toUpperCase() === "OR" && /\s/.test(this.s[this.i + 2] || "")) { this.i += 2; const right = this.parseEquality(); left = truthy(left) || truthy(right); } else return left; }
+    for (;;) {
+      this.ws();
+      if (this.peek() === "&") { this.i += this.peek(1) === "&" ? 2 : 1; const right = this.parseEquality(); left = truthy(left) && truthy(right); }
+      else return left;
+    }
   }
   parseEquality() {
     let left = this.parseAdditive();
@@ -120,6 +137,7 @@ class Parser {
     const c = this.peek();
     if (c === "'" || c === '"') { const q = c; this.i++; let out = ""; while (this.peek() !== q) { if (this.peek() === "\\") this.i++; out += this.s[this.i++]; } this.i++; return out; }
     if (c === "{") return this.parseObjectLiteral();
+    if (c === "[") return this.parseAccessors(this.parseArrayLiteral());
     if (/[0-9]/.test(c) || (c === "-" && /[0-9]/.test(this.peek(1)))) { const m = this.s.slice(this.i).match(/^-?\d+(\.\d+)?/); this.i += m[0].length; return Number(m[0]); }
     if (c === "(") { this.i++; const v = this.parseExpression(); this.ws(); this.i++; return v; }
     const ident = this.s.slice(this.i).match(/^[A-Za-z_][A-Za-z0-9_]*/);
@@ -138,6 +156,11 @@ class Parser {
       else return value;
     }
   }
+  parseArrayLiteral() {
+    this.i++; const out = []; this.ws();
+    while (this.peek() !== "]") { out.push(this.parseExpression()); this.ws(); if (this.peek() === ",") { this.i++; this.ws(); } }
+    this.i++; return out;
+  }
   parseObjectLiteral() {
     this.i++; const out = {}; this.ws();
     while (this.peek() !== "}") { const key = this.s.slice(this.i).match(/^[A-Za-z_][A-Za-z0-9_]*/)[0]; this.i += key.length; this.ws(); this.i++; out[key] = this.parseExpression(); this.ws(); if (this.peek() === ",") { this.i++; this.ws(); } }
@@ -147,9 +170,13 @@ class Parser {
     switch (name) {
       case "if": return truthy(args[0]) ? args[1] : args[2];
       case "ifempty": return isEmpty(args[0]) ? args[1] : args[0];
-      case "contains": return typeof args[0] === "string" && args[0].includes(String(args[1]));
+      case "contains": return Array.isArray(args[0]) ? args[0].some((v) => looseEq(v, args[1])) : typeof args[0] === "string" && args[0].includes(String(args[1]));
       case "get": return String(args[1]).split(".").reduce((v, k) => (v == null ? undefined : v[k]), args[0]);
-      case "array": return args;
+      case "add": { const arr = Array.isArray(args[0]) ? args[0].slice() : (isEmpty(args[0]) ? [] : [args[0]]); for (const v of args.slice(1)) if (v !== undefined) arr.push(v); return arr; }
+      case "toArray": { const v = args[0]; if (Array.isArray(v)) return v; if (v && typeof v === "object") return Object.entries(v).map(([key, value]) => ({ key, value })); return isEmpty(v) ? [] : [v]; }
+      case "merge": return args.flatMap((a) => (Array.isArray(a) ? a : isEmpty(a) ? [] : [a]));
+      case "length": { const v = args[0]; return Array.isArray(v) || typeof v === "string" ? v.length : 0; }
+      case "parseJSON": { try { return typeof args[0] === "string" ? JSON.parse(args[0]) : args[0]; } catch { return undefined; } }
       case "substring": return String(args[0] ?? "").substring(Number(args[1] ?? 0), args[2] === undefined ? undefined : Number(args[2]));
       case "toCollection": { const out = {}; for (const row of args[0] || []) out[row[args[1]]] = row[args[2]]; return out; }
       default: throw new Error(`IML function not supported by the test runtime: ${name}`);

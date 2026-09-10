@@ -1,4 +1,4 @@
 {
-	"label": "Remove Image Background",
-	"description": "Removes the background from an image and returns a transparent cutout. Returns a job_id right away. Poll 'Get Job Status' (Rendley API) until Is Complete is true. The finished job has a signed download link in url and a media_id for 'Get Media Download URL'."
+	"label": "Remove image background",
+	"description": "Removes the background from an image. Returns a job_id."
 }

@@ -2,17 +2,17 @@
 	{
 		"name": "host",
 		"type": "select",
-		"label": "Job Type",
+		"label": "Job type",
 		"required": true,
 		"default": "api",
-		"help": "'Rendley API' for AI actions and exports (job_id from any AI module or 'Export Video'); 'Rendley Agent' for 'AI Video Agent' jobs.",
+		"help": "'Rendley API' for AI actions and exports (job_id from any AI module or 'Export video'); 'Rendley Agent' for 'AI video agent' jobs.",
 		"options": [
 			{
 				"label": "Rendley API (AI actions, exports)",
 				"value": "api"
 			},
 			{
-				"label": "Rendley Agent (AI Video Agent)",
+				"label": "Rendley Agent (AI video agent)",
 				"value": "agent"
 			}
 		]
@@ -22,6 +22,6 @@
 		"type": "text",
 		"label": "Job ID",
 		"required": true,
-		"help": "The job_id returned by 'AI Video Agent' (Agent host), 'Export Video' or any AI module (API host)."
+		"help": "The job_id returned by 'AI video agent' (Agent host), 'Export video' or any AI module (API host)."
 	}
 ]

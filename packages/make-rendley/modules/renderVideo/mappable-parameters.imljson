@@ -4,7 +4,7 @@
 		"type": "text",
 		"label": "Project ID",
 		"required": true,
-		"help": "The Rendley project ID to render. Typically the project_id returned by 'AI Video Agent' / 'Get Job Status' or 'Create Project'."
+		"help": "The Rendley project ID to render. Typically the project_id returned by 'AI video agent' / 'Get job status' or 'Create a project'."
 	},
 	{
 		"name": "codec",
@@ -26,7 +26,7 @@
 	{
 		"name": "targetResolution",
 		"type": "select",
-		"label": "Target Resolution",
+		"label": "Target resolution",
 		"required": false,
 		"default": "1080p",
 		"options": [

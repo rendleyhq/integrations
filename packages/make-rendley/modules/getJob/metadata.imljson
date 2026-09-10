@@ -1,4 +1,4 @@
 {
-	"label": "Get Job Status",
-	"description": "Returns the status and result of a Rendley job. Pick the host that started it. 'Rendley API' for AI actions and exports, where url is a signed download link and result_data the raw result. 'Rendley Agent' for AI Video Agent jobs, where project_id and last_message describe the edit. Poll this module with a Sleep and a Repeater until Is Complete is true. When the agent pauses to ask something, status is waiting_input and question holds the prompt. Rephrase the request so it does not need to ask, or answer it in the Rendley app."
+	"label": "Get job status",
+	"description": "Returns the status and result of a Rendley job, including a fresh download URL."
 }
