@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+
+- The credential connection test calls `GET /users/me` instead of `GET /workspaces`, matching the Make integration. It checks the API key itself rather than a workspace listing.
+- The Rendley API credential is now also written to a `credentials/` folder at the repository root when the package is built. The n8n Creator Portal verification check looks for the credential there and does not follow the monorepo subfolder.
+
 ## 0.2.1
 
 - The export download link is read from `output.url`, which `GET /jobs/{id}` presigns fresh on every read, rather than the copy stored in `result_data`. A stored link is presigned once when the render finishes and expires on its own schedule, so it could hand back a dead URL for a job polled later.
