@@ -17,18 +17,20 @@ export const getJob: Search<{ job: string }> = {
   key: "get_job",
   noun: "Job",
   display: {
-    label: "Get Job Status",
+    label: "Find Job Status",
     description:
-      "Looks up an AI action or export job by ID and returns its status and, once complete, a fresh download URL. Pair it with a Delay step to finish jobs that outlast a single action.",
+      "Finds an AI action or export job and returns its status and, once complete, a fresh download URL.",
   },
   operation: {
     inputFields: [
       {
         key: "job",
-        label: "Job ID",
+        label: "Job",
         type: "string",
         required: true,
-        helpText: "The Job ID returned by an AI action or the Export Video action.",
+        helpText:
+          "The job reference returned by an AI action or the Export Video action. " +
+          "Pair this search with a Delay step to finish jobs that outlast a single action.",
       },
     ],
     perform: async (z: ZObject, bundle) => {
@@ -48,17 +50,17 @@ export const getAgentJob: Search<{ job: string }> = {
   key: "get_agent_job",
   noun: "Agent Edit",
   display: {
-    label: "Get Agent Job Status",
-    description: "Looks up an AI agent edit by Job ID and returns its status, message and project. When the agent paused to ask something, Is Complete is true, Status is waiting_input and the prompt is in Agent Question.",
+    label: "Find Agent Job Status",
+    description: "Finds an AI agent edit by its job reference and returns its status, message and project. When the agent paused to ask something, Is Complete is true, Status is waiting_input and the prompt is in Agent Question.",
   },
   operation: {
     inputFields: [
       {
         key: "job",
-        label: "Job ID",
+        label: "Job",
         type: "string",
         required: true,
-        helpText: "The Job ID returned by the AI Video Agent action.",
+        helpText: "The job reference returned by the AI Video Agent action.",
       },
     ],
     perform: async (z: ZObject, bundle) => {
@@ -93,7 +95,7 @@ export const findProject: Search<{ project?: string; name?: string }> = {
   noun: "Project",
   display: {
     label: "Find Project",
-    description: "Finds a Rendley project by ID or by a name fragment.",
+    description: "Finds a project by ID or by a name fragment.",
   },
   operation: {
     inputFields: [
@@ -148,8 +150,8 @@ export const getMediaUrl: Search<{ project_id: string; media?: string; file_hash
   key: "get_media_url",
   noun: "Media File",
   display: {
-    label: "Get Media Download URL",
-    description: "Gets a fresh download URL for a file in a project by its Media ID or File Hash. " + URL_EXPIRY_NOTE,
+    label: "Find Media Download URL",
+    description: "Finds a fresh download URL for a file in a project by its media reference or file hash. " + URL_EXPIRY_NOTE,
   },
   operation: {
     inputFields: [
@@ -163,23 +165,23 @@ export const getMediaUrl: Search<{ project_id: string; media?: string; file_hash
       },
       {
         key: "media",
-        label: "Media ID",
+        label: "Media",
         type: "string",
         required: false,
-        helpText: "The Media ID from an AI action, an upload or a job. Leave empty if you only have the File Hash.",
+        helpText: "The media reference from an AI action, an upload or a job. Leave empty if you only have the File Hash.",
       },
       {
         key: "file_hash",
         label: "File Hash",
         type: "string",
         required: false,
-        helpText: "The File Hash returned alongside the Media ID. Used when the Media ID is empty.",
+        helpText: "The File Hash returned alongside the media reference. Used when Media is empty.",
       },
     ],
     perform: async (z: ZObject, bundle) => {
       const { project_id, media, file_hash } = bundle.inputData;
       if (!media?.trim() && !file_hash?.trim()) {
-        throw new z.errors.Error("Fill in either the Media ID or the File Hash.");
+        throw new z.errors.Error("Fill in either Media or File Hash.");
       }
       try {
         const resolved = await clientFor(bundle).getMediaUrl(project_id, {
@@ -245,7 +247,7 @@ export const estimateCost: Search<{ action: string; project_id: string; model?: 
   display: {
     label: "Estimate Cost",
     description:
-      "Estimates how many Rendley credits an AI action or export would use, without running it. Use it with a Filter step to stay within a budget.",
+      "Estimates how many credits an AI action or export would use, without running it. Use it with a Filter step to stay within a budget.",
   },
   operation: {
     inputFields: [

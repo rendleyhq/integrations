@@ -75,7 +75,7 @@ export const aiVideoAgent: Create<{
   display: {
     label: "AI Video Agent",
     description:
-      "Describe a video or an edit and the Rendley AI agent does it on a real editing timeline. It adds captions, cuts bad takes and filler words, reframes, builds videos from generated media, and applies any edit you describe, creating a project or editing the one you name. Edits take minutes, so chain a Delay step, Get Agent Job Status, and Export Video to get the video file.",
+      "Runs the AI agent to create or edit a video from a prompt.",
   },
   operation: {
     inputFields: [
@@ -84,7 +84,10 @@ export const aiVideoAgent: Create<{
         label: "Prompt",
         type: "text",
         required: true,
-        helpText: "What the AI agent should create or change, for example `Cut this interview down to a 30-second teaser with captions` or `Add captions styled for TikTok`.",
+        helpText:
+          "What the AI agent should create or change, for example `Cut this interview down to a 30-second teaser with captions` or `Add captions styled for TikTok`. " +
+          "The agent works on a real editing timeline: it adds captions, cuts bad takes and filler words, reframes, and builds videos from generated media. " +
+          "Edits take minutes, so chain a Delay step, then Find Agent Job Status, then Export Video to get the file.",
       },
       {
         key: "project_id",
@@ -104,7 +107,7 @@ export const aiVideoAgent: Create<{
       },
       {
         key: "thread",
-        label: "Thread ID",
+        label: "Thread",
         type: "string",
         required: false,
         helpText: "Continue a previous agent conversation on the same project. Needs the Project field too.",
@@ -112,7 +115,7 @@ export const aiVideoAgent: Create<{
       {
         ...WAIT_FIELD,
         helpText:
-          "Yes (default): poll for up to about 20 seconds; trivial edits finish in time, most do not and come back with Is Complete = false. Add a Delay step and the Get Agent Job Status search to pick up the result. No: return the Job ID immediately.",
+          "Yes (default): poll for up to about 20 seconds; trivial edits finish in time, most do not and come back with Is Complete = false. Add a Delay step and the Find Agent Job Status search to pick up the result. No: return the job reference immediately.",
       },
     ],
     perform: async (z: ZObject, bundle) => {
@@ -168,8 +171,7 @@ export const startExport: Create<{
   display: {
     label: "Export Video",
     description:
-      "Exports a project to a video file and returns the download URL. Exports take a minute or more. With Wait for Completion the step returns Is Complete = false when the export is still running, so add a Delay step and Get Job Status. " +
-      URL_EXPIRY_NOTE,
+      "Exports a project to a video file and returns the download URL. " + URL_EXPIRY_NOTE,
   },
   operation: {
     inputFields: [

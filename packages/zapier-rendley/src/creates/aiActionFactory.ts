@@ -47,7 +47,7 @@ export interface AiActionConfig<I> {
  * waits, it polls for up to {@link WAIT_BUDGET_MS} and returns the job in
  * whatever state it reached, with `is_complete` saying whether the result is
  * in. Zapier stops a step at 30 seconds, so longer jobs are finished with a
- * Delay step plus the Get Job Status search.
+ * Delay step plus the Find Job Status search.
  */
 export function makeAiActionCreate<I>(config: AiActionConfig<I>): Create<I & AiActionBaseInput> {
   type Input = I & AiActionBaseInput;
@@ -118,11 +118,11 @@ export function makeAiActionCreate<I>(config: AiActionConfig<I>): Create<I & AiA
       label: config.label,
       description:
         config.resultKind === "transcript"
-          ? `${config.description} Consumes Rendley credits. Saved to your workspace library unless a project is chosen.`
-          : `${config.description} Consumes Rendley credits. Saved to your workspace library unless a project is chosen. ${URL_EXPIRY_NOTE}`,
+          ? `${config.description} Consumes account credits. Saved to your workspace library unless a project is chosen.`
+          : `${config.description} Consumes account credits. Saved to your workspace library unless a project is chosen. ${URL_EXPIRY_NOTE}`,
     },
     operation: {
-      inputFields: [PROJECT_FIELD, WORKSPACE_FIELD, ...config.paramFields, MODEL_FIELD, PARAMS_JSON_FIELD, WAIT_FIELD],
+      inputFields: [...config.paramFields, PROJECT_FIELD, WORKSPACE_FIELD, MODEL_FIELD, PARAMS_JSON_FIELD, WAIT_FIELD],
       perform,
       sample,
       outputFields:
@@ -144,6 +144,6 @@ export function sourceField(key: string, label: string, what: string): InputFiel
     label,
     type: "string",
     required: true,
-    helpText: `A public URL of the ${what}, or the Media ID or File Hash of a file already uploaded to the project (see the Upload Media action).`,
+    helpText: `A public URL of the ${what}, or the media reference or File Hash of a file already uploaded to the project (see the Upload Media action).`,
   };
 }
