@@ -138,8 +138,8 @@ export const WAIT_BUDGET_MS = 20_000;
 export const WAIT_HELP =
   "Yes (default): the step polls Rendley for up to about 20 seconds and returns the finished result when the job completes in time. " +
   "Speech, sound effects, transcription and image operations usually do. Longer jobs (video generation, dubbing, exports, agent edits) " +
-  "come back with Is Complete = false and the Job ID: add a Delay step, then a Get Job Status search, to pick up the result. " +
-  "No: return the Job ID immediately without waiting.";
+  "come back with Is Complete = false and the job reference: add a Delay step, then a Find Job Status search, to pick up the result. " +
+  "No: return the job reference immediately without waiting.";
 
 export const URL_EXPIRY_NOTE =
   "Download URLs are signed and expire after a few hours. Use them in the next steps of the Zap rather than storing them.";
@@ -228,7 +228,7 @@ export const PARAMS_JSON_FIELD: InputField = {
 
 export const WAIT_FIELD: InputField = {
   key: "wait_for_completion",
-  label: "Wait for Completion?",
+  label: "Wait for completion",
   type: "boolean",
   required: false,
   default: "true",
