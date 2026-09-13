@@ -1,6 +1,6 @@
 {
   "name": "zapier-rendley",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Rendley integration for Zapier. Create, edit, and automate video with the Rendley AI agent, AI video, image, music and speech generation, transcription, dubbing, lip sync, media uploads and MP4 rendering.",
   "private": true,
   "license": "MIT",

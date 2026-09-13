@@ -5,7 +5,7 @@ export const createProject: Create<{ name: string; workspace_id?: string; templa
   noun: "Project",
   display: {
     label: "Create Project",
-    description: "Creates a new Rendley project, optionally from a template.",
+    description: "Creates a new project, optionally from a template.",
   },
   operation: {
     inputFields: [
@@ -26,7 +26,7 @@ export const createProject: Create<{ name: string; workspace_id?: string; templa
       },
       {
         key: "template",
-        label: "Template ID",
+        label: "Template",
         type: "string",
         required: false,
         helpText: "Optional: the ID of a Rendley template to start the project from.",
@@ -64,8 +64,7 @@ export const uploadMedia: Create<{ project_id: string; file_url: string; file_na
   display: {
     label: "Upload Media From URL",
     description:
-      "Adds a file from a public URL to a project's media library. Rendley fetches the file itself, so there is no size limit through Zapier. " +
-      URL_EXPIRY_NOTE,
+      "Adds a file from a public URL to a project's media library. " + URL_EXPIRY_NOTE,
   },
   operation: {
     inputFields: [
@@ -82,7 +81,9 @@ export const uploadMedia: Create<{ project_id: string; file_url: string; file_na
         label: "File URL",
         type: "string",
         required: true,
-        helpText: "A publicly reachable URL of the video, audio or image. Files from earlier Zap steps work when they expose a URL.",
+        helpText:
+          "A publicly reachable URL of the video, audio or image. Files from earlier Zap steps work when they expose a URL. " +
+          "The file is fetched server side, so there is no size limit through Zapier.",
       },
       {
         key: "file_name",

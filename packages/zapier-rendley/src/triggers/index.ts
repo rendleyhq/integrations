@@ -81,7 +81,7 @@ export const newProject: Trigger<{ workspace_id?: string }> = {
   noun: "Project",
   display: {
     label: "New Project",
-    description: "Triggers when a project is created in Rendley.",
+    description: "Triggers when a project is created.",
   },
   operation: {
     type: "polling",
