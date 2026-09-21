@@ -11,11 +11,11 @@
 
 [![CI](https://github.com/rendleyhq/integrations/actions/workflows/ci.yml/badge.svg)](https://github.com/rendleyhq/integrations/actions/workflows/ci.yml)
 
-Official [Rendley](https://rendley.com) integrations for automation platforms. Rendley lets you **create, edit, and automate video**. These packages put the Rendley AI agent, AI media generation, transcription, dubbing, lip sync, media uploads and MP4 rendering into n8n, Zapier, Make and Apify.
+Official [Rendley](https://rendley.com) integrations for automation platforms. Rendley lets you **create, edit, and automate video**. These packages put the Rendley AI agent, AI media generation, transcription, dubbing, lip sync, media uploads and MP4 rendering into Zapier, Make and Apify. The n8n community node lives in its own repository, [rendleyhq/n8n-nodes-rendley](https://github.com/rendleyhq/n8n-nodes-rendley), because the n8n Creator Portal verifies a package from its repository root.
 
 | Package | Platform | Published as |
 | --- | --- | --- |
-| [n8n-nodes-rendley](packages/n8n-nodes-rendley/) | n8n | npm [`n8n-nodes-rendley`](https://www.npmjs.com/package/n8n-nodes-rendley) (community node) |
+| [n8n-nodes-rendley](https://github.com/rendleyhq/n8n-nodes-rendley) | n8n | npm [`n8n-nodes-rendley`](https://www.npmjs.com/package/n8n-nodes-rendley) (community node), maintained in its own repository |
 | [zapier-rendley](packages/zapier-rendley/) | Zapier | Zapier app `Rendley` |
 | [make-rendley](packages/make-rendley/) | Make | Make app `Rendley` |
 | [apify-rendley-video-agent](packages/apify-rendley-video-agent/) | Apify | Actor `rendley/rendley-ai-video-agent`, prompt to rendered video |
@@ -59,7 +59,7 @@ RENDLEY_API_KEY=... npm run test:live      # live suites against the Rendley API
 Work on one package from its folder or with `-w`:
 
 ```bash
-cd packages/n8n-nodes-rendley && npm run lint && npm run build
+cd packages/make-rendley && npm test
 npm test -w packages/zapier-rendley
 ```
 
@@ -79,7 +79,7 @@ Deploys happen only from the `production` branch, so merging to `main` never pub
 git push origin main:production
 ```
 
-The Publish workflow compares each package's version with what is already released and deploys only the packages with a new version. The others are skipped, not failed. The n8n package is published to npm with a provenance attestation, the Zapier package is built and attached to a GitHub release (and pushed to Zapier when a `ZAPIER_DEPLOY_KEY` secret is set), and the Apify Actors are pushed when an `APIFY_TOKEN` secret is set. Each deploy is tagged `<package>-v<version>`. The Make app is pushed from a developer machine with `npm run push` in its package, which needs a Make API token (see its README).
+The Publish workflow compares each package's version with what is already released and deploys only the packages with a new version. The others are skipped, not failed. The Zapier package is built and attached to a GitHub release (and pushed to Zapier when a `ZAPIER_DEPLOY_KEY` secret is set), and the Apify Actors are pushed when an `APIFY_TOKEN` secret is set. Each deploy is tagged `<package>-v<version>`. The Make app is pushed from a developer machine with `npm run push` in its package, which needs a Make API token (see its README).
 
 ## License
 

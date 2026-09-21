@@ -20,14 +20,6 @@ jobs:
         include:
           - package: rendley-client
             run: npm run typecheck
-          - package: n8n-nodes-rendley
-            run: |
-              npm run typecheck
-              npm run lint
-              npm run build
-              npm test
-              npm run scan
-              for f in templates/*.json; do node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))"; done
           - package: zapier-rendley
             run: |
               npm run typecheck

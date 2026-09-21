@@ -2,7 +2,7 @@
   "name": "rendley-integrations",
   "version": "0.0.0",
   "private": true,
-  "description": "Rendley integrations for n8n, Zapier, Make and Apify. Each package is versioned, released and published independently.",
+  "description": "Rendley integrations for Zapier, Make and Apify. The n8n node lives in rendleyhq/n8n-nodes-rendley. Each package is versioned, released and published independently.",
   "license": "MIT",
   "author": {
     "name": "Rendley",

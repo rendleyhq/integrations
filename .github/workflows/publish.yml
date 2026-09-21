@@ -5,10 +5,8 @@
 # the others. To release: bump the version in the package's package.json, add
 # a CHANGELOG.md entry, merge to main, then fast-forward `production` to main.
 #
-#   n8n-nodes-rendley  npm publish with provenance through npm Trusted Publishing
-#                      (no token; the package's trusted publisher on npmjs.com is
-#                      this repo, workflow publish.yml, environment `npm`)
-#                      + GitHub release n8n-nodes-rendley-v<version>
+#   n8n-nodes-rendley  not in this repo; it lives in rendleyhq/n8n-nodes-rendley
+#                      and is published to npm from there
 #   zapier-rendley     GitHub release with build.zip attached; also pushed to
 #                      Zapier when the ZAPIER_DEPLOY_KEY secret is set
 #   apify-rendley-video-agent, apify-rendley-media-tools
@@ -17,8 +15,7 @@
 #   make-rendley       not deployed here; run `npm run push` in packages/make-rendley
 #                      with a Make API token (see its README)
 #
-# Secrets: none required for npm. ZAPIER_DEPLOY_KEY and APIFY_TOKEN are
-# optional repository secrets.
+# Secrets: ZAPIER_DEPLOY_KEY and APIFY_TOKEN are optional repository secrets.
 
 name: Publish
 
@@ -39,8 +36,6 @@ jobs:
     name: Find packages with an unreleased version
     runs-on: ubuntu-latest
     outputs:
-      n8n: ${{ steps.check.outputs.n8n }}
-      n8n_version: ${{ steps.check.outputs.n8n_version }}
       zapier: ${{ steps.check.outputs.zapier }}
       zapier_version: ${{ steps.check.outputs.zapier_version }}
       zapier_push: ${{ steps.check.outputs.zapier_push }}
@@ -64,11 +59,6 @@ jobs:
           version() { node -p "require('./packages/$1/package.json').version"; }
           released() { gh release view "$1" >/dev/null 2>&1; }
 
-          v=$(version n8n-nodes-rendley)
-          if [ -n "$(npm view "n8n-nodes-rendley@$v" version 2>/dev/null)" ]; then n8n=false; else n8n=true; fi
-          echo "n8n=$n8n" >> "$GITHUB_OUTPUT"; echo "n8n_version=$v" >> "$GITHUB_OUTPUT"
-          echo "n8n-nodes-rendley $v: publish=$n8n"
-
           v=$(version zapier-rendley)
           if released "zapier-rendley-v$v"; then zapier=false; else zapier=true; fi
           echo "zapier=$zapier" >> "$GITHUB_OUTPUT"; echo "zapier_version=$v" >> "$GITHUB_OUTPUT"
@@ -83,44 +73,6 @@ jobs:
             echo "$pkg $v: release=$rel push=$HAS_APIFY_TOKEN"
           done
           echo "apify_push=$HAS_APIFY_TOKEN" >> "$GITHUB_OUTPUT"
-
-  n8n:
-    name: n8n-nodes-rendley ${{ needs.detect.outputs.n8n_version }} to npm
-    needs: detect
-    if: needs.detect.outputs.n8n == 'true'
-    runs-on: ubuntu-latest
-    environment: npm
-    permissions:
-      id-token: write   # provenance attestation
-      contents: write   # GitHub release
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          registry-url: https://registry.npmjs.org
-          cache: npm
-      - name: Upgrade npm (Trusted Publishing needs npm 11.5.1 or newer)
-        run: npm install -g npm@latest
-      - run: npm ci
-      - name: Lint, build, test, scan
-        working-directory: packages/n8n-nodes-rendley
-        run: |
-          npm run lint
-          npm run build
-          npm test
-          npm run scan
-      - name: Publish with provenance
-        working-directory: packages/n8n-nodes-rendley
-        env:
-          RELEASE_MODE: 'true'   # lets `n8n-node prerelease` allow npm publish
-        run: npm publish --provenance --access public
-      - name: GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          tag="n8n-nodes-rendley-v${{ needs.detect.outputs.n8n_version }}"
-          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes
 
   zapier:
     name: zapier-rendley ${{ needs.detect.outputs.zapier_version }}

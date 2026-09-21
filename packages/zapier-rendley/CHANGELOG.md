@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.1
+
+This release addresses the feedback from the Zapier app review. Every change is to labels, descriptions, help text and field order so the app follows Zapier's style guidelines. No action keys, inputs or output fields changed, so existing Zaps keep working without edits.
+
+- Searches are named Find instead of Get, as Zapier requires. Get Job Status is now Find Job Status, Get Agent Job Status is now Find Agent Job Status, and Get Media Download URL is now Find Media Download URL.
+- Field labels no longer end in ID. Job ID is now Job, Media ID is now Media, Thread ID is now Thread and Template ID is now Template. Help text refers to the job reference and the media reference.
+- Wait for Completion? is now Wait for completion, without the question mark.
+- Descriptions no longer repeat the Rendley name. They say project, account credits and created instead of Rendley project, Rendley credits and created in Rendley.
+- Action descriptions are a single sentence. The longer guidance moved into the help text of the relevant field. The AI Video Agent description now sits under Prompt, the Delay step advice for Find Job Status sits under Job, the server side fetch note for Upload Media From URL sits under File URL, and the export timing note was dropped from Export Video.
+- AI actions list their own inputs first, followed by Project, Workspace, Model, Params JSON and Wait for completion.
+
 ## 1.1.0
 
 - The agent action is now AI Video Agent.
