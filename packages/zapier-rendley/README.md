@@ -74,7 +74,7 @@ Results are saved to your workspace library by default, with a **Workspace** dro
 | --- | --- | --- |
 | Action | **Export Video** | Exports a project to a video file, with codec, resolution and quality settings. |
 | Action | **Create Project** | Creates a project, optionally from a template. |
-| Action | **Upload Media From URL** | Adds a file from a public URL to a project. Rendley fetches it. |
+| Action | **Upload Media** | Adds a file to a project from a public URL or from an earlier step. Rendley fetches it. |
 | Search | **Find Project** | Finds a project by ID or by a fragment of its name. |
 | Search | **Get Media Download URL** | A fresh download link for a media ID or file hash. |
 | Search | **Estimate Cost** | The credits an AI action or an export would use, without running it. |

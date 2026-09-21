@@ -1,7 +1,7 @@
-import { makeAiActionCreate, sourceField } from "./aiActionFactory";
-import { num, str, urlList } from "../lib/zapier";
+import { makeAiActionCreate, sourceFields, sourceValue } from "./aiActionFactory";
+import { num, urlList } from "../lib/zapier";
 
-export const transcribe = makeAiActionCreate<{ source: string; start_time?: number; end_time?: number }>({
+export const transcribe = makeAiActionCreate<{ source?: string; start_time?: number; end_time?: number }>({
   key: "transcribe",
   noun: "Transcript",
   label: "Transcribe Audio or Video",
@@ -9,7 +9,7 @@ export const transcribe = makeAiActionCreate<{ source: string; start_time?: numb
   action: "transcribe",
   resultKind: "transcript",
   paramFields: [
-    sourceField("source", "Source File", "audio or video file to transcribe"),
+    ...sourceFields("source", "Source Audio or Video", "audio or video file to transcribe"),
     {
       key: "start_time",
       label: "Start Time (Seconds)",
@@ -26,7 +26,7 @@ export const transcribe = makeAiActionCreate<{ source: string; start_time?: numb
     },
   ],
   buildParams: (input) => ({
-    media: str(input.source),
+    media: sourceValue(input, "source"),
     ...(num(input.start_time) !== undefined ? { start_time: num(input.start_time) } : {}),
     ...(num(input.end_time) !== undefined ? { end_time: num(input.end_time) } : {}),
   }),
@@ -84,7 +84,7 @@ export const textToSpeech = makeAiActionCreate<{
 });
 
 export const translateVideo = makeAiActionCreate<{
-  source: string;
+  source?: string;
   output_language: string;
   mode?: "speed" | "precision";
 }>({
@@ -94,7 +94,7 @@ export const translateVideo = makeAiActionCreate<{
   description: "Translates a video's speech into another language and dubs it back in.",
   action: "video-translate",
   paramFields: [
-    sourceField("source", "Source Video", "video to dub"),
+    ...sourceFields("source", "Source Video", "video to dub"),
     {
       key: "output_language",
       label: "Target Language",
@@ -113,49 +113,49 @@ export const translateVideo = makeAiActionCreate<{
     },
   ],
   buildParams: (input) => ({
-    media: str(input.source),
+    media: sourceValue(input, "source"),
     output_language: input.output_language,
     ...(input.mode ? { mode: input.mode } : {}),
   }),
   sample: { type: "video_translate" },
 });
 
-export const lipSync = makeAiActionCreate<{ video_source: string; audio_source: string }>({
+export const lipSync = makeAiActionCreate<{ video_source?: string; audio_source?: string }>({
   key: "lip_sync",
   noun: "Lip-Synced Video",
   label: "Lip Sync",
   description: "Re-times a speaker's mouth in a video to match a new audio track.",
   action: "lipsync",
   paramFields: [
-    sourceField("video_source", "Video With Speaker", "video showing the speaker"),
-    sourceField("audio_source", "New Audio Track", "audio the lips should follow"),
+    ...sourceFields("video_source", "Video With Speaker", "video showing the speaker"),
+    ...sourceFields("audio_source", "New Audio Track", "audio the lips should follow"),
   ],
   buildParams: (input) => ({
-    video_media: str(input.video_source),
-    audio_media: str(input.audio_source),
+    video_media: sourceValue(input, "video_source"),
+    audio_media: sourceValue(input, "audio_source"),
   }),
   sample: { type: "lipsync" },
 });
 
-export const isolateVoice = makeAiActionCreate<{ source: string }>({
+export const isolateVoice = makeAiActionCreate<{ source?: string }>({
   key: "isolate_voice",
   noun: "Isolated Voice",
   label: "Isolate Voice",
   description: "Strips background noise and music from a recording, keeping only the voice.",
   action: "voice-isolation",
-  paramFields: [sourceField("source", "Audio or Video", "recording to clean up")],
-  buildParams: (input) => ({ media: str(input.source) }),
+  paramFields: sourceFields("source", "Audio or Video", "recording to clean up"),
+  buildParams: (input) => ({ media: sourceValue(input, "source") }),
   sample: { mime_type: "audio/mpeg", type: "voice_isolation" },
 });
 
-export const changeVoice = makeAiActionCreate<{ source: string; voice_id: string }>({
+export const changeVoice = makeAiActionCreate<{ source?: string; voice_id: string }>({
   key: "change_voice",
   noun: "Voice-Changed Audio",
   label: "Change Voice",
   description: "Replaces the speaker's voice in a recording while keeping the timing and delivery.",
   action: "voice-changer",
   paramFields: [
-    sourceField("source", "Audio or Video", "recording whose voice to replace"),
+    ...sourceFields("source", "Audio or Video", "recording whose voice to replace"),
     {
       key: "voice_id",
       label: "Voice",
@@ -165,40 +165,40 @@ export const changeVoice = makeAiActionCreate<{ source: string; voice_id: string
       helpText: "The voice to convert the speech into, from Rendley's voice catalog.",
     },
   ],
-  buildParams: (input) => ({ media: str(input.source), voice_id: input.voice_id }),
+  buildParams: (input) => ({ media: sourceValue(input, "source"), voice_id: input.voice_id }),
   sample: { mime_type: "audio/mpeg", type: "voice_changer" },
 });
 
-export const removeVideoBackground = makeAiActionCreate<{ source: string }>({
+export const removeVideoBackground = makeAiActionCreate<{ source?: string }>({
   key: "remove_video_background",
   noun: "Video",
   label: "Remove Video Background",
   description: "Cuts the subject out of a video frame by frame, producing a transparent background.",
   action: "remove-video-background",
-  paramFields: [sourceField("source", "Source Video", "video to cut out")],
-  buildParams: (input) => ({ media: str(input.source) }),
+  paramFields: sourceFields("source", "Source Video", "video to cut out"),
+  buildParams: (input) => ({ media: sourceValue(input, "source") }),
   sample: { mime_type: "video/webm", type: "remove_video_background" },
 });
 
-export const removeImageBackground = makeAiActionCreate<{ source: string }>({
+export const removeImageBackground = makeAiActionCreate<{ source?: string }>({
   key: "remove_image_background",
   noun: "Image",
   label: "Remove Image Background",
   description: "Cuts the subject out of an image onto a transparent background.",
   action: "remove-image-background",
-  paramFields: [sourceField("source", "Source Image", "image to cut out")],
-  buildParams: (input) => ({ media: str(input.source) }),
+  paramFields: sourceFields("source", "Source Image", "image to cut out"),
+  buildParams: (input) => ({ media: sourceValue(input, "source") }),
   sample: { mime_type: "image/png", type: "remove_image_background" },
 });
 
-export const upscaleImage = makeAiActionCreate<{ source: string; scale?: number }>({
+export const upscaleImage = makeAiActionCreate<{ source?: string; scale?: number }>({
   key: "upscale_image",
   noun: "Image",
   label: "Upscale Image",
   description: "Increases an image's resolution with AI super-resolution.",
   action: "upscale-image",
   paramFields: [
-    sourceField("source", "Source Image", "image to upscale"),
+    ...sourceFields("source", "Source Image", "image to upscale"),
     {
       key: "scale",
       label: "Scale",
@@ -209,26 +209,27 @@ export const upscaleImage = makeAiActionCreate<{ source: string; scale?: number 
     },
   ],
   buildParams: (input) => ({
-    media: str(input.source),
+    media: sourceValue(input, "source"),
     ...(num(input.scale) !== undefined ? { scale: num(input.scale) } : {}),
   }),
   sample: { mime_type: "image/png", type: "upscale_image" },
 });
 
-export const upscaleVideo = makeAiActionCreate<{ source: string }>({
+export const upscaleVideo = makeAiActionCreate<{ source?: string }>({
   key: "upscale_video",
   noun: "Video",
   label: "Upscale Video",
   description: "Increases a video's resolution with AI super-resolution, up to 4K.",
   action: "upscale-video",
-  paramFields: [sourceField("source", "Source Video", "video to upscale")],
-  buildParams: (input) => ({ media: str(input.source) }),
+  paramFields: sourceFields("source", "Source Video", "video to upscale"),
+  buildParams: (input) => ({ media: sourceValue(input, "source") }),
   sample: { mime_type: "video/mp4", type: "upscale_video" },
 });
 
 export const generateImage = makeAiActionCreate<{
   prompt: string;
   image_urls?: string[];
+  image_urls_file?: string[];
   aspect_ratio?: string;
 }>({
   key: "generate_image",
@@ -253,6 +254,14 @@ export const generateImage = makeAiActionCreate<{
       helpText: "Optional public image URLs to transform or use as references, for models that accept them.",
     },
     {
+      key: "image_urls_file",
+      label: "Reference Images (From Earlier Steps)",
+      type: "file",
+      list: true,
+      required: false,
+      helpText: "Optional reference images taken from earlier steps, for example Google Drive or Dropbox files. Added to anything in Reference Images.",
+    },
+    {
       key: "aspect_ratio",
       label: "Aspect Ratio",
       type: "string",
@@ -260,17 +269,21 @@ export const generateImage = makeAiActionCreate<{
       helpText: "Optional, for example `16:9`, `9:16` or `1:1`. Supported values depend on the model.",
     },
   ],
-  buildParams: (input) => ({
-    prompt: input.prompt,
-    ...(urlList(input.image_urls) ? { image_inputs: urlList(input.image_urls) } : {}),
-    ...(input.aspect_ratio ? { aspect_ratio: input.aspect_ratio } : {}),
-  }),
+  buildParams: (input) => {
+    const images = [...(urlList(input.image_urls) ?? []), ...(urlList(input.image_urls_file) ?? [])];
+    return {
+      prompt: input.prompt,
+      ...(images.length ? { image_inputs: images } : {}),
+      ...(input.aspect_ratio ? { aspect_ratio: input.aspect_ratio } : {}),
+    };
+  },
   sample: { mime_type: "image/png", type: "generate_image" },
 });
 
 export const generateVideo = makeAiActionCreate<{
   prompt: string;
   image_url?: string;
+  image_url_file?: string;
   duration?: number;
   aspect_ratio?: string;
   resolution?: string;
@@ -296,6 +309,13 @@ export const generateVideo = makeAiActionCreate<{
       helpText: "Optional public URL of an image to use as the first frame (image to video).",
     },
     {
+      key: "image_url_file",
+      label: "Start Image (File)",
+      type: "file",
+      required: false,
+      helpText: "Optional first frame taken from an earlier step, for example a Google Drive or Dropbox file. Use this instead of Start Image when the file is not publicly reachable.",
+    },
+    {
       key: "duration",
       label: "Duration (Seconds)",
       type: "integer",
@@ -317,13 +337,16 @@ export const generateVideo = makeAiActionCreate<{
       helpText: "Optional, for example `720p` or `1080p`. Supported values depend on the model.",
     },
   ],
-  buildParams: (input) => ({
-    prompt: input.prompt,
-    ...(input.image_url ? { start_image: input.image_url } : {}),
-    ...(num(input.duration) !== undefined ? { duration: num(input.duration) } : {}),
-    ...(input.aspect_ratio ? { aspect_ratio: input.aspect_ratio } : {}),
-    ...(input.resolution ? { resolution: input.resolution } : {}),
-  }),
+  buildParams: (input) => {
+    const startImage = sourceValue(input, "image_url");
+    return {
+      prompt: input.prompt,
+      ...(startImage ? { start_image: startImage } : {}),
+      ...(num(input.duration) !== undefined ? { duration: num(input.duration) } : {}),
+      ...(input.aspect_ratio ? { aspect_ratio: input.aspect_ratio } : {}),
+      ...(input.resolution ? { resolution: input.resolution } : {}),
+    };
+  },
   sample: { type: "generate_video" },
 });
 

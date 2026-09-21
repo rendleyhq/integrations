@@ -1,4 +1,4 @@
-import { URL_EXPIRY_NOTE, clientFor, toUserError, type Bundle, type Create, type ZObject } from "../lib/zapier";
+import { URL_EXPIRY_NOTE, clientFor, str, toUserError, type Bundle, type Create, type ZObject } from "../lib/zapier";
 
 export const createProject: Create<{ name: string; workspace_id?: string; template?: string }> = {
   key: "create_project",
@@ -58,13 +58,13 @@ export const createProject: Create<{ name: string; workspace_id?: string; templa
   },
 };
 
-export const uploadMedia: Create<{ project_id: string; file_url: string; file_name?: string }> = {
+export const uploadMedia: Create<{ project_id: string; file_url?: string; file?: string; file_name?: string }> = {
   key: "upload_media",
   noun: "Media File",
   display: {
-    label: "Upload Media From URL",
+    label: "Upload Media",
     description:
-      "Adds a file from a public URL to a project's media library. " + URL_EXPIRY_NOTE,
+      "Adds a video, audio or image file to a project's media library. " + URL_EXPIRY_NOTE,
   },
   operation: {
     inputFields: [
@@ -80,10 +80,19 @@ export const uploadMedia: Create<{ project_id: string; file_url: string; file_na
         key: "file_url",
         label: "File URL",
         type: "string",
-        required: true,
+        required: false,
         helpText:
-          "A publicly reachable URL of the video, audio or image. Files from earlier Zap steps work when they expose a URL. " +
-          "The file is fetched server side, so there is no size limit through Zapier.",
+          "A publicly reachable URL of the video, audio or image. The file is fetched server side, so there is no size limit through Zapier. " +
+          "Leave empty when using File instead.",
+      },
+      {
+        key: "file",
+        label: "File",
+        type: "file",
+        required: false,
+        helpText:
+          "The video, audio or image taken from an earlier step, for example a Google Drive or Dropbox file. " +
+          "Use this instead of File URL when the file is not publicly reachable.",
       },
       {
         key: "file_name",
@@ -94,10 +103,14 @@ export const uploadMedia: Create<{ project_id: string; file_url: string; file_na
       },
     ],
     perform: async (z: ZObject, bundle) => {
-      const { project_id, file_url, file_name } = bundle.inputData;
+      const { project_id, file_url, file, file_name } = bundle.inputData;
+      const downloadUrl = str(file) ?? str(file_url);
+      if (!downloadUrl) {
+        throw new z.errors.Error("Set either File URL or File.");
+      }
       try {
         const upload = await clientFor(bundle).importUpload(project_id, {
-          downloadUrl: file_url.trim(),
+          downloadUrl,
           fileName: file_name || undefined,
         });
         return {

@@ -120,6 +120,27 @@ describe("live", { skip: LIVE ? false : "set RENDLEY_LIVE=1 and RENDLEY_API_KEY"
     assert.equal(res.status, 200);
   });
 
+  test("a file field carries a URL, and wins over the text field", async () => {
+    const upload = await run(App.creates.upload_media.operation.perform, {
+      project_id: projectId,
+      file: "https://download.samplelib.com/mp3/sample-3s.mp3",
+    });
+    assert.ok(upload.media_id && upload.url);
+    const out = await run(App.creates.transcribe.operation.perform, {
+      project_id: projectId,
+      source: "not-a-real-media-reference",
+      source_file: upload.url,
+    });
+    assert.equal(out.status, "completed");
+  });
+
+  test("leaving both the text and the file field empty is a clean 400", async () => {
+    await assert.rejects(
+      run(App.creates.transcribe.operation.perform, { project_id: projectId }),
+      (err) => /media reference is required/i.test(err.message),
+    );
+  });
+
   test("estimate_cost for AI actions and export", async () => {
     const video = await run(App.searches.estimate_cost.operation.perform, {
       action: "generate-video",
