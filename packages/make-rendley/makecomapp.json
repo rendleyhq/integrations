@@ -490,7 +490,7 @@
 		{
 			"label": "Rendley (production)",
 			"baseUrl": "https://eu1.make.com/api",
-			"appId": "rendley-m5m7j7",
+			"appId": "rendley",
 			"appVersion": 1,
 			"apikeyFile": ".secrets/make-apikey",
 			"idMapping": {}
