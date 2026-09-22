@@ -134,10 +134,10 @@ describe("live", { skip: LIVE ? false : "set RENDLEY_LIVE=1 and RENDLEY_API_KEY"
     assert.equal(out.status, "completed");
   });
 
-  test("leaving both the text and the file field empty is a clean 400", async () => {
+  test("leaving both the text and the file field empty fails before any request", async () => {
     await assert.rejects(
       run(App.creates.transcribe.operation.perform, { project_id: projectId }),
-      (err) => /media reference is required/i.test(err.message),
+      (err) => /Source Audio or Video is required/.test(err.message),
     );
   });
 

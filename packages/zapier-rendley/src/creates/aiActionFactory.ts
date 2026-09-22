@@ -166,3 +166,10 @@ export function sourceValue(input: object, key: string): string | undefined {
   const values = input as Record<string, unknown>;
   return str(values[fileKey(key)]) ?? str(values[key]);
 }
+
+// Zapier has no "one of two" required, so the text/file pair is checked here before any request.
+export function requiredSource(input: object, key: string, label: string): string {
+  const value = sourceValue(input, key);
+  if (!value) throw new Error(`${label} is required: fill it in or map a file into ${label} (File).`);
+  return value;
+}

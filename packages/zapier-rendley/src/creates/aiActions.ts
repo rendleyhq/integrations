@@ -1,4 +1,4 @@
-import { makeAiActionCreate, sourceFields, sourceValue } from "./aiActionFactory";
+import { makeAiActionCreate, sourceFields, requiredSource, sourceValue } from "./aiActionFactory";
 import { num, urlList } from "../lib/zapier";
 
 export const transcribe = makeAiActionCreate<{ source?: string; start_time?: number; end_time?: number }>({
@@ -26,7 +26,7 @@ export const transcribe = makeAiActionCreate<{ source?: string; start_time?: num
     },
   ],
   buildParams: (input) => ({
-    media: sourceValue(input, "source"),
+    media: requiredSource(input, "source", "Source Audio or Video"),
     ...(num(input.start_time) !== undefined ? { start_time: num(input.start_time) } : {}),
     ...(num(input.end_time) !== undefined ? { end_time: num(input.end_time) } : {}),
   }),
@@ -113,7 +113,7 @@ export const translateVideo = makeAiActionCreate<{
     },
   ],
   buildParams: (input) => ({
-    media: sourceValue(input, "source"),
+    media: requiredSource(input, "source", "Source Video"),
     output_language: input.output_language,
     ...(input.mode ? { mode: input.mode } : {}),
   }),
@@ -131,8 +131,8 @@ export const lipSync = makeAiActionCreate<{ video_source?: string; audio_source?
     ...sourceFields("audio_source", "New Audio Track", "audio the lips should follow"),
   ],
   buildParams: (input) => ({
-    video_media: sourceValue(input, "video_source"),
-    audio_media: sourceValue(input, "audio_source"),
+    video_media: requiredSource(input, "video_source", "Video With Speaker"),
+    audio_media: requiredSource(input, "audio_source", "New Audio Track"),
   }),
   sample: { type: "lipsync" },
 });
@@ -144,7 +144,7 @@ export const isolateVoice = makeAiActionCreate<{ source?: string }>({
   description: "Strips background noise and music from a recording, keeping only the voice.",
   action: "voice-isolation",
   paramFields: sourceFields("source", "Audio or Video", "recording to clean up"),
-  buildParams: (input) => ({ media: sourceValue(input, "source") }),
+  buildParams: (input) => ({ media: requiredSource(input, "source", "Audio or Video") }),
   sample: { mime_type: "audio/mpeg", type: "voice_isolation" },
 });
 
@@ -165,7 +165,7 @@ export const changeVoice = makeAiActionCreate<{ source?: string; voice_id: strin
       helpText: "The voice to convert the speech into, from Rendley's voice catalog.",
     },
   ],
-  buildParams: (input) => ({ media: sourceValue(input, "source"), voice_id: input.voice_id }),
+  buildParams: (input) => ({ media: requiredSource(input, "source", "Audio or Video"), voice_id: input.voice_id }),
   sample: { mime_type: "audio/mpeg", type: "voice_changer" },
 });
 
@@ -176,7 +176,7 @@ export const removeVideoBackground = makeAiActionCreate<{ source?: string }>({
   description: "Cuts the subject out of a video frame by frame, producing a transparent background.",
   action: "remove-video-background",
   paramFields: sourceFields("source", "Source Video", "video to cut out"),
-  buildParams: (input) => ({ media: sourceValue(input, "source") }),
+  buildParams: (input) => ({ media: requiredSource(input, "source", "Source Video") }),
   sample: { mime_type: "video/webm", type: "remove_video_background" },
 });
 
@@ -187,7 +187,7 @@ export const removeImageBackground = makeAiActionCreate<{ source?: string }>({
   description: "Cuts the subject out of an image onto a transparent background.",
   action: "remove-image-background",
   paramFields: sourceFields("source", "Source Image", "image to cut out"),
-  buildParams: (input) => ({ media: sourceValue(input, "source") }),
+  buildParams: (input) => ({ media: requiredSource(input, "source", "Source Image") }),
   sample: { mime_type: "image/png", type: "remove_image_background" },
 });
 
@@ -209,7 +209,7 @@ export const upscaleImage = makeAiActionCreate<{ source?: string; scale?: number
     },
   ],
   buildParams: (input) => ({
-    media: sourceValue(input, "source"),
+    media: requiredSource(input, "source", "Source Image"),
     ...(num(input.scale) !== undefined ? { scale: num(input.scale) } : {}),
   }),
   sample: { mime_type: "image/png", type: "upscale_image" },
@@ -222,7 +222,7 @@ export const upscaleVideo = makeAiActionCreate<{ source?: string }>({
   description: "Increases a video's resolution with AI super-resolution, up to 4K.",
   action: "upscale-video",
   paramFields: sourceFields("source", "Source Video", "video to upscale"),
-  buildParams: (input) => ({ media: sourceValue(input, "source") }),
+  buildParams: (input) => ({ media: requiredSource(input, "source", "Source Video") }),
   sample: { mime_type: "video/mp4", type: "upscale_video" },
 });
 

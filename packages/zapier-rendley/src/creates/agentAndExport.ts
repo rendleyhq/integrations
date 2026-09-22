@@ -68,7 +68,7 @@ export const aiVideoAgent: Create<{
   prompt: string;
   project_id?: string;
   files?: string[];
-  files_file?: string[];
+  uploaded_files?: string[];
   thread?: string;
   wait_for_completion?: boolean | string;
 }> = {
@@ -108,7 +108,8 @@ export const aiVideoAgent: Create<{
         helpText: "Public URLs of clips, images or audio for the agent to work with. Each one is imported into the project before the agent starts.",
       },
       {
-        key: "files_file",
+        // file-type twin of files: Zapier downloads each mapped file and hands over a temporary URL
+        key: "uploaded_files",
         label: "Files (From Earlier Steps)",
         type: "file",
         list: true,
@@ -129,10 +130,10 @@ export const aiVideoAgent: Create<{
       },
     ],
     perform: async (z: ZObject, bundle) => {
-      const { prompt, project_id, files, files_file, thread, wait_for_completion } = bundle.inputData;
+      const { prompt, project_id, files, uploaded_files, thread, wait_for_completion } = bundle.inputData;
       const client = clientFor(bundle);
       try {
-        const urls = [...(urlList(files) ?? []), ...(urlList(files_file) ?? [])];
+        const urls = [...(urlList(files) ?? []), ...(urlList(uploaded_files) ?? [])];
         // Files go through the API's importer first so every upload is complete
         // before the agent starts, then the agent gets them by media ID. That
         // needs a project, so one is created when none is set.

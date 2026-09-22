@@ -2,7 +2,7 @@
 
 ## 1.2.0
 
-Files from earlier steps. Every input that takes a file now comes as a pair: the text field for a public URL, media reference or file hash, and a new file field next to it for a file mapped from an earlier step, such as a Google Drive or Dropbox file. Zapier downloads the mapped file itself, so private files work. The text fields are optional now; when both are set, the file wins. Existing Zaps keep working without edits.
+Files from earlier steps. Every input that takes a file now comes as a pair: the text field for a public URL, media reference or file hash, and a new file field next to it for a file mapped from an earlier step, such as a Google Drive or Dropbox file. Zapier downloads the mapped file itself, so private files work. The text fields are optional now; when both are set, the file wins, and when both are empty the action fails with a message naming the field before any request is made. Existing Zaps keep working without edits.
 
 - Source Audio or Video, Source Video, Source Image, Audio or Video, Video With Speaker and New Audio Track each gain a matching (File) field.
 - Generate Video gains Start Image (File); Generate Image gains Reference Images (From Earlier Steps); AI Video Agent gains Files (From Earlier Steps).
