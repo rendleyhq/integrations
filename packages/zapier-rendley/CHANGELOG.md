@@ -7,6 +7,8 @@ Files from earlier steps. Every input that takes a file now comes as a pair: the
 - Source Audio or Video, Source Video, Source Image, Audio or Video, Video With Speaker and New Audio Track each gain a matching (File) field.
 - Generate Video gains Start Image (File); Generate Image gains Reference Images (From Earlier Steps); AI Video Agent gains Files (From Earlier Steps).
 - Upload Media From URL is now Upload Media and takes a File as well as a File URL.
+- New Completed Job reads every job it hands to the Zap, so a batch that finishes between two polls no longer delivers rows without a download URL; one poll covers 25 jobs.
+- New Project asks the API for pages of newest projects. The unpaged listing answers in last-viewed order, which put an old project at the top of the trigger whenever it was opened.
 
 ## 1.1.1
 

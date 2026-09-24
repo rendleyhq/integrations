@@ -197,24 +197,35 @@ describe("live", { skip: LIVE ? false : "set RENDLEY_LIVE=1 and RENDLEY_API_KEY"
     assert.ok(rows.length > 0);
     assert.ok(rows.every((r) => r.id && r.status === "completed"));
     assert.ok(rows[0].url, "first row has a fresh download URL");
+    assert.ok(rows.length <= 25, "one poll stays within the page it reads job by job");
+    // Every row went through GET /jobs/{id}: the listing has no url_expires_at at all.
+    assert.ok(rows.some((r, i) => i >= 10 && r.url_expires_at), "rows past the tenth are read too");
   });
 
-  test("agent: trivial edit completes, get_agent_job reads it, second job cancels", async () => {
+  test("new_project pages newest first", async () => {
+    const page0 = await run(App.triggers.new_project.operation.perform, {}, { meta: { page: 0 } });
+    assert.ok(page0.length > 0);
+    assert.ok(
+      page0.every((p, i) => i === 0 || new Date(page0[i - 1].created_at) >= new Date(p.created_at)),
+      "newest first",
+    );
+    const page1 = await run(App.triggers.new_project.operation.perform, {}, { meta: { page: 1 } });
+    assert.equal(page1.filter((p) => page0.some((q) => q.id === p.id)).length, 0, "pages do not overlap");
+  });
+
+  test("agent: an edit starts, get_agent_job reads it, cancel ends it", async () => {
     const out = await run(App.creates.ai_video_agent.operation.perform, {
       project_id: projectId,
-      prompt: "Reply with the single word OK and make no changes.",
-    });
-    assert.ok(out.job_id);
-    const status = await run(App.searches.get_agent_job.operation.perform, { job: out.job_id });
-    assert.equal(status[0].job_id, out.job_id);
-    const second = await run(App.creates.ai_video_agent.operation.perform, {
-      project_id: projectId,
-      prompt: "Reply with the single word OK and make no changes.",
+      prompt: "Add a 2 second title card at the start that says OK.",
       wait_for_completion: false,
     });
-    assert.equal(second.is_complete, false);
+    assert.ok(out.job_id);
+    assert.equal(out.is_complete, false);
+    const status = await run(App.searches.get_agent_job.operation.perform, { job: out.job_id });
+    assert.equal(status[0].job_id, out.job_id);
+    // One edit at a time per project: the API answers AGENT_PROJECT_BUSY while this one runs.
     const { RendleyClient } = require("./client.helper.js");
-    const canceled = await new RendleyClient(clientOptions).cancelAgentJob(second.job_id);
+    const canceled = await new RendleyClient(clientOptions).cancelAgentJob(out.job_id);
     assert.ok(["canceled", "cancelled", "completed"].includes(canceled.status));
   });
 
