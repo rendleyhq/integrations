@@ -291,12 +291,15 @@ export class RendleyClient {
     return first;
   }
 
-  async listProjects(workspaceId?: string): Promise<Project[]> {
+  /** Without `limit` the API answers in last-viewed order; `limit` switches it to newest first, paged. */
+  async listProjects(workspaceId?: string, page?: { page: number; limit: number }): Promise<Project[]> {
     const id = workspaceId || (await this.defaultWorkspaceId());
-    const projects = await this.request<Project[]>(
-      "GET",
-      `/projects?workspace_id=${encodeURIComponent(id)}`,
-    );
+    const params = new URLSearchParams({ workspace_id: id });
+    if (page) {
+      params.set("limit", String(page.limit));
+      params.set("page", String(page.page));
+    }
+    const projects = await this.request<Project[]>("GET", `/projects?${params.toString()}`);
     return Array.isArray(projects) ? projects : [];
   }
 

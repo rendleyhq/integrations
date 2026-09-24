@@ -7,6 +7,7 @@ import {
   jobOutput,
   jobSample,
   toUserError,
+  urlList,
   wantsWait,
   type Bundle,
   type Create,
@@ -67,6 +68,7 @@ export const aiVideoAgent: Create<{
   prompt: string;
   project_id?: string;
   files?: string[];
+  uploaded_files?: string[];
   thread?: string;
   wait_for_completion?: boolean | string;
 }> = {
@@ -106,6 +108,15 @@ export const aiVideoAgent: Create<{
         helpText: "Public URLs of clips, images or audio for the agent to work with. Each one is imported into the project before the agent starts.",
       },
       {
+        // file-type twin of files: Zapier downloads each mapped file and hands over a temporary URL
+        key: "uploaded_files",
+        label: "Files (From Earlier Steps)",
+        type: "file",
+        list: true,
+        required: false,
+        helpText: "Clips, images or audio taken from earlier steps, for example Google Drive or Dropbox files. Added to anything in Files.",
+      },
+      {
         key: "thread",
         label: "Thread",
         type: "string",
@@ -119,10 +130,10 @@ export const aiVideoAgent: Create<{
       },
     ],
     perform: async (z: ZObject, bundle) => {
-      const { prompt, project_id, files: fileUrls, thread, wait_for_completion } = bundle.inputData;
+      const { prompt, project_id, files, uploaded_files, thread, wait_for_completion } = bundle.inputData;
       const client = clientFor(bundle);
       try {
-        const urls = (Array.isArray(fileUrls) ? fileUrls : fileUrls ? [fileUrls] : []).map((u) => String(u).trim()).filter(Boolean);
+        const urls = [...(urlList(files) ?? []), ...(urlList(uploaded_files) ?? [])];
         // Files go through the API's importer first so every upload is complete
         // before the agent starts, then the agent gets them by media ID. That
         // needs a project, so one is created when none is set.
@@ -130,13 +141,13 @@ export const aiVideoAgent: Create<{
         if (urls.length && !projectId) {
           projectId = (await client.createProject({ name: agentProjectName(prompt) })).id;
         }
-        const files = [];
-        for (const url of urls) files.push(await client.importAttachment(projectId as string, url));
+        const attachments = [];
+        for (const url of urls) attachments.push(await client.importAttachment(projectId as string, url));
         const started = await client.startAgentJob({
           prompt,
           projectId,
           threadId: thread || undefined,
-          files,
+          files: attachments,
         });
         if (!wantsWait(wait_for_completion)) return agentOutput(started);
 

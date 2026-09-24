@@ -1,4 +1,10 @@
+import { type Job } from "@rendley/client";
 import { JOB_OUTPUT_FIELDS, clientFor, jobOutput, jobSample, toUserError, type Bundle, type Trigger, type ZObject } from "../lib/zapier";
+
+// One poll's page. Each job is then read individually, so this also bounds the requests per poll.
+const JOBS_PER_POLL = 25;
+const JOB_DETAIL_CONCURRENCY = 5;
+const PROJECTS_PER_PAGE = 100;
 
 const JOB_TYPES: Record<string, string> = {
   export_video: "Export Video",
@@ -54,18 +60,22 @@ export const newCompletedJob: Trigger<{ job_type?: string; project_id?: string }
           type: job_type || undefined,
           projectId: project_id || undefined,
         });
-        const completed = jobs.filter((job) => job.status === "completed").slice(0, 50);
-        // The listing carries no signed URL; fetch each job for a fresh one.
-        const detailed = await Promise.all(
-          completed.slice(0, 10).map(async (job) => {
-            try {
-              return await client.getJob(job.id);
-            } catch {
-              return job;
-            }
-          }),
-        );
-        return [...detailed, ...completed.slice(10)].map((job) => jobOutput(job));
+        const completed = jobs.filter((job) => job.status === "completed").slice(0, JOBS_PER_POLL);
+        // The listing carries no signed URL, so every job served to the Zap is read individually.
+        const detailed: Job[] = [];
+        for (let i = 0; i < completed.length; i += JOB_DETAIL_CONCURRENCY) {
+          const batch = await Promise.all(
+            completed.slice(i, i + JOB_DETAIL_CONCURRENCY).map(async (job) => {
+              try {
+                return await client.getJob(job.id);
+              } catch {
+                return job;
+              }
+            }),
+          );
+          detailed.push(...batch);
+        }
+        return detailed.map((job) => jobOutput(job));
       } catch (err) {
         throw toUserError(z, err);
       }
@@ -85,6 +95,7 @@ export const newProject: Trigger<{ workspace_id?: string }> = {
   },
   operation: {
     type: "polling",
+    canPaginate: true,
     inputFields: [
       {
         key: "workspace_id",
@@ -96,8 +107,12 @@ export const newProject: Trigger<{ workspace_id?: string }> = {
       },
     ],
     perform: async (z: ZObject, bundle) => {
+      const page = typeof bundle.meta?.page === "number" ? bundle.meta.page : 0;
       try {
-        const projects = await clientFor(bundle).listProjects(bundle.inputData.workspace_id || undefined);
+        const projects = await clientFor(bundle).listProjects(bundle.inputData.workspace_id || undefined, {
+          page: page + 1,
+          limit: PROJECTS_PER_PAGE,
+        });
         return projects.map((p) => ({
           id: p.id,
           name: p.name,

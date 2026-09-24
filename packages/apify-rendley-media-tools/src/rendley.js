@@ -110,12 +110,15 @@ var RendleyClient = class {
     }
     return first;
   }
-  async listProjects(workspaceId) {
+  /** Without `limit` the API answers in last-viewed order; `limit` switches it to newest first, paged. */
+  async listProjects(workspaceId, page) {
     const id = workspaceId || await this.defaultWorkspaceId();
-    const projects = await this.request(
-      "GET",
-      `/projects?workspace_id=${encodeURIComponent(id)}`
-    );
+    const params = new URLSearchParams({ workspace_id: id });
+    if (page) {
+      params.set("limit", String(page.limit));
+      params.set("page", String(page.page));
+    }
+    const projects = await this.request("GET", `/projects?${params.toString()}`);
     return Array.isArray(projects) ? projects : [];
   }
   getProject(projectId) {
