@@ -1,0 +1,77 @@
+[
+	{
+		"name": "id",
+		"type": "text",
+		"label": "Post ID (first account)"
+	},
+	{
+		"name": "post_ids",
+		"type": "text",
+		"label": "Post IDs"
+	},
+	{
+		"name": "status",
+		"type": "text",
+		"label": "Status"
+	},
+	{
+		"name": "scheduled_at",
+		"type": "date",
+		"label": "Scheduled at"
+	},
+	{
+		"name": "posted_count",
+		"type": "number",
+		"label": "Accounts posted"
+	},
+	{
+		"name": "failed_count",
+		"type": "number",
+		"label": "Accounts failed"
+	},
+	{
+		"name": "errors",
+		"type": "text",
+		"label": "Errors"
+	},
+	{
+		"name": "posts",
+		"type": "array",
+		"label": "Posts",
+		"spec": {
+			"type": "collection",
+			"spec": [
+				{
+					"name": "id",
+					"type": "text",
+					"label": "Post ID"
+				},
+				{
+					"name": "platform",
+					"type": "text",
+					"label": "Platform"
+				},
+				{
+					"name": "account_username",
+					"type": "text",
+					"label": "Account"
+				},
+				{
+					"name": "status",
+					"type": "text",
+					"label": "Status"
+				},
+				{
+					"name": "scheduled_at",
+					"type": "date",
+					"label": "Scheduled at"
+				},
+				{
+					"name": "error",
+					"type": "text",
+					"label": "Error"
+				}
+			]
+		}
+	}
+]

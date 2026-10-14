@@ -1,0 +1,18 @@
+{
+	"id": "0f4b1c2d-3e4f-4a5b-8c6d-7e8f9a0b1c2d",
+	"post_ids": "0f4b1c2d-3e4f-4a5b-8c6d-7e8f9a0b1c2d",
+	"status": "processing",
+	"scheduled_at": null,
+	"posted_count": 1,
+	"failed_count": 0,
+	"errors": "",
+	"posts": [
+		{
+			"id": "0f4b1c2d-3e4f-4a5b-8c6d-7e8f9a0b1c2d",
+			"platform": "x",
+			"account_username": "rendleyhq",
+			"status": "processing",
+			"scheduled_at": null
+		}
+	]
+}

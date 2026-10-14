@@ -1,0 +1,24 @@
+{
+	"url": "/social/posts",
+	"method": "POST",
+	"body": {
+		"workspace_id": "{{parameters.workspaceId}}",
+		"account_ids": "{{parameters.accountIds}}",
+		"media_url": "{{parameters.mediaUrl}}",
+		"caption": "{{parameters.caption}}",
+		"scheduled_at": "{{if(parameters.scheduledAt, parameters.scheduledAt, undefined)}}",
+		"project_id": "{{if(parameters.projectId, parameters.projectId, undefined)}}"
+	},
+	"response": {
+		"output": {
+			"id": "{{body.data[1].id}}",
+			"post_ids": "{{join(map(body.data, 'id'), ',')}}",
+			"status": "{{body.data[1].status}}",
+			"scheduled_at": "{{body.data[1].scheduled_at}}",
+			"posted_count": "{{length(body.data) - length(map(body.data, 'id', 'status', 'failed'))}}",
+			"failed_count": "{{length(map(body.data, 'id', 'status', 'failed'))}}",
+			"errors": "{{join(map(body.data, 'error', 'status', 'failed'), '; ')}}",
+			"posts": "{{body.data}}"
+		}
+	}
+}

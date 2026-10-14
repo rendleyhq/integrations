@@ -181,6 +181,38 @@ await step("makeApiCall GET /workspaces", async () => {
   assert.equal(out.statusCode, 200);
   assert.ok(Array.isArray(out.body.data));
 });
+await step("makeApiCall keeps the key with extra headers and sends a JSON text body as JSON", async () => {
+  const out = await rt.run(module_("makeApiCall"), {
+    url: "/export/cost",
+    method: "POST",
+    query: [],
+    headers: [{ key: "Accept", value: "application/json" }],
+    body: JSON.stringify({ project_id: projectId }),
+  });
+  assert.equal(out.statusCode, 200);
+});
+await step("listSocialAccounts, publishSocialPost (scheduled), cancelSocialPost", async () => {
+  const workspaces = await rt.run(rpc("listWorkspaces"), {});
+  const workspaceId = workspaces[0].value;
+  const accounts = await rt.run(rpc("listSocialAccounts"), { workspaceId });
+  if (!accounts.length) return "(skipped: no social account connected)";
+  assert.ok(accounts.every((a) => a.label && a.value));
+  const scheduledAt = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString();
+  const out = await rt.run(module_("publishSocialPost"), {
+    workspaceId,
+    accountIds: [accounts[0].value],
+    mediaUrl: "https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?auto=compress&cs=tinysrgb&w=1080",
+    caption: "make-live-test",
+    scheduledAt,
+  });
+  checkInterface("publishSocialPost", out);
+  assert.equal(out.status, "scheduled");
+  assert.equal(out.failed_count, 0);
+  const canceled = await rt.run(module_("cancelSocialPost"), { postId: out.id });
+  checkInterface("cancelSocialPost", canceled);
+  assert.equal(canceled.canceled, true);
+  return `(${accounts[0].label})`;
+});
 await step("error mapping: 404 becomes a typed error", async () => {
   await assert.rejects(rt.run(module_("getJob"), { host: "api", jobId: "does-not-exist" }), /\[[A-Z_0-9]+\] /);
 });

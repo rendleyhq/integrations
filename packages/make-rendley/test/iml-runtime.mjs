@@ -33,7 +33,8 @@ export class ImlRuntime {
       const url = this.evalDeep(step.url, ctx);
       const method = (this.evalDeep(step.method, ctx) || "GET").toUpperCase();
       const qs = compact(this.evalDeep(step.qs, ctx));
-      const headers = { ...(this.base.headers || {}), ...(step.headers || {}) };
+      // An expression in `headers` replaces the Base headers in Make instead of merging with them (seen live 14.10).
+      const headers = typeof step.headers === "string" ? step.headers : { ...(this.base.headers || {}), ...(step.headers || {}) };
       const body = compact(this.evalDeep(step.body, ctx));
       const full = new URL(/^https?:\/\//.test(url) ? url : this.base.baseUrl + url);
       for (const [k, v] of Object.entries(qs || {})) if (v !== undefined) full.searchParams.set(k, String(v));
@@ -179,11 +180,24 @@ class Parser {
       case "parseJSON": { try { return typeof args[0] === "string" ? JSON.parse(args[0]) : args[0]; } catch { return undefined; } }
       case "substring": return String(args[0] ?? "").substring(Number(args[1] ?? 0), args[2] === undefined ? undefined : Number(args[2]));
       case "toCollection": { const out = {}; for (const row of args[0] || []) out[row[args[1]]] = row[args[2]]; return out; }
+      case "toString": return makeString(args[0]);
+      case "join": return (Array.isArray(args[0]) ? args[0] : []).join(args[1] ?? ",");
+      case "map": {
+        const rows = Array.isArray(args[0]) ? args[0] : [];
+        const allowed = args[2] === undefined ? undefined : String(args[3] ?? "").split(",");
+        return rows.filter((r) => !allowed || allowed.includes(String(r?.[args[2]] ?? ""))).map((r) => r?.[args[1]]);
+      }
       default: throw new Error(`IML function not supported by the test runtime: ${name}`);
     }
   }
 }
 
+/** Make prints a collection as {object} and an array as [item,item]. */
+function makeString(v) {
+  if (Array.isArray(v)) return `[${v.map(makeString).join(",")}]`;
+  if (v && typeof v === "object") return "{object}";
+  return v == null ? "" : String(v);
+}
 function truthy(v) { return !(v === undefined || v === null || v === false || v === "" || v === 0); }
 function isEmpty(v) { return v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0); }
 function looseEq(a, b) { return String(a ?? "") === String(b ?? ""); }

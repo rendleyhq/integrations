@@ -1,0 +1,12 @@
+[
+	{
+		"name": "post_id",
+		"type": "text",
+		"label": "Post ID"
+	},
+	{
+		"name": "canceled",
+		"type": "boolean",
+		"label": "Canceled"
+	}
+]

@@ -2,8 +2,8 @@
 	"url": "https://api.rendley.com/v1{{parameters.url}}",
 	"method": "{{parameters.method}}",
 	"qs": "{{toCollection(parameters.query, 'key', 'value')}}",
-	"headers": "{{toCollection(parameters.headers, 'key', 'value')}}",
-	"body": "{{parameters.body}}",
+	"headers": "{{toCollection(merge(toArray(parseJSON('{\"Authorization\": \"Bearer ' + connection.apiKey + '\"}')), ifempty(parameters.headers, [])), 'key', 'value')}}",
+	"body": "{{if(parameters.body, if(contains(toString(parameters.body), '{object}'), parameters.body, parseJSON(if(contains(toString(parameters.body), '{object}'), '{}', parameters.body))), undefined)}}",
 	"response": {
 		"output": {
 			"statusCode": "{{statusCode}}",
