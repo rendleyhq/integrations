@@ -52,6 +52,13 @@
 		]
 	},
 	{
+		"label": "Social media",
+		"modules": [
+			"publishSocialPost",
+			"cancelSocialPost"
+		]
+	},
+	{
 		"label": "Jobs & cost",
 		"modules": [
 			"getJob",

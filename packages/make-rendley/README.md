@@ -74,7 +74,16 @@ Results are saved to the workspace library by default, with a **Workspace** drop
 | **List Workspaces** | Search | Workspaces, with `limit`. |
 | **Make an API Call** | Universal | Any authenticated Rendley request. |
 
-Module folders under `modules/` carry the camel-cased label (`aiVideoAgent`, `renderVideo` for Export Video, `translateVideo` for Dub Video). RPCs for dynamic dropdowns are `listProjects`, `listWorkspaces`, `listVoices` and `listLanguages`.
+Module folders under `modules/` carry the camel-cased label (`aiVideoAgent`, `renderVideo` for Export Video, `translateVideo` for Dub Video). RPCs for dynamic dropdowns are `listProjects`, `listWorkspaces`, `listVoices`, `listLanguages` and `listSocialAccounts`.
+
+## Social media
+
+Post finished videos and images to the accounts connected in the Rendley app under Social media. Posts also show up in the Rendley content calendar. Needs a plan with social publishing.
+
+| Label | Type | What it does |
+| --- | --- | --- |
+| **Publish a Social Post** | Action | Posts a video or image to one or more connected accounts, now or at a scheduled time. Takes a public media URL, for example the `url` from Get Job Status after Export Video, and returns one post per account in `posts`. Accounts that fail come back in `errors` with `failed_count` instead of failing the module. |
+| **Cancel a Scheduled Social Post** | Action | Cancels a scheduled post before it goes out. |
 
 ## Following a job
 

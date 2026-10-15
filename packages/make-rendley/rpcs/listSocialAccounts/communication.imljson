@@ -1,0 +1,14 @@
+{
+	"url": "/social/accounts",
+	"method": "GET",
+	"qs": {
+		"workspace_id": "{{parameters.workspaceId}}"
+	},
+	"response": {
+		"iterate": "{{body.data}}",
+		"output": {
+			"label": "{{item.username}} ({{item.platform}})",
+			"value": "{{item.id}}"
+		}
+	}
+}

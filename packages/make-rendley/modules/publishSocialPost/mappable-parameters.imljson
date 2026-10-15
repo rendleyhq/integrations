@@ -1,0 +1,55 @@
+[
+	{
+		"name": "workspaceId",
+		"type": "select",
+		"label": "Workspace",
+		"required": true,
+		"options": {
+			"store": "rpc://listWorkspaces",
+			"nested": [
+				{
+					"name": "accountIds",
+					"type": "select",
+					"label": "Accounts",
+					"required": true,
+					"multiple": true,
+					"options": {
+						"store": "rpc://listSocialAccounts"
+					},
+					"help": "Accounts to post to. Connect them in the Rendley app under Social media."
+				}
+			]
+		},
+		"help": "Workspace whose connected accounts to post to."
+	},
+	{
+		"name": "mediaUrl",
+		"type": "url",
+		"label": "Media URL",
+		"required": true,
+		"help": "Public HTTPS link to an MP4/MOV video or a JPEG/PNG/WEBP/GIF image, e.g. the url from 'Get job status' after 'Export video'. Rendley copies the file for scheduled posts, so the link may expire before the post goes out."
+	},
+	{
+		"name": "caption",
+		"type": "text",
+		"label": "Caption",
+		"required": false,
+		"multiline": true,
+		"help": "Text of the post. Each platform's limit applies, e.g. 280 characters on X."
+	},
+	{
+		"name": "scheduledAt",
+		"type": "date",
+		"label": "Schedule for",
+		"required": false,
+		"help": "When to publish. Leave empty to publish now. Scheduled posts show up in the Rendley content calendar."
+	},
+	{
+		"name": "projectId",
+		"type": "text",
+		"label": "Project ID",
+		"required": false,
+		"advanced": true,
+		"help": "Rendley project the media comes from, shown with the post in the content calendar."
+	}
+]

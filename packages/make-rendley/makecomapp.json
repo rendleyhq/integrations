@@ -443,6 +443,40 @@
 					"samples": "modules/uploadMedia/samples.imljson",
 					"scope": null
 				}
+			},
+			"publishSocialPost": {
+				"label": "Publish a social post",
+				"description": "Posts a video or image to the social accounts connected in Rendley, right away or at a scheduled time.",
+				"moduleType": "action",
+				"actionCrud": "create",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/publishSocialPost/communication.imljson",
+					"mappableParams": "modules/publishSocialPost/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/publishSocialPost/interface.imljson",
+					"samples": "modules/publishSocialPost/samples.imljson",
+					"scope": null
+				}
+			},
+			"cancelSocialPost": {
+				"label": "Cancel a scheduled social post",
+				"description": "Cancels a scheduled post before it goes out.",
+				"moduleType": "action",
+				"actionCrud": "delete",
+				"connection": "rendley",
+				"altConnection": null,
+				"webhook": null,
+				"codeFiles": {
+					"communication": "modules/cancelSocialPost/communication.imljson",
+					"mappableParams": "modules/cancelSocialPost/mappable-parameters.imljson",
+					"staticParams": null,
+					"interface": "modules/cancelSocialPost/interface.imljson",
+					"samples": "modules/cancelSocialPost/samples.imljson",
+					"scope": null
+				}
 			}
 		},
 		"rpc": {
@@ -480,6 +514,15 @@
 				"codeFiles": {
 					"communication": "rpcs/listWorkspaces/communication.imljson",
 					"params": "rpcs/listWorkspaces/parameters.imljson"
+				}
+			},
+			"listSocialAccounts": {
+				"label": "List Social Accounts",
+				"connection": "rendley",
+				"altConnection": null,
+				"codeFiles": {
+					"communication": "rpcs/listSocialAccounts/communication.imljson",
+					"params": "rpcs/listSocialAccounts/parameters.imljson"
 				}
 			}
 		},

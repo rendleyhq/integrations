@@ -1,0 +1,10 @@
+{
+	"url": "/social/posts/{{parameters.postId}}",
+	"method": "DELETE",
+	"response": {
+		"output": {
+			"post_id": "{{parameters.postId}}",
+			"canceled": true
+		}
+	}
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+
+- New Publish a Social Post module (`publishSocialPost`). Posts a video or image to the social accounts connected in Rendley, now or at a scheduled time; the Accounts list follows the chosen workspace. Returns one post per account in `posts`; accounts that fail are reported in `errors` and `failed_count` instead of failing the module.
+- New Cancel a Scheduled Social Post module (`cancelSocialPost`).
+- New List Social Accounts RPC (`listSocialAccounts`) behind the Accounts dropdown.
+- Make an API call always sends the connection's API key. Its headers expression replaced the Base headers, so every call failed with 401.
+- Make an API call sends a body typed as JSON text as JSON. It used to go out as a JSON string, which the API rejected. A mapped collection is sent as before, and the module's fields are unchanged.
+
 ## 1.2.0
 
 - New Change Voice and Upscale Video modules, so the app covers the same AI actions as the n8n node and the Zapier integration.
