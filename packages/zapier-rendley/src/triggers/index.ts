@@ -1,4 +1,10 @@
+import { type Job } from "@rendley/client";
 import { JOB_OUTPUT_FIELDS, clientFor, jobOutput, jobSample, toUserError, type Bundle, type Trigger, type ZObject } from "../lib/zapier";
+
+// One poll's page. Each job is then read individually, so this also bounds the requests per poll.
+const JOBS_PER_POLL = 25;
+const JOB_DETAIL_CONCURRENCY = 5;
+const PROJECTS_PER_PAGE = 100;
 
 const JOB_TYPES: Record<string, string> = {
   export_video: "Export Video",
@@ -54,18 +60,22 @@ export const newCompletedJob: Trigger<{ job_type?: string; project_id?: string }
           type: job_type || undefined,
           projectId: project_id || undefined,
         });
-        const completed = jobs.filter((job) => job.status === "completed").slice(0, 50);
-        // The listing carries no signed URL; fetch each job for a fresh one.
-        const detailed = await Promise.all(
-          completed.slice(0, 10).map(async (job) => {
-            try {
-              return await client.getJob(job.id);
-            } catch {
-              return job;
-            }
-          }),
-        );
-        return [...detailed, ...completed.slice(10)].map((job) => jobOutput(job));
+        const completed = jobs.filter((job) => job.status === "completed").slice(0, JOBS_PER_POLL);
+        // The listing carries no signed URL, so every job served to the Zap is read individually.
+        const detailed: Job[] = [];
+        for (let i = 0; i < completed.length; i += JOB_DETAIL_CONCURRENCY) {
+          const batch = await Promise.all(
+            completed.slice(i, i + JOB_DETAIL_CONCURRENCY).map(async (job) => {
+              try {
+                return await client.getJob(job.id);
+              } catch {
+                return job;
+              }
+            }),
+          );
+          detailed.push(...batch);
+        }
+        return detailed.map((job) => jobOutput(job));
       } catch (err) {
         throw toUserError(z, err);
       }
@@ -85,6 +95,7 @@ export const newProject: Trigger<{ workspace_id?: string }> = {
   },
   operation: {
     type: "polling",
+    canPaginate: true,
     inputFields: [
       {
         key: "workspace_id",
@@ -96,8 +107,12 @@ export const newProject: Trigger<{ workspace_id?: string }> = {
       },
     ],
     perform: async (z: ZObject, bundle) => {
+      const page = typeof bundle.meta?.page === "number" ? bundle.meta.page : 0;
       try {
-        const projects = await clientFor(bundle).listProjects(bundle.inputData.workspace_id || undefined);
+        const projects = await clientFor(bundle).listProjects(bundle.inputData.workspace_id || undefined, {
+          page: page + 1,
+          limit: PROJECTS_PER_PAGE,
+        });
         return projects.map((p) => ({
           id: p.id,
           name: p.name,
@@ -151,6 +166,64 @@ export const listWorkspaces: Trigger = {
     sample: { id: "3b66b9b6-de8e-44c3-9f27-848a09c79320", name: "Marketing" },
     outputFields: [
       { key: "id", label: "Workspace ID" },
+      { key: "name", label: "Name" },
+    ],
+  },
+};
+
+/** Hidden: powers the Accounts dropdown. */
+export const listSocialAccounts: Trigger<{ workspace_id?: string }> = {
+  key: "list_social_accounts",
+  noun: "Social Account",
+  display: {
+    label: "List Social Accounts",
+    description: "Triggers when a social account is connected. Powers the Accounts dropdown.",
+    hidden: true,
+  },
+  operation: {
+    type: "polling",
+    perform: async (z: ZObject, bundle) => {
+      try {
+        const accounts = await clientFor(bundle).listSocialAccounts(bundle.inputData.workspace_id || undefined);
+        return accounts.map((a) => ({ id: a.id, name: `${a.username} (${a.platform})`, platform: a.platform, username: a.username }));
+      } catch (err) {
+        throw toUserError(z, err);
+      }
+    },
+    sample: { id: "89c0bd79-1a2b-4c3d-9e8f-0a1b2c3d4e5f", name: "rendleyhq (x)", platform: "x", username: "rendleyhq" },
+    outputFields: [
+      { key: "id", label: "Account ID" },
+      { key: "name", label: "Name" },
+      { key: "platform", label: "Platform" },
+      { key: "username", label: "Username" },
+    ],
+  },
+};
+
+/** Hidden: powers the Post dropdown of Cancel Scheduled Social Post. */
+export const listScheduledSocialPosts: Trigger<{ workspace_id?: string }> = {
+  key: "list_scheduled_social_posts",
+  noun: "Social Post",
+  display: {
+    label: "List Scheduled Social Posts",
+    description: "Triggers when a social post is scheduled. Powers the Post dropdown.",
+    hidden: true,
+  },
+  operation: {
+    type: "polling",
+    perform: async (z: ZObject, bundle) => {
+      try {
+        const posts = await clientFor(bundle).listSocialPosts(bundle.inputData.workspace_id || undefined);
+        return posts
+          .filter((p) => p.status === "scheduled")
+          .map((p) => ({ id: p.id, name: `${p.scheduled_at ?? ""} ${p.account_username ?? p.platform}: ${p.caption.slice(0, 60)}`.trim() }));
+      } catch (err) {
+        throw toUserError(z, err);
+      }
+    },
+    sample: { id: "0f4b1c2d-3e4f-4a5b-8c6d-7e8f9a0b1c2d", name: "2026-10-20T09:00:00Z rendleyhq: Three habits that actually stick" },
+    outputFields: [
+      { key: "id", label: "Post ID" },
       { key: "name", label: "Name" },
     ],
   },

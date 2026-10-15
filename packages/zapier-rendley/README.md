@@ -11,7 +11,7 @@
 
 [Rendley](https://rendley.com) lets you **create, edit, and automate video**. This integration puts Rendley in your Zaps. The **AI Video Agent** turns a plain-language prompt and your footage into a finished video on a real editing timeline. Around it, a set of AI media tools generate video, images, music and speech and transform existing media, and a few utility steps upload files, export MP4s and follow jobs.
 
-[AI Video Agent](#ai-video-agent) · [AI media tools](#ai-media-tools) · [Projects, media and exports](#projects-media-and-exports) · [Following jobs](#following-jobs) · [Outputs and credits](#outputs-and-credits) · [Development](#development)
+[AI Video Agent](#ai-video-agent) · [AI media tools](#ai-media-tools) · [Projects, media and exports](#projects-media-and-exports) · [Social media](#social-media) · [Following jobs](#following-jobs) · [Outputs and credits](#outputs-and-credits) · [Development](#development)
 
 ## AI Video Agent
 
@@ -74,10 +74,19 @@ Results are saved to your workspace library by default, with a **Workspace** dro
 | --- | --- | --- |
 | Action | **Export Video** | Exports a project to a video file, with codec, resolution and quality settings. |
 | Action | **Create Project** | Creates a project, optionally from a template. |
-| Action | **Upload Media From URL** | Adds a file from a public URL to a project. Rendley fetches it. |
+| Action | **Upload Media** | Adds a file to a project from a public URL or from an earlier step. Rendley fetches it. |
 | Search | **Find Project** | Finds a project by ID or by a fragment of its name. |
 | Search | **Get Media Download URL** | A fresh download link for a media ID or file hash. |
 | Search | **Estimate Cost** | The credits an AI action or an export would use, without running it. |
+
+## Social media
+
+Post finished videos and images to the accounts connected in the Rendley app under Social media. Posts also show up in the Rendley content calendar. Needs a plan with social publishing.
+
+| Type | Name | What it does |
+| --- | --- | --- |
+| Action | **Publish Social Post** | Posts a video or image to one or more connected accounts, now or at a scheduled time. Takes a public media URL, for example the `url` from Export Video or Find Job Status, and returns one post per account. Accounts that fail come back in **Errors** instead of failing the step. |
+| Action | **Cancel Scheduled Social Post** | Cancels a scheduled post before it goes out. Pick it from the Post dropdown or map Post ID from Publish Social Post. |
 
 ## Following jobs
 

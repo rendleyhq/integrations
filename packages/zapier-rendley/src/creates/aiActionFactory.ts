@@ -11,6 +11,7 @@ import {
   jobOutput,
   jobSample,
   parseParamsJson,
+  str,
   toUserError,
   wantsWait,
   type Bundle,
@@ -137,13 +138,38 @@ export function makeAiActionCreate<I>(config: AiActionConfig<I>): Create<I & AiA
   };
 }
 
-/** The "URL, media ID or file hash" source field used by single-file actions. */
-export function sourceField(key: string, label: string, what: string): InputField {
-  return {
-    key,
-    label,
-    type: "string",
-    required: true,
-    helpText: `A public URL of the ${what}, or the media reference or File Hash of a file already uploaded to the project (see the Upload Media action).`,
-  };
+/** Text reference plus a file from an earlier step; Zapier hands `perform` a URL for a `file` field. */
+export function sourceFields(key: string, label: string, what: string): InputField[] {
+  return [
+    {
+      key,
+      label,
+      type: "string",
+      required: false,
+      helpText: `A public URL of the ${what}, or the media reference or File Hash of a file already uploaded to the project (see the Upload Media action). Leave empty when using ${label} (File) instead.`,
+    },
+    {
+      key: fileKey(key),
+      label: `${label} (File)`,
+      type: "file",
+      required: false,
+      helpText: `The ${what} taken from an earlier step, for example a Google Drive or Dropbox file. Use this instead of ${label} when the file is not publicly reachable.`,
+    },
+  ];
+}
+
+function fileKey(key: string): string {
+  return `${key}_file`;
+}
+
+export function sourceValue(input: object, key: string): string | undefined {
+  const values = input as Record<string, unknown>;
+  return str(values[fileKey(key)]) ?? str(values[key]);
+}
+
+// Zapier has no "one of two" required, so the text/file pair is checked here before any request.
+export function requiredSource(input: object, key: string, label: string): string {
+  const value = sourceValue(input, key);
+  if (!value) throw new Error(`${label} is required: fill it in or map a file into ${label} (File).`);
+  return value;
 }

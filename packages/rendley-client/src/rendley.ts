@@ -137,6 +137,40 @@ export interface Brandkit {
   [key: string]: unknown;
 }
 
+/** A social account connected to a workspace in the Rendley app (`GET /social/accounts`). */
+export interface SocialAccount {
+  id: string;
+  platform: string;
+  username: string;
+  photo_url?: string;
+}
+
+/** One post per account (`POST /social/posts`, `GET /social/posts`). */
+export interface SocialPost {
+  id: string;
+  project_id?: string;
+  caption: string;
+  platform: string;
+  account_username?: string;
+  scheduled_at?: string | null;
+  created_at: string;
+  status: string;
+  error?: string;
+  result?: unknown;
+}
+
+export interface CreateSocialPostInput {
+  /** Omit to use the account's first workspace. */
+  workspaceId?: string;
+  accountIds: string[];
+  /** Public HTTPS link to an mp4/mov video or a jpeg/png/webp/gif image, e.g. an export URL. */
+  mediaUrl: string;
+  caption?: string;
+  /** RFC 3339 time to publish at; omit to publish now. */
+  scheduledAt?: string;
+  projectId?: string;
+}
+
 /**
  * A file handed to the agent. Attach uploads that already exist in the project
  * by `media_id` (plus `storage_url`, `name` and `file_hash`, the shape the
@@ -291,12 +325,15 @@ export class RendleyClient {
     return first;
   }
 
-  async listProjects(workspaceId?: string): Promise<Project[]> {
+  /** Without `limit` the API answers in last-viewed order; `limit` switches it to newest first, paged. */
+  async listProjects(workspaceId?: string, page?: { page: number; limit: number }): Promise<Project[]> {
     const id = workspaceId || (await this.defaultWorkspaceId());
-    const projects = await this.request<Project[]>(
-      "GET",
-      `/projects?workspace_id=${encodeURIComponent(id)}`,
-    );
+    const params = new URLSearchParams({ workspace_id: id });
+    if (page) {
+      params.set("limit", String(page.limit));
+      params.set("page", String(page.page));
+    }
+    const projects = await this.request<Project[]>("GET", `/projects?${params.toString()}`);
     return Array.isArray(projects) ? projects : [];
   }
 
@@ -602,6 +639,44 @@ export class RendleyClient {
     return this.request<Brandkit>("POST", `/brandkit/${encodeURIComponent(id)}/import`, {
       website_url: websiteUrl,
     });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Social media
+  // ---------------------------------------------------------------------------
+
+  async listSocialAccounts(workspaceId?: string): Promise<SocialAccount[]> {
+    const id = workspaceId || (await this.defaultWorkspaceId());
+    const accounts = await this.request<SocialAccount[]>(
+      "GET",
+      `/social/accounts?workspace_id=${encodeURIComponent(id)}`,
+    );
+    return Array.isArray(accounts) ? accounts : [];
+  }
+
+  async listSocialPosts(workspaceId?: string): Promise<SocialPost[]> {
+    const id = workspaceId || (await this.defaultWorkspaceId());
+    const posts = await this.request<SocialPost[]>("GET", `/social/posts?workspace_id=${encodeURIComponent(id)}`);
+    return Array.isArray(posts) ? posts : [];
+  }
+
+  /** One post per account; accounts that fail after others went out come back with status `failed`. */
+  async createSocialPost(input: CreateSocialPostInput): Promise<SocialPost[]> {
+    const workspaceId = input.workspaceId || (await this.defaultWorkspaceId());
+    const posts = await this.request<SocialPost[]>("POST", "/social/posts", {
+      workspace_id: workspaceId,
+      account_ids: input.accountIds,
+      media_url: input.mediaUrl,
+      caption: input.caption,
+      ...(input.scheduledAt ? { scheduled_at: input.scheduledAt } : {}),
+      ...(input.projectId ? { project_id: input.projectId } : {}),
+    });
+    return Array.isArray(posts) ? posts : [];
+  }
+
+  /** Cancels a post that is still scheduled. */
+  async cancelSocialPost(postId: string): Promise<void> {
+    await this.request<unknown>("DELETE", `/social/posts/${encodeURIComponent(postId)}`);
   }
 }
 

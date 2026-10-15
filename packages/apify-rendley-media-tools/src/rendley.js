@@ -110,12 +110,15 @@ var RendleyClient = class {
     }
     return first;
   }
-  async listProjects(workspaceId) {
+  /** Without `limit` the API answers in last-viewed order; `limit` switches it to newest first, paged. */
+  async listProjects(workspaceId, page) {
     const id = workspaceId || await this.defaultWorkspaceId();
-    const projects = await this.request(
-      "GET",
-      `/projects?workspace_id=${encodeURIComponent(id)}`
-    );
+    const params = new URLSearchParams({ workspace_id: id });
+    if (page) {
+      params.set("limit", String(page.limit));
+      params.set("page", String(page.page));
+    }
+    const projects = await this.request("GET", `/projects?${params.toString()}`);
     return Array.isArray(projects) ? projects : [];
   }
   getProject(projectId) {
@@ -349,6 +352,39 @@ var RendleyClient = class {
     return this.request("POST", `/brandkit/${encodeURIComponent(id)}/import`, {
       website_url: websiteUrl
     });
+  }
+  // ---------------------------------------------------------------------------
+  // Social media
+  // ---------------------------------------------------------------------------
+  async listSocialAccounts(workspaceId) {
+    const id = workspaceId || await this.defaultWorkspaceId();
+    const accounts = await this.request(
+      "GET",
+      `/social/accounts?workspace_id=${encodeURIComponent(id)}`
+    );
+    return Array.isArray(accounts) ? accounts : [];
+  }
+  async listSocialPosts(workspaceId) {
+    const id = workspaceId || await this.defaultWorkspaceId();
+    const posts = await this.request("GET", `/social/posts?workspace_id=${encodeURIComponent(id)}`);
+    return Array.isArray(posts) ? posts : [];
+  }
+  /** One post per account; accounts that fail after others went out come back with status `failed`. */
+  async createSocialPost(input) {
+    const workspaceId = input.workspaceId || await this.defaultWorkspaceId();
+    const posts = await this.request("POST", "/social/posts", {
+      workspace_id: workspaceId,
+      account_ids: input.accountIds,
+      media_url: input.mediaUrl,
+      caption: input.caption,
+      ...input.scheduledAt ? { scheduled_at: input.scheduledAt } : {},
+      ...input.projectId ? { project_id: input.projectId } : {}
+    });
+    return Array.isArray(posts) ? posts : [];
+  }
+  /** Cancels a post that is still scheduled. */
+  async cancelSocialPost(postId) {
+    await this.request("DELETE", `/social/posts/${encodeURIComponent(postId)}`);
   }
 };
 function aiBody(input) {
