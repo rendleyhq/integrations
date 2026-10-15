@@ -247,6 +247,25 @@ describe("live", { skip: LIVE ? false : "set RENDLEY_LIVE=1 and RENDLEY_API_KEY"
     await new RendleyClient(clientOptions).cancelJob(out.job_id).catch(() => {});
   });
 
+  test("social: list accounts, schedule a post, cancel it", async (t) => {
+    const accounts = await run(App.triggers.list_social_accounts.operation.perform);
+    if (!accounts.length) return t.skip("no social account connected to the first workspace");
+    assert.ok(accounts.every((a) => a.id && a.name));
+    const scheduledAt = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString();
+    const out = await run(App.creates.publish_social_post.operation.perform, {
+      account_ids: [accounts[0].id],
+      media_url: "https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?auto=compress&cs=tinysrgb&w=1080",
+      caption: "zapier-live-test",
+      scheduled_at: scheduledAt,
+    });
+    assert.equal(out.status, "scheduled");
+    assert.equal(out.failed_count, 0);
+    const scheduled = await run(App.triggers.list_scheduled_social_posts.operation.perform);
+    assert.ok(scheduled.some((p) => p.id === out.id && p.name), "scheduled post is in the Post dropdown");
+    const canceled = await run(App.creates.cancel_social_post.operation.perform, { post_id: out.id });
+    assert.equal(canceled.canceled, true);
+  });
+
   test("a wrong API key produces an auth error", async () => {
     await assert.rejects(
       appTester(App.authentication.test, { authData: { ...authData, apiKey: "not-a-key" }, inputData: {} }),

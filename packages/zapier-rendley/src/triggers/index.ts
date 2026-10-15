@@ -171,6 +171,64 @@ export const listWorkspaces: Trigger = {
   },
 };
 
+/** Hidden: powers the Accounts dropdown. */
+export const listSocialAccounts: Trigger<{ workspace_id?: string }> = {
+  key: "list_social_accounts",
+  noun: "Social Account",
+  display: {
+    label: "List Social Accounts",
+    description: "Triggers when a social account is connected. Powers the Accounts dropdown.",
+    hidden: true,
+  },
+  operation: {
+    type: "polling",
+    perform: async (z: ZObject, bundle) => {
+      try {
+        const accounts = await clientFor(bundle).listSocialAccounts(bundle.inputData.workspace_id || undefined);
+        return accounts.map((a) => ({ id: a.id, name: `${a.username} (${a.platform})`, platform: a.platform, username: a.username }));
+      } catch (err) {
+        throw toUserError(z, err);
+      }
+    },
+    sample: { id: "89c0bd79-1a2b-4c3d-9e8f-0a1b2c3d4e5f", name: "rendleyhq (x)", platform: "x", username: "rendleyhq" },
+    outputFields: [
+      { key: "id", label: "Account ID" },
+      { key: "name", label: "Name" },
+      { key: "platform", label: "Platform" },
+      { key: "username", label: "Username" },
+    ],
+  },
+};
+
+/** Hidden: powers the Post dropdown of Cancel Scheduled Social Post. */
+export const listScheduledSocialPosts: Trigger<{ workspace_id?: string }> = {
+  key: "list_scheduled_social_posts",
+  noun: "Social Post",
+  display: {
+    label: "List Scheduled Social Posts",
+    description: "Triggers when a social post is scheduled. Powers the Post dropdown.",
+    hidden: true,
+  },
+  operation: {
+    type: "polling",
+    perform: async (z: ZObject, bundle) => {
+      try {
+        const posts = await clientFor(bundle).listSocialPosts(bundle.inputData.workspace_id || undefined);
+        return posts
+          .filter((p) => p.status === "scheduled")
+          .map((p) => ({ id: p.id, name: `${p.scheduled_at ?? ""} ${p.account_username ?? p.platform}: ${p.caption.slice(0, 60)}`.trim() }));
+      } catch (err) {
+        throw toUserError(z, err);
+      }
+    },
+    sample: { id: "0f4b1c2d-3e4f-4a5b-8c6d-7e8f9a0b1c2d", name: "2026-10-20T09:00:00Z rendleyhq: Three habits that actually stick" },
+    outputFields: [
+      { key: "id", label: "Post ID" },
+      { key: "name", label: "Name" },
+    ],
+  },
+};
+
 /** Hidden: powers the Voice dropdowns. Paginated through `bundle.meta.page`. */
 export const listTtsVoices: Trigger = {
   key: "list_tts_voices",

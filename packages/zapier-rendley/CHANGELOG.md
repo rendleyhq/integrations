@@ -9,6 +9,8 @@ Files from earlier steps. Every input that takes a file now comes as a pair: the
 - Upload Media From URL is now Upload Media and takes a File as well as a File URL.
 - New Completed Job reads every job it hands to the Zap, so a batch that finishes between two polls no longer delivers rows without a download URL; one poll covers 25 jobs.
 - New Project asks the API for pages of newest projects. The unpaged listing answers in last-viewed order, which put an old project at the top of the trigger whenever it was opened.
+- New Publish Social Post action. Posts a video or image to the social accounts connected in Rendley, now or at a scheduled time, with an Accounts dropdown filtered by the chosen workspace. Returns one post per account; accounts that fail are reported in Errors and Accounts Failed instead of failing the step.
+- New Cancel Scheduled Social Post action, with a Post dropdown of the workspace's scheduled posts.
 
 ## 1.1.1
 

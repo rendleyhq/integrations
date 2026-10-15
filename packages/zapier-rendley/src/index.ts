@@ -1,5 +1,5 @@
 import authentication from "./authentication";
-import { listTranslateLanguages, listTtsVoices, listWorkspaces, newCompletedJob, newProject } from "./triggers";
+import { listScheduledSocialPosts, listSocialAccounts, listTranslateLanguages, listTtsVoices, listWorkspaces, newCompletedJob, newProject } from "./triggers";
 import {
   changeVoice,
   generateImage,
@@ -18,6 +18,7 @@ import {
 } from "./creates/aiActions";
 import { createProject, uploadMedia } from "./creates/projectsAndMedia";
 import { aiVideoAgent, startExport } from "./creates/agentAndExport";
+import { cancelSocialPost, publishSocialPost } from "./creates/social";
 import { estimateCost, findProject, getAgentJob, getJob, getMediaUrl } from "./searches";
 
 // zapier-platform-core is provided by the Zapier runtime and kept external in
@@ -37,6 +38,8 @@ const App = {
     [listWorkspaces.key]: listWorkspaces,
     [listTtsVoices.key]: listTtsVoices,
     [listTranslateLanguages.key]: listTranslateLanguages,
+    [listSocialAccounts.key]: listSocialAccounts,
+    [listScheduledSocialPosts.key]: listScheduledSocialPosts,
   },
   creates: {
     [aiVideoAgent.key]: aiVideoAgent,
@@ -57,6 +60,8 @@ const App = {
     [generateVideo.key]: generateVideo,
     [generateMusic.key]: generateMusic,
     [generateSoundEffect.key]: generateSoundEffect,
+    [publishSocialPost.key]: publishSocialPost,
+    [cancelSocialPost.key]: cancelSocialPost,
   },
   searches: {
     [getJob.key]: getJob,

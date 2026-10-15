@@ -353,6 +353,39 @@ var RendleyClient = class {
       website_url: websiteUrl
     });
   }
+  // ---------------------------------------------------------------------------
+  // Social media
+  // ---------------------------------------------------------------------------
+  async listSocialAccounts(workspaceId) {
+    const id = workspaceId || await this.defaultWorkspaceId();
+    const accounts = await this.request(
+      "GET",
+      `/social/accounts?workspace_id=${encodeURIComponent(id)}`
+    );
+    return Array.isArray(accounts) ? accounts : [];
+  }
+  async listSocialPosts(workspaceId) {
+    const id = workspaceId || await this.defaultWorkspaceId();
+    const posts = await this.request("GET", `/social/posts?workspace_id=${encodeURIComponent(id)}`);
+    return Array.isArray(posts) ? posts : [];
+  }
+  /** One post per account; accounts that fail after others went out come back with status `failed`. */
+  async createSocialPost(input) {
+    const workspaceId = input.workspaceId || await this.defaultWorkspaceId();
+    const posts = await this.request("POST", "/social/posts", {
+      workspace_id: workspaceId,
+      account_ids: input.accountIds,
+      media_url: input.mediaUrl,
+      caption: input.caption,
+      ...input.scheduledAt ? { scheduled_at: input.scheduledAt } : {},
+      ...input.projectId ? { project_id: input.projectId } : {}
+    });
+    return Array.isArray(posts) ? posts : [];
+  }
+  /** Cancels a post that is still scheduled. */
+  async cancelSocialPost(postId) {
+    await this.request("DELETE", `/social/posts/${encodeURIComponent(postId)}`);
+  }
 };
 function aiBody(input) {
   return {
